@@ -39,7 +39,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+    res.status(err.status || 500);
   res.render('error');
 });
 //-------------mysql
@@ -50,30 +50,6 @@ var connection = mysql.createConnection({
     database : 'sprint0'
 });
 
-connection.connect();
-
-connection.query("INSERT INTO todo(job) values (?)",["Tarea desde node"], function(error, results, fields){
-    if(error)console.log("Error en el insert: " + error);
-    console.log("Resultado: " + results);
-    console.log("Fields: " + fields);
-} );
-connection.query("DELETE FROM todo where id = ?",[2],function(error, results, fields){
-    if(error)console.log("Error en el delete: " + error);
-    console.log("Resultado: " + results);
-    console.log("Fields: " + fields);
-});
-connection.query("UPDATE todo SET done = ? where id = ?",[1,5],function(error, results, fields){
-    if(error)console.log("Error en el update: " + error);
-    console.log("Resultado: " + results);
-    console.log("Fields: " + fields);
-});
-var query = connection.query("SELECT * FROM todo", [], function(err, results, fields){
-    console.log(results);
-});
-query.on('result', function(row){
-
-});
-connection.end();
-//-------------------
 app.listen(8080);
+
 module.exports = app;
