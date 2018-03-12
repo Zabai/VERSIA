@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'Peneman69',
+    password : 'root',
     database : 'sprint0'
 });
 
@@ -68,7 +68,7 @@ connection.query("UPDATE todo SET done = ? where id = ?",[1,5],function(error, r
     console.log("Fields: " + fields);
 });
 var query = connection.query("SELECT * FROM todo", [], function(err, results, fields){
-    console.log(results.);
+    console.log(results);
 });
 query.on('result', function(row){
 
