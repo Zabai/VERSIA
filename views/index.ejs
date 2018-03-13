@@ -1,113 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title><%= title %></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="/js/scripts.js"></script>
 </head>
 <body>
 
 <div class="container">
-  <h2>Vista BD</h2>
+    <h2>Vista BD</h2>
 
-  <form class="form-inline">
-    <input type="text" class ="form-control" placeholder="Nueva tarea">
-    <button type="button" class="btn">+</button>
-  </form>
+    <form class="form-inline" action="/" method="post">
+        <input type="text" class="form-control" placeholder="Nueva tarea" name="job" autofocus>
+        <button type="submit" class="btn">+</button>
+    </form>
 
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Campo</th>
-      <th>Opciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td></td>
-      <td>
-        <button type="button" class="btn">&#x2713;</button>
-        <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
-          &#x27F3;
-        </button>
-        <button type="button" class="btn">&#x2717;</button>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <button type="button" class="btn">&#x2713;</button>
-        <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
-          &#x27F3;
-        </button>
-        <button type="button" class="btn">&#x2717;</button>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <button type="button" class="btn">&#x2713;</button>
-        <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
-          &#x27F3;
-        </button>
-        <button type="button" class="btn">&#x2717;</button>
-      </td>
-    </tr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Campo</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% var i %>
+        <% for(i = 0; i < undoneTable.length; i++) { %>
+        <tr>
+            <td><%= undoneTable[i].job %></td>
+            <td>
 
-    </tbody>
-  </table>
+                <button type="button" class="btn"
+                        onclick="markAsDone(<%= undoneTable[i].id + ", \"" + undoneTable[i].job + "\"" %>)">&#x2713;
+                </button>
+                <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
+                    &#x27F3;
+                </button>
+                <form action="/<%= undoneTable[i].id %>?_method=delete" method="post" class="form-inline">
+                    <button type="submit" class="btn">&#x2717;</button>
+                </form>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
 
-  <!--Tabla finalizados-->
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Finalizados</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-    </tr>
-    </tbody>
-  </table>
+    <!--Tabla finalizados-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Finalizados</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(i = 0; i < doneTable.length; i++) { %>
+        <tr>
+            <td><%= doneTable[i].job %></td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
 
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Actualizar</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Actualizar</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="text" class="form-control">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Aceptar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
         </div>
-
-        <!-- Modal body -->
-        <div class="modal-body">
-          <input type="text" class ="form-control">
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" >Aceptar</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        </div>
-
-      </div>
     </div>
-  </div>
 </div>
-
 </body>
 </html>

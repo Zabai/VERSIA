@@ -12,8 +12,9 @@
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
+    "mariasql": "^0.2.6",
+    "method-override": "^2.3.10",
     "morgan": "~1.9.0",
-    "mysql": "^2.15.0",
     "serve-favicon": "~2.4.5"
   }
 }
