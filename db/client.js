@@ -1,10 +1,9 @@
-var mysql = require('mysql');
-var connection = new mysql.createConnection({
+var Client = require('mariasql');
+
+module.exports = new Client({
     host     : 'localhost',
     user     : 'root',
     password : 'root',
-    database : 'sprint0'
+    db       : 'sprint0',
+    charset  : 'utf8'
 });
-connection.connect();
-
-module.exports = connection;
