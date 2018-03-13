@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         else
             console.log("Resultados: ", results);
         undoneTable = results;
-        res.render('index', { title: 'Express', doneTable: doneTable, undoneTable: undoneTable});
+        res.render('index', { title: 'Express', doneTable: doneTable, undoneTable: undoneTable });
     });
     client.end();
 });
