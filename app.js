@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysql = require('mysql');
+var method_overrider = require('method-override');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(method_overrider("_method"));
 
 app.use('/', index);
 app.use('/users', users);
@@ -41,13 +43,6 @@ app.use(function(err, req, res, next) {
   // render the error page
     res.status(err.status || 500);
   res.render('error');
-});
-//-------------mysql
-var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'root',
-    database : 'sprint0'
 });
 
 app.listen(8080);
