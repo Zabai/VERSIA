@@ -41,12 +41,13 @@ router.post('/', function(req, res, next) {
 // READ
 router.get('/:id', function(req, res, next) {
     var client = require('../db/client');
-    client.query("SELECT job_id = :job_id FROM todo;", {job_id: req.params.id}, function(error, results) {
+    client.query("SELECT * FROM todo WHERE id=:job_id;", {job_id: req.params.id}, function(error, results) {
         if (error)
             console.log("Error en la lectura de la bd: " + error);
         else
             console.log("Resultado: " + JSON.stringify(results));
-        res.redirect('/');
+        // res.redirect('/');
+        res.send(results);
     });
     client.end();
 });

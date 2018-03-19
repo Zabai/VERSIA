@@ -30,6 +30,7 @@
         <tr>
             <td><%=undoneTable[i].job%></td>
             <td>
+                <a class="btn" href="/<%= undoneTable[i].id %>">Ver</a>
                 <button type="button" class="btn" onclick="markAsDone(<%=undoneTable[i].id + ", \"" + undoneTable[i].job + "\""%>)">&#x2713;</button>
                 <button type="button" class="btn" data-toggle="modal" data-target="#myModal"
                         onclick="selectJob(<%=undoneTable[i].id + ", \"" + undoneTable[i].job + "\""%>)">
