@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
     <title><%= title %></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,35 +9,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="/js/scripts.js"></script>
-=======
-  <title><%= title %></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="/js/scripts.js"></script>
->>>>>>> Carlos
 </head>
 <body>
 
 <div class="container">
-<<<<<<< HEAD
     <h2>Vista BD</h2>
-
     <form class="form-inline" action="/" method="post">
-        <input type="text" class="form-control" placeholder="Nueva tarea" name="job" autofocus>
+        <input type="text" class ="form-control" placeholder="Nueva tarea" name="job" autofocus>
         <button type="submit" class="btn">+</button>
     </form>
-
-=======
-  <h2>Vista BD</h2>
-  <form class="form-inline" action="/" method="post">
-      <input type="text" class ="form-control" placeholder="Nueva tarea" name="job" autofocus>
-      <button type="submit" class="btn">+</button>
-  </form>
->>>>>>> Carlos
     <table class="table">
         <thead>
         <tr>
@@ -47,23 +26,6 @@
         </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
-        <% var i %>
-        <% for(i = 0; i < undoneTable.length; i++) { %>
-        <tr>
-            <td><%= undoneTable[i].job %></td>
-            <td>
-
-                <button type="button" class="btn"
-                        onclick="markAsDone(<%= undoneTable[i].id + ", \"" + undoneTable[i].job + "\"" %>)">&#x2713;
-                </button>
-                <button type="button" class="btn" data-toggle="modal" data-target="#myModal">
-                    &#x27F3;
-                </button>
-                <form action="/<%= undoneTable[i].id %>?_method=delete" method="post" class="form-inline">
-                    <button type="submit" class="btn">&#x2717;</button>
-                </form>
-=======
         <% for(var i = 0; i < undoneTable.length; i++){ %>
         <tr>
             <td><%=undoneTable[i].job%></td>
@@ -74,14 +36,12 @@
                     &#x27F3;
                 </button>
                 <form action="/<%=undoneTable[i].id%>?_method=delete" method="post" class="form-inline"><button type="submit" class="btn">&#x2717;</button></form>
->>>>>>> Carlos
             </td>
         </tr>
         <% } %>
         </tbody>
     </table>
 
-<<<<<<< HEAD
     <!--Tabla finalizados-->
     <table class="table">
         <thead>
@@ -90,26 +50,11 @@
         </tr>
         </thead>
         <tbody>
-        <% for(i = 0; i < doneTable.length; i++) { %>
+        <% for(var i = 0; i < doneTable.length; i++){ %>
         <tr>
-            <td><%= doneTable[i].job %></td>
+            <td><%=doneTable[i].job %></td>
         </tr>
         <% } %>
-=======
-  <!--Tabla finalizados-->
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Finalizados</th>
-        </tr>
-        </thead>
-        <tbody>
-            <% for(var i = 0; i < doneTable.length; i++){ %>
-            <tr>
-                <td><%=doneTable[i].job %></td>
-            </tr>
-            <% } %>
->>>>>>> Carlos
         </tbody>
     </table>
 
@@ -126,20 +71,12 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-<<<<<<< HEAD
-                    <input type="text" class="form-control">
-=======
                     <input id="modal_input" type="text" class ="form-control" autofocus>
->>>>>>> Carlos
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-<<<<<<< HEAD
-                    <button type="button" class="btn btn-success">Aceptar</button>
-=======
                     <button type="button" class="btn btn-success" onclick="editJob()" >Aceptar</button>
->>>>>>> Carlos
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
 
@@ -147,5 +84,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
