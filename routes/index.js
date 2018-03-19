@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         else
             console.log("Resultados: ", results);
         undoneTable = results;
-        res.render('index', { title: 'Express', doneTable: doneTable, undoneTable: undoneTable});
+        res.render('index', { title: 'Express', doneTable: doneTable, undoneTable: undoneTable });
     });
     client.end();
 });
@@ -34,6 +34,20 @@ router.post('/', function(req, res, next) {
         else
             console.log("Resultado: " + JSON.stringify(results));
         res.redirect('/');
+    });
+    client.end();
+});
+
+// READ
+router.get('/:id', function(req, res, next) {
+    var client = require('../db/client');
+    client.query("SELECT * FROM todo WHERE id=:job_id;", {job_id: req.params.id}, function(error, results) {
+        if (error)
+            console.log("Error en la lectura de la bd: " + error);
+        else
+            console.log("Resultado: " + JSON.stringify(results));
+        // res.redirect('/');
+        res.send(results);
     });
     client.end();
 });

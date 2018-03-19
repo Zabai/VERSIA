@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title><%= title %></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="/js/scripts.js"></script>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="/js/scripts.js"></script>
 </head>
 <body>
 
 <div class="container">
-  <h2>Vista BD</h2>
-  <form class="form-inline" action="/" method="post">
-      <input type="text" class ="form-control" placeholder="Nueva tarea" name="job" autofocus>
-      <button type="submit" class="btn">+</button>
-  </form>
+    <h2>Vista BD</h2>
+    <form class="form-inline" action="/" method="post">
+        <input type="text" class ="form-control" placeholder="Nueva tarea" name="job" autofocus>
+        <button type="submit" class="btn">+</button>
+    </form>
     <table class="table">
         <thead>
         <tr>
@@ -30,6 +30,7 @@
         <tr>
             <td><%=undoneTable[i].job%></td>
             <td>
+                <a class="btn" href="/<%= undoneTable[i].id %>">Ver</a>
                 <button type="button" class="btn" onclick="markAsDone(<%=undoneTable[i].id + ", \"" + undoneTable[i].job + "\""%>)">&#x2713;</button>
                 <button type="button" class="btn" data-toggle="modal" data-target="#myModal"
                         onclick="selectJob(<%=undoneTable[i].id + ", \"" + undoneTable[i].job + "\""%>)">
@@ -42,7 +43,7 @@
         </tbody>
     </table>
 
-  <!--Tabla finalizados-->
+    <!--Tabla finalizados-->
     <table class="table">
         <thead>
         <tr>
@@ -50,11 +51,11 @@
         </tr>
         </thead>
         <tbody>
-            <% for(var i = 0; i < doneTable.length; i++){ %>
-            <tr>
-                <td><%=doneTable[i].job %></td>
-            </tr>
-            <% } %>
+        <% for(var i = 0; i < doneTable.length; i++){ %>
+        <tr>
+            <td><%=doneTable[i].job %></td>
+        </tr>
+        <% } %>
         </tbody>
     </table>
 
