@@ -38,6 +38,20 @@ router.post('/', function(req, res, next) {
     client.end();
 });
 
+// READ
+router.get('/:id', function(req, res, next) {
+    var client = require('../db/client');
+    client.query("SELECT * FROM todo WHERE id=:job_id;", {job_id: req.params.id}, function(error, results) {
+        if (error)
+            console.log("Error en la lectura de la bd: " + error);
+        else
+            console.log("Resultado: " + JSON.stringify(results));
+        // res.redirect('/');
+        res.send(results);
+    });
+    client.end();
+});
+
 // UPDATE
 router.put('/:id', function(req, res, next) {
     var client = require('../db/client');
