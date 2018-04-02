@@ -6,3 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+
+.customNavbar{
+  width: 100%;
+}
+
+.customContainer{
+  padding-top: 2%;
+}
+
+.customAlignment-center{
+  display: flex;
+  align-items: center;
+}

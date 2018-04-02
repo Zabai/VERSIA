@@ -7,7 +7,24 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next) {
-    res.render('search');
+    res.render('search',
+        {users: [
+                {
+                    name: "Carlos Martel Lamas",
+                    degree: "Computer Science",
+                    university: "ULPGC"
+                },
+                {
+                    name: "Zabai el BuscaLolis",
+                    degree: "Loli Stalking",
+                    university: "UCM"
+                },
+                {
+                    name: "Geraldo The Black One",
+                    degree: "Police Escapism",
+                    university: "Jail"
+                }
+        ]});
 });
 
 module.exports = router;
