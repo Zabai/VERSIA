@@ -7,24 +7,27 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next) {
-    res.render('search',
-        {users: [
-                {
-                    name: "Carlos Martel Lamas",
-                    degree: "Computer Science",
-                    university: "ULPGC"
-                },
-                {
-                    name: "Zabai el BuscaLolis",
-                    degree: "Loli Stalking",
-                    university: "UCM"
-                },
-                {
-                    name: "Geraldo The Black One",
-                    degree: "Police Escapism",
-                    university: "Jail"
-                }
-        ]});
+    var search = req.query.search;
+
+    var users = [
+        {
+            name: "Carlos Martel Lamas",
+            degree: "Computer Science",
+            university: "ULPGC"
+        },
+        {
+            name: "Zabai el BuscaLolis",
+            degree: "Loli Stalking",
+            university: "UCM"
+        },
+        {
+            name: "Geraldo The Black One",
+            degree: "Police Escapism",
+            university: "Jail"
+        }
+    ];
+
+    res.render('search', {users: users});
 });
 
 module.exports = router;
