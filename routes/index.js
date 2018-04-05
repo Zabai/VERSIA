@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../db/db.js');
+var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res) {
     res.render('index');
 });
-
 
 router.post('/login', passport.authenticate('local-login', {
     successRedirect : '/profile', // redirect to the secure profile section
