@@ -12,21 +12,17 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/profile', // redirect to the secure profile section
-    failureRedirect : '/login', // redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
+    successRedirect : '/home', // redirect to home
+    failureRedirect : 'index', // redirect back to the signup page if there is an error
 }));
 
 router.get('/signup', function(req, res) {
-
-    // render the page and pass in any flash data if it exists
-    res.render('signup.ejs', { message: req.flash('signupMessage') });
+    res.render('index');
 });
 
 router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/profile', // redirect to the secure profile section
-    failureRedirect : '/signup', // redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
+    successRedirect : 'index', // redirect to home
+    failureRedirect : 'index', // redirect back to the index page if there is an error
 }));
 
 router.get('/logout', function(req, res) {

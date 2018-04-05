@@ -1,6 +1,14 @@
+/**
+ *
+ *  FALTA CIFRADO DE CONTRASEÑAS CON BCRYPT
+ *
+ */
+
+
+
 var LocalStrategy = require('passport-local').Strategy;
 
-var User = require('/config/database.sql');
+var User = require('../db/db.js');       //¿Modelo de usuario en MariaDB?
 
 module.exports = function (passport) {
 
@@ -10,7 +18,7 @@ module.exports = function (passport) {
         done(null, user.id);
     });
 
-    passport.deserializeUser(function (id, done) {      //BUSCAMOS POR EMAIL
+    passport.deserializeUser(function (id, done) {
         User.findById(id, function(err, user) {
             done(err, user);
         });
@@ -40,7 +48,8 @@ module.exports = function (passport) {
                         return done(err);
 
                     if (user) {
-                        return done(null, false, req.flash('signupMessage', 'Ese email no se encuentra disponible'));
+                        console.log('Email not available')
+                        return done(null, false);
                     } else {
 
                         //create user
@@ -69,7 +78,6 @@ module.exports = function (passport) {
     // ========================================
 
     passport.use('local-login', new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
             usernameField : 'email',
             passwordField : 'password',
             passReqToCallback : true // allows us to pass back the entire request to the callback
@@ -85,11 +93,13 @@ module.exports = function (passport) {
 
                 // if no user is found, return the message
                 if (!user)
-                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                    console.log('No user found');
+                    return done(null, false);
 
                 // if the user is found but the password is wrong
                 if (!user.validPassword(password))
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                    console.log('Wrong password');
+                    return done(null, false);
 
                 // all is well, return successful user
                 return done(null, user);

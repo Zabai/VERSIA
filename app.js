@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
+var expressSession = require('express-session');
+
+require('./config/passport')(passport);
 
 var app = express();
 
@@ -23,9 +26,10 @@ app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/popper.js/dist')));
 
 // required for passport
-/*app.use(session({ secret: 'secretosesion' })); // session secret
+app.use(expressSession({secret: 'secretKey'}));
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions*/
+app.use(passport.session());
+
 
 // Routes
 app.use('/', require('./routes/index'));
