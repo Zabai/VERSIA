@@ -1,8 +1,8 @@
-<header>
+<header class="py-5">
     <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark bg-faded fixed-top customNavbar">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="resources/Icono.png" alt="Logo" width="30" height="30">
+                <img src="/resources/Icono.png" alt="Logo" width="30" height="30">
                 Versia
             </a>
             <button class="navbar-toggler"
@@ -23,12 +23,12 @@
 
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <form class="form-inline" action="">
+                        <form class="form-inline" method="get" action="/home/search">
                             <div class="input-group">
                                 <input class="form-control" type="search" placeholder="Buscar..."
-                                       aria-label="Search...">
+                                       aria-label="Search..." name="search">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-light" type="button">
+                                    <button class="btn btn-outline-light" type="submit">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
@@ -50,3 +50,5 @@
         </div>
     </nav>
 </header>
+
+<br>

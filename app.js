@@ -30,8 +30,7 @@ app.use(passport.session()); // persistent login sessions*/
 // Routes
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
-// require('./routes/passport')(passport); // pass passport for configuration
-
+app.use('/home', require('./routes/home'));
 
 
 // catch 404 and forward to error handler

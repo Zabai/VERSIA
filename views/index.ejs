@@ -1,159 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-
-  <title>Versia</title>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
-        integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
-  <link rel="stylesheet" href="/stylesheets/style.css">
-
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-          crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-          crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-          integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-          crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Versia</title>
+    <% include ./partials/resources.ejs %>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top custom-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-      <img class="logo" src="/resources/logo.png" alt="Versia" style="width: 15%">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="#">Features</a>
-        <a class="nav-item nav-link" href="#">Pricing</a>
-        <a class="nav-item nav-link" href="#">Disabled</a>
-      </div>
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img class="logo" src="/resources/logo.png" alt="Versia" style="width: 15%">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Features</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link" href="#">Disabled</a>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
 
 <header class="full-height background d-flex custom-header">
-  <div class="row align-items-center justify-content-center mx-auto">
-    <div class="col-md-auto">
-      <div class="alert alert-light">
-        <form action="/login" method="post" class="login-form">
-          <h5 class="text-center">¡Únete!</h5>
+    <div class="row align-items-center justify-content-center mx-auto">
+        <div class="col-md-auto">
+            <div class="alert alert-light">
+                <form action="/login" method="post" class="login-form">
+                    <h5 class="text-center">¡Únete!</h5>
 
-          <div class="form-group" style="margin:auto;padding:5px;">
-            <label for="email" style="margin-bottom:3px;">Email</label>
-            <input id="email" class="form-control form-control-lg" type="text" placeholder="Email"
-                   inputmode="email"
-                   autofocus required name="email"
-            />
-          </div>
-          <div class="form-group" style="margin:auto;padding:5px;margin-bottom:15px;">
-            <label for="password" style="margin-bottom:3px;">Contraseña</label>
-            <input id="password" class="form-control form-control-lg" type="password"
-                   placeholder="Contraseña" required
-                   name="password"/>
-          </div>
-          <button class="btn btn-outline-success btn-block"
-                  type="submit" style="margin-bottom:10px;">Acceder
-          </button>
-          <p class="text-center message" style="font-size:12px;color:rgb(69,69,69);padding-bottom:5px;">
-            ¿Aún no te has registrado? <a class="text-info" href="#">Crear cuenta</a>
-          </p>
-        </form>
+                    <div class="form-group" style="margin:auto;padding:5px;">
+                        <label for="email" style="margin-bottom:3px;">Email</label>
+                        <input id="email" class="form-control form-control-lg" type="text" placeholder="Email"
+                               inputmode="email"
+                               autofocus required name="email"
+                        />
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;margin-bottom:15px;">
+                        <label for="password" style="margin-bottom:3px;">Contraseña</label>
+                        <input id="password" class="form-control form-control-lg" type="password"
+                               placeholder="Contraseña" required
+                               name="password"/>
+                    </div>
+                    <button class="btn btn-outline-success btn-block"
+                            type="submit" style="margin-bottom:10px;">Acceder
+                    </button>
+                    <p class="text-center message" style="font-size:12px;color:rgb(69,69,69);padding-bottom:5px;">
+                        ¿Aún no te has registrado? <a class="text-info" href="#">Crear cuenta</a>
+                    </p>
+                </form>
 
-        <form action="/signup" method="post" class="register-form">
-          <h5 class="text-center">¡Únete!</h5>
+                <form action="/signup" method="post" class="register-form">
+                    <h5 class="text-center">¡Únete!</h5>
 
-          <div class="form-group" style="margin:auto;padding:5px;">
-            <label style="margin-bottom:3px;">Nombre</label>
-            <input class="form-control form-control-lg" type="text" name="name" required
-                   placeholder="Nombre" autofocus/>
-          </div>
-          <div class="form-group" style="margin:auto;padding:5px;">
-            <label style="margin-bottom:3px;">Email</label>
-            <input class="form-control form-control-lg" type="text" name="email" required
-                   placeholder="Email" inputmode="email"/>
-          </div>
-          <div class="form-group" style="margin:auto;padding:5px;margin-bottom:0;">
-            <label style="margin-bottom:3px;">Contraseña</label>
-            <input class="form-control form-control-lg" type="password" name="password" required
-                   placeholder="Contraseña"/>
-          </div>
-          <div class="form-group" style="margin:auto;padding:5px;margin-bottom:15px;">
-            <label style="margin-bottom:3px;">Confirmar contraseña</label>
-            <input class="form-control form-control-lg" type="password" name="password-rep" required
-                   placeholder="Repetir contraseña"/>
-          </div>
-          <button class="btn btn-outline-success btn-block"
-                  type="submit" style="margin-bottom:10px;">Registrarse
-          </button>
-          <p class="text-center message" style="font-size:12px;color:rgb(69,69,69);padding-bottom:5px;">
-            ¿Ya tienes cuenta? <a href="#" class="text-info">Identifícate aquí</a>
-          </p>
-        </form>
-      </div>
+                    <div class="form-group" style="margin:auto;padding:5px;">
+                        <label style="margin-bottom:3px;">Nombre</label>
+                        <input class="form-control form-control-lg" type="text" name="name" required
+                               placeholder="Nombre" autofocus/>
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;">
+                        <label style="margin-bottom:3px;">Email</label>
+                        <input class="form-control form-control-lg" type="text" name="email" required
+                               placeholder="Email" inputmode="email"/>
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;margin-bottom:0;">
+                        <label style="margin-bottom:3px;">Contraseña</label>
+                        <input class="form-control form-control-lg" type="password" name="password" required
+                               placeholder="Contraseña"/>
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;margin-bottom:15px;">
+                        <label style="margin-bottom:3px;">Confirmar contraseña</label>
+                        <input class="form-control form-control-lg" type="password" name="password-rep" required
+                               placeholder="Repetir contraseña"/>
+                    </div>
+                    <button class="btn btn-outline-success btn-block"
+                            type="submit" style="margin-bottom:10px;">Registrarse
+                    </button>
+                    <p class="text-center message" style="font-size:12px;color:rgb(69,69,69);padding-bottom:5px;">
+                        ¿Ya tienes cuenta? <a href="#" class="text-info">Identifícate aquí</a>
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
-<footer class="bg-dark">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col">
-        <div class="text-center">
-          <img class="logo" src="/resources/logo.png" alt="Versia">
-        </div>
-      </div>
-      <div class="col">
-        <div class="text-center text-white">
-          <h5>Sobre nosotros</h5>
-          <ul class="nav flex-column nav-pills nav-fill">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Conoce Versia</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Información</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Opiniones</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+<% include ./partials/footer.ejs %>
 
-      <div class="col text-center text-white social-networks">
-        <h5>¡Encuentranos en las redes sociales!</h5>
-        <a href="#" class="facebook">
-          <i class="fab fa-facebook"></i>
-        </a>
-        <a href="#" class="twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="#" class="google">
-          <i class="fab fa-google-plus"></i>
-        </a>
-        <a href="#" class="linkedin">
-          <i class="fab fa-linkedin"></i>
-        </a>
-
-        <h5>Ó</h5>
-        <button type="button" class="btn btn-success">Envianos un mensaje</button>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="/scripts/scripts.js"></script>
+<script src="/javascripts/scripts.js"></script>
 <script>
     setUpLandingPage();
 </script>
