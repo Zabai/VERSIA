@@ -64,6 +64,15 @@
 	  border-radius: 50%;
 	}
 	</style>
+        <script>$(document).ready(function () {
+            $("#disableData").on("change",function () {
+                var checked = $(this).prop('checked');
+                if(checked != true)
+                    $("#dataUser"+" :input").prop("disabled", false);
+                else
+                    $("#dataUser"+" :input").prop("disabled", true);
+            });
+        });</script>
 	</head>
 	<body>
 		<header class="py-5">
@@ -121,7 +130,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-3">
-					<form>
+					<form id="dataUser">
 						<i class="fas fa-user fa-7x"></i>
 					  	<div class="form-row">
 					    	<div class="form-group col-md-6">
@@ -154,11 +163,13 @@
 					   	</div>
 					  	    
 						<label class="switch">
-							<input type="checkbox">
+							<input type="checkbox" id="disableData">
 						 	<span class="slider round"></span>
 						</label>
 					</form>
 				</div>
+				<div class="col-6">Actividades</div>
+				<div class="col-3">Grupos</div>
 			</div>
 		</div>
 	</body>
