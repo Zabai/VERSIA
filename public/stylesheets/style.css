@@ -1,8 +1,79 @@
 body {
-  padding: 50px;
+
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.customNavbar{
+  width: 100%;
+}
+
+.customContainer{
+  padding-top: 2%;
+}
+
+.customAlignment-center{
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  transition: 0.75s;
+}
+
+.full-height {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background {
+  background: url("/resources/bg.jpg") no-repeat fixed center;
+  background-size: cover;
+  position: relative;
+}
+
+.logo {
+  width: 50%;
+}
+
+.custom-header {
+  padding-top: 3%;
+}
+
+.register-form{
+  display: none;
+}
+
+.social-networks a {
+  color: white;
+  font-size:32px;
+  padding:10px;
+  transition:0.2s;
+}
+
+.social-networks a:hover {
+  text-decoration: none;
+}
+
+.social-networks .facebook:hover {
+  color:#0077e2;
+}
+
+.social-networks .google:hover {
+  color:#ef1a1a;
+}
+
+.social-networks .twitter:hover {
+  color:#00aced;
+}
+
+.social-networks .linkedin:hover {
+  color:#007BB6;
+}
+
+footer {
+  padding-bottom: 2%;
 }
