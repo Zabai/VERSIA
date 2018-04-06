@@ -23,3 +23,31 @@ function setUpLandingPage() {
     enableScrollNavbar();
     enableDinamicAuthForms();
 }
+
+/**/
+function setUpProfileToggle() {
+    var toggle = $('#toggle');
+
+    toggle.bootstrapToggle({
+        offstyle: "primary",
+        onstyle: "success",
+        off: "Editar",
+        on: "Guardar"
+    });
+
+    toggle.change(function toggleInputs() {
+        var inputs = $('#form-profile input');
+
+        if(toggle.prop("checked")) {
+            inputs.each(function(index) {
+                if(index < inputs.length - 2)
+                    $(this).removeAttr("disabled");
+            });
+        } else {
+            inputs.each(function(index) {
+                if($(this).attr("id") !== "toggle")
+                    $(this).attr("disabled", "");
+            });
+        }
+    });
+}
