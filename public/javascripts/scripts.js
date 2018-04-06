@@ -40,7 +40,7 @@ function setUpProfileToggle() {
 
         if(toggle.prop("checked")) {
             inputs.each(function(index) {
-                if(index < inputs.length - 2)
+                if(index < inputs.length - 3)
                     $(this).removeAttr("disabled");
             });
         } else {
