@@ -74,6 +74,11 @@ a {
   color:#007BB6;
 }
 
+.menu-group {
+  height: 80vh;
+  overflow-y: scroll;
+}
+
 footer {
   padding-bottom: 2%;
 }
