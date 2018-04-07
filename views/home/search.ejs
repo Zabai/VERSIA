@@ -6,15 +6,17 @@
 </head>
 <body>
 <% include ../partials/navbar.ejs %>
-<div class="container customContainer">
+
+<div class="container">
     <div class="row">
         <div class="col-3">
-            Sidemenu
+            <% include ../partials/menu-user.ejs %>
         </div>
 
-        <div class="col-7">
+        <div class="col-6">
             <div class="text-center">
-                <h3>Resultados de la búsqueda: <%= somethingWeLookFor%></h3>
+                <h3>Resultados de la búsqueda: <%= somethingWeLookFor %></h3>
+                <hr>
             </div>
 
             <div class="card p-2">
@@ -23,7 +25,7 @@
                     <div class="card p-1">
                         <div class="row ">
                             <div class="col-3">
-                                <img src="https://picsum.photos/40/40" class="w-100 embed-responsive">
+                                <img src="https://picsum.photos/g/200/200" class="w-100 embed-responsive">
                             </div>
 
                             <div class="col-6">
@@ -52,7 +54,7 @@
         </div>
 
         <div class="col-3">
-
+            <% include ../partials/menu-group.ejs %>
         </div>
     </div>
 </div>

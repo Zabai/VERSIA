@@ -6,9 +6,17 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <style>
-        .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
-        .toggle.ios .toggle-handle { border-radius: 20px; }
-        .toggle-handle {background-color: white}
+        .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+            border-radius: 20px;
+        }
+
+        .toggle.ios .toggle-handle {
+            border-radius: 20px;
+        }
+
+        .toggle-handle {
+            background-color: white
+        }
     </style>
 </head>
 <body>
@@ -17,13 +25,15 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
+            <h4>Mi perfil</h4>
+            <hr>
+
             <form id="form-profile">
                 <div class="mb-2 text-center">
                     <i class="fas fa-user fa-7x"></i>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-
                         <label for="inputName">Nombre</label>
                         <input type="text" disabled class="form-control" id="inputName" placeholder="Nombre">
                     </div>
@@ -43,23 +53,60 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputDegree">Grado</label>
-                        <select disabled id="inputDegree" class="form-control">
-                            <option selected>GII...</option>
-                            <option>ADE..</option>
-                            <option>GTI..</option>
-                        </select>
+                        <input type="text" disabled id="inputDegree" class="form-control" placeholder="Grado...">
                     </div>
                 </div>
 
                 <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios">
             </form>
         </div>
+
+        <div class="col-6">
+            <h4>Tu actividad</h4>
+            <hr>
+
+            <% for(var i = 0; i < 3; i++) { %>
+            <div class="card my-3">
+                <div class="card-header">
+                    <img class="rounded-circle mr-2" src="https://picsum.photos/g/40/40" alt="img">
+                    Usuario
+                </div>
+                <div class="card-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eleifend rhoncus congue.
+                    Donec placerat nisl et volutpat consequat. Aenean laoreet massa nibh, auctor dapibus ex bibendum
+                    vel.
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <div class="col-3">
+            <h4>Mis grupos</h4>
+            <hr>
+
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+                    Mis grupos
+                    <a href="index.ejs">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Cras justo odio
+                    <span class="badge badge-info badge-pill">14</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                    Dapibus ac facilisis in
+                    <span class="badge badge-success badge-pill">2</span>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
 <script src="/javascripts/scripts.js"></script>
 <script>
-setUpProfileToggle();
+    setUpProfileToggle();
 </script>
 </body>
 </html>
