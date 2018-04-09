@@ -11,10 +11,6 @@ a {
   width: 100%;
 }
 
-.customContainer{
-  padding-top: 2%;
-}
-
 .customAlignment-center{
   display: flex;
   align-items: center;
@@ -72,6 +68,11 @@ a {
 
 .social-networks .linkedin:hover {
   color:#007BB6;
+}
+
+.menu-group {
+  height: 80vh;
+  overflow-y: scroll;
 }
 
 footer {

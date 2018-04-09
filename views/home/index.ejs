@@ -2,65 +2,45 @@
 <html>
 <head>
     <title>Versia</title>
-    <%include ../partials/resources.ejs%>
+    <% include ../partials/resources.ejs %>
 </head>
 <body>
-    <%include ../partials/navbar.ejs%>
-    <div class="container ">
-        <div class="row">
-            <div class="col-3">
-                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                    <div class="card-header">
-                        <img src="..." alt="..." class="rounded-circle">
-                    </div>
-                    <!--<div class="card-body">
-                      <h5 class="card-title">Success card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>-->
+<% include ../partials/navbar.ejs %>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-3">
+            <% include ../partials/menu-user.ejs %>
+        </div>
+
+        <div class="col-6">
+            <h4>Crear post</h4>
+            <div class="alert alert-secondary">
+                Escribe tus experiencias...
+            </div>
+
+            <h4>Actividad</h4>
+            <hr>
+
+            <% for(var i = 0; i < 3; i++) { %>
+            <div class="card my-3">
+                <div class="card-header">
+                    <img class="rounded-circle mr-2" src="https://picsum.photos/g/40/40" alt="img">
+                    Usuario
                 </div>
-
-                <hr>
-
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Cras justo odio
-                        <span class="badge badge-info badge-pill">14</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
-                        Dapibus ac facilisis in
-                        <span class="badge badge-success badge-pill">2</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-6">
-                RECENT ACTIVITIES
-            </div>
-            <div class="col-3">
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action active">
-                        Grado Ingeniería Informática
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-success list-group-item-action">Alum</a>
-                    <a href="#" class="list-group-item list-group-item-success list-group-item-action">Alum</a>
-                    <a href="#" class="list-group-item list-group-item-success list-group-item-action">Alum</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a><a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
-                    <a href="#" class="list-group-item list-group-item-primary list-group-item-action ">Profe</a>
+                <div class="card-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eleifend rhoncus congue.
+                    Donec placerat nisl et volutpat consequat. Aenean laoreet massa nibh, auctor dapibus ex bibendum
+                    vel.
                 </div>
             </div>
+            <% } %>
+        </div>
+
+        <div class="col-3">
+            <% include ../partials/menu-group.ejs %>
         </div>
     </div>
-
+</div>
 </body>
 </html>
