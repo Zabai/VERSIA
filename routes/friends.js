@@ -5,13 +5,15 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-router.get('/add', function (req, res, next) {
-    var email = req.query["email"];
+router.post('/add', function (req, res, next) {
+    var email = req.body.email;
     var dbConn = require('../db/db');
-
     dbConn.query("INSERT INTO Friends(sender, receiver) VALUES(:sender, :receiver)", {sender: "correo1@ulpgc.es", receiver: email}, function(err, friendPetition){
-        if(err)return res.status(500).send({message: "Ha habido un error en la db: " + err});
-
+        if(err){
+            console.log(err);
+            return res.status(500).send({message: "Ha habido un error en la db: " + err});
+        }
+        return res.status(200).send();
     });
 });
 module.exports = router;

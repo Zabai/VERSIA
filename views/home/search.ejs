@@ -38,7 +38,7 @@
 
                             <div class="col-3 my-auto">
                                 <div class="btn-group-vertical pl-5">
-                                    <button class="btn btn-primary" onclick="addFriend(<%= users[i].email%>)"><i class="fas fa-user-plus"></i></button>
+                                    <button class="btn btn-primary" onclick="addFriend('<%= users[i].email%>')"><i class="fas fa-user-plus"></i></button>
                                     <a href="/" class="btn btn-success"><i class="fas fa-envelope"></i></a>
                                 </div>
                             </div>
@@ -54,5 +54,6 @@
         </div>
     </div>
 </div>
+<script src="/javascripts/scripts.js"></script>
 </body>
 </html>

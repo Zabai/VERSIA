@@ -51,3 +51,16 @@ function setUpProfileToggle() {
         }
     });
 }
+
+function addFriend(email){
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200)
+            console.log(email);
+        else console.log("Por si la cosa va mal");
+    };
+
+    request.open("POST", "/home/users/friends/add", true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send(encodeURI("email=" + email));
+}
