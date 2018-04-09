@@ -7,18 +7,10 @@ router.get('/', function(req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-router.get('/login', function(req, res) {
-    res.render('index');
-});
-
 router.post('/login', passport.authenticate('local-login', {
     successRedirect : '/home', // redirect to home
-    failureRedirect : 'index', // redirect back to the signup page if there is an error
+    failureRedirect : '/',  // redirect back to the signup page if there is an error
 }));
-
-router.get('/signup', function(req, res) {
-    res.render('index');
-});
 
 router.post('/signup', passport.authenticate('local-signup', {
     successRedirect : 'index', // redirect to home
