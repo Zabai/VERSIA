@@ -37,6 +37,10 @@ app.use(passport.session()); // persistent login sessions
 
 // Routes
 app.use('/', require('./routes/index'));
+app.use(function isLogged(req, res, next){
+    if(req.isAuthenticated()) return next();
+    else res.redirect('/');
+});
 app.use('/users', require('./routes/users'));
 app.use('/home', require('./routes/home'));
 

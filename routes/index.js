@@ -13,13 +13,13 @@ router.post('/login', passport.authenticate('local-login', {
 }));
 
 router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : 'index', // redirect to home
-    failureRedirect : 'index', // redirect back to the index page if there is an error
+    successRedirect : '/', // redirect to home
+    failureRedirect : '/', // redirect back to the index page if there is an error
 }));
 
 router.get('/logout', function(req, res) {
-    res.logout();
-    res.redirect('index');
+    req.logout();
+    res.redirect('/');
 });
 
 /* MIDDLEWARE to make sure a user is logged in */
@@ -27,6 +27,6 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated())
         return next();
 
-    res.redirect('index');
+    res.redirect('/');
 }
 module.exports = router;

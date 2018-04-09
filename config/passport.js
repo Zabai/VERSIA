@@ -1,10 +1,3 @@
-/**
- *
- *  FALTA CIFRADO DE CONTRASEÑAS CON BCRYPT
- *
- */
-
-
 
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -38,26 +31,24 @@ module.exports = function (passport) {
         },
         function(req, email, password, done) {
 
-            console.log('REGISTRO');
-
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM user WHERE email = ?",[username], function(err, rows) {
+            connection.query("SELECT * FROM user WHERE email = ?",[email], function(err, rows) {
                 if (err)
                     return done(err);
                 if (rows.length) {
-                    return done(null, false, req.flash('signupMessage', 'Usuario ya escogido'));
+                    return done(null, false);
                 } else {
                     // if there is no user with that username
                     // create the user
                     var newUserMysql = {
-                        username: username,
+                        email: email,
                         password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
                     };
 
-                    var insertQuery = "INSERT INTO user ( username, password ) values (?,?)";
+                    var insertQuery = "INSERT INTO user ( email, password ) values (?,?)";
 
-                    connection.query(insertQuery,[newUserMysql.username, newUserMysql.password],function(err, rows) {
+                    connection.query(insertQuery,[newUserMysql.email, newUserMysql.password],function(err, rows) {
                         newUserMysql.id = rows.insertId;
 
                         return done(null, newUserMysql);
@@ -87,7 +78,6 @@ module.exports = function (passport) {
                 if (err){
                     return done(err);}
                 if (!rows.length) {
-                    console.log("FALLO");
                     return done(null, false);
                 }
                 // if the user is found but the password is wrong
