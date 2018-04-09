@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
-    res.send('respond with a resource');
+    console.log(req.user);
+
 });
 
 router.post('/add', function (req, res, next) {
@@ -15,5 +16,6 @@ router.post('/add', function (req, res, next) {
         }
         return res.status(200).send();
     });
+    dbConn.end()
 });
 module.exports = router;

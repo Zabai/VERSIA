@@ -7,7 +7,7 @@ passport.use(new LocalStrategy({
 }, function(email, password, cb) {
     var client = require('../db/db');
 
-    client.query('SELECT * FROM user WHERE email=:email', {email: email},
+    client.query('SELECT * FROM User WHERE email=:email', {email: email},
         function(err, user) {
             if(err) return cb(err);
             if(user.length === 0) return cb(null, false, { message: 'Usuario no encontrado.' });
@@ -24,7 +24,7 @@ passport.serializeUser(function(user, cb) {
 passport.deserializeUser(function(email, cb) {
     var client = require('../db/db');
 
-    client.query('SELECT * FROM user WHERE email=:email', {email: email},
+    client.query('SELECT * FROM User WHERE email=:email', {email: email},
         function(err, user) {
             if(err) return cb(err);
             else cb(null, user[0]);
