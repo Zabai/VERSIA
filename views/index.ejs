@@ -1,11 +1,99 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Versia</title>
+    <% include ./partials/resources.ejs %>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top custom-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img class="logo" src="/resources/logo.png" alt="Versia" style="width: 15%">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Features</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link" href="#">Disabled</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="full-height background d-flex custom-header">
+    <div class="row align-items-center justify-content-center mx-auto">
+        <div class="col-md-auto">
+            <div class="alert alert-light">
+                <form action="/login" method="post" class="login-form">
+                    <h5 class="text-center">¡Únete!</h5>
+
+                    <div class="form-group" style="margin:auto;padding:5px;">
+                        <label for="email" style="margin-bottom:3px;">Email</label>
+                        <input id="email" class="form-control form-control-lg" type="text" placeholder="Email"
+                               inputmode="email"
+                               autofocus required name="email"
+                        />
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;margin-bottom:15px;">
+                        <label for="password" style="margin-bottom:3px;">Contraseña</label>
+                        <input id="password" class="form-control form-control-lg" type="password"
+                               placeholder="Contraseña" required
+                               name="password"/>
+                    </div>
+                    <button class="btn btn-outline-success btn-block"
+                            type="submit" style="margin-bottom:10px;">Acceder
+                    </button>
+                    <p class="text-center message" style="font-size:12px;color:rgb(69,69,69);padding-bottom:5px;">
+                        ¿Aún no te has registrado? <a class="text-info" href="#">Crear cuenta</a>
+                    </p>
+                </form>
+
+                <form action="/signup" method="post" class="register-form">
+                    <h5 class="text-center">¡Únete!</h5>
+
+                    <div class="form-group" style="margin:auto;padding:5px;">
+                        <label style="margin-bottom:3px;">Nombre</label>
+                        <input class="form-control form-control-lg" type="text" name="name" required
+                               placeholder="Nombre" autofocus/>
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;">
+                        <label style="margin-bottom:3px;">Email</label>
+                        <input class="form-control form-control-lg" type="text" name="email" required
+                               placeholder="Email" inputmode="email"/>
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;margin-bottom:0;">
+                        <label style="margin-bottom:3px;">Contraseña</label>
+                        <input class="form-control form-control-lg" type="password" name="password" required
+                               placeholder="Contraseña"/>
+                    </div>
+                    <div class="form-group" style="margin:auto;padding:5px;margin-bottom:15px;">
+                        <label style="margin-bottom:3px;">Confirmar contraseña</label>
+                        <input class="form-control form-control-lg" type="password" name="password-rep" required
+                               placeholder="Repetir contraseña"/>
+                    </div>
+                    <button class="btn btn-outline-success btn-block"
+                            type="submit" style="margin-bottom:10px;">Registrarse
+                    </button>
+                    <p class="text-center message" style="font-size:12px;color:rgb(69,69,69);padding-bottom:5px;">
+                        ¿Ya tienes cuenta? <a href="#" class="text-info">Identifícate aquí</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<% include ./partials/footer.ejs %>
+
+<script src="/javascripts/scripts.js"></script>
+<script>
+    setUpLandingPage();
+</script>
+</body>
 </html>
