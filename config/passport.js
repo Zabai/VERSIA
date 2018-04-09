@@ -17,11 +17,11 @@ module.exports = function (passport) {
     // passport session setup
 
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, user.email);
     });
 
-    passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM User WHERE id = ? ",[id], function(err, rows){
+    passport.deserializeUser(function(email, done) {
+        connection.query("SELECT * FROM user WHERE email = ? ",[email], function(err, rows){
             done(err, rows[0]);
         });
     });
@@ -83,15 +83,17 @@ module.exports = function (passport) {
 
             if(!email || !password ) { return done(null, false); }
 
-            connection.query("SELECT * FROM User WHERE email = ?",[email], function(err, rows){
+            connection.query("SELECT * FROM user WHERE email = ?",[email], function(err, rows){
                 if (err){
                     return done(err);}
                 if (!rows.length) {
-                    return done(null, false); // req.flash is the way to set flashdata using connect-flash
+                    console.log("FALLO");
+                    return done(null, false);
                 }
                 // if the user is found but the password is wrong
-                if (!bcrypt.compareSync(password, rows[0].password))
-                    return done(null, false); // create the loginMessage and save it to session as flashdata
+                //if (!bcrypt.compareSync(password, rows[0].password))
+                if(password !== rows[0].password)
+                    return done(null, false);
 
                 // all is well, return successful user
                 return done(null, rows[0]);
