@@ -1,100 +1,34 @@
+var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var User = require('/config/database.sql');
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+}, function(email, password, cb) {
+    var client = require('../db/db');
 
-module.exports = function (passport) {
+    client.query('SELECT * FROM user WHERE email=:email', {email: email},
+        function(err, user) {
+            if(err) return cb(err);
+            if(user.length === 0) return cb(null, false, { message: 'Usuario no encontrado.' });
+            if(user[0].password !== password) return cb(null, false, { message: 'Contraseña incorrecta.' });
 
-    // passport session setup
-
-    passport.serializeUser(function (user, done) {
-        done(null, user.id);
-    });
-
-    passport.deserializeUser(function (id, done) {      //BUSCAMOS POR EMAIL
-        User.findById(id, function(err, user) {
-            done(err, user);
+            return cb(null, user[0]);
         });
-    });
+}));
 
-    // ========================================
-    // LOCAL SIGNUP
-    // ========================================
+passport.serializeUser(function(user, cb) {
+    cb(null, user.email);
+});
 
-    passport.use('local-signup', new LocalStrategy({
-            // CAMBIAR CON CAMPOS REGISTRO
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
-        },
-        function(req, email, password, done) {
+passport.deserializeUser(function(email, cb) {
+    var client = require('../db/db');
 
-            // asynchronous
-            // User.findOne wont fire unless data is sent back
-            process.nextTick(function() {
+    client.query('SELECT * FROM user WHERE email=:email', {email: email},
+        function(err, user) {
+            if(err) return cb(err);
+            else cb(null, user[0]);
+        });
+});
 
-                // find a user whose email is the same as the forms email
-                // we are checking to see if the user trying to login already exists
-                User.findOne({ 'local.email' :  email }, function(err, user) {
-
-                    if (err)
-                        return done(err);
-
-                    if (user) {
-                        return done(null, false, req.flash('signupMessage', 'Ese email no se encuentra disponible'));
-                    } else {
-
-                        //create user
-                        var newUser            = new User();
-
-                        // set the user's local credentials
-                        newUser.local.email    = email;
-                        newUser.local.password = newUser.generateHash(password);
-
-                        // save the user
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
-                        });
-                    }
-
-                });
-
-            });
-
-        }));
-
-    // ========================================
-    // LOCAL LOGIN
-    // ========================================
-
-    passport.use('local-login', new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
-        },
-        function(req, email, password, done) { // callback with email and password from our form
-
-            // find a user whose email is the same as the forms email
-            // we are checking to see if the user trying to login already exists
-            User.findOne({ 'local.email' :  email }, function(err, user) {
-                // if there are any errors, return the error before anything else
-                if (err)
-                    return done(err);
-
-                // if no user is found, return the message
-                if (!user)
-                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-
-                // if the user is found but the password is wrong
-                if (!user.validPassword(password))
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
-
-                // all is well, return successful user
-                return done(null, user);
-            });
-
-        }));
-};
-
+module.exports = passport;
