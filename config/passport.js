@@ -21,7 +21,7 @@ module.exports = function (passport) {
     });
 
     passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM user WHERE id = ? ",[id], function(err, rows){
+        connection.query("SELECT * FROM User WHERE id = ? ",[id], function(err, rows){
             done(err, rows[0]);
         });
     });
@@ -72,29 +72,26 @@ module.exports = function (passport) {
     // ========================================
     passport.use('local-login', new LocalStrategy({
 
-            usernameField: 'username',
+            usernameField: 'email',
 
             passwordField: 'password',
 
             passReqToCallback: true //passback entire req to call back
+        },
+        function (req, email, password, done){
 
-},
-        function (req, username, password, done){
 
-            console.log('CHAAAACHO');
+            if(!email || !password ) { return done(null, false); }
 
-            if(!username || !password ) { return done(null, false); }
-
-            connection.query("SELECT * FROM user WHERE email = ?",[username], function(err, rows){
-                if (err)
-                    return done(err);
+            connection.query("SELECT * FROM User WHERE email = ?",[email], function(err, rows){
+                if (err){
+                    return done(err);}
                 if (!rows.length) {
-                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                    return done(null, false); // req.flash is the way to set flashdata using connect-flash
                 }
-
                 // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows[0].password))
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                    return done(null, false); // create the loginMessage and save it to session as flashdata
 
                 // all is well, return successful user
                 return done(null, rows[0]);
