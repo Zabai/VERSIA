@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var passport = require('passport');
+var myPassport = require('./config/passport');
+var session = require('express-session');
 
 var app = express();
 
@@ -16,19 +17,23 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
+// required for passport
+app.use(session({ secret: 'secret' })); // session secret
+app.use(myPassport.initialize());
+app.use(myPassport.session()); // persistent login sessions
+
 // Resources
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/popper.js/dist')));
 
-// required for passport
-/*app.use(session({ secret: 'secretosesion' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions*/
-
 // Routes
 app.use('/', require('./routes/index'));
+app.use(function isLogged(req, res, next){
+    if(req.isAuthenticated()) return next();
+    else res.redirect('/');
+});
 app.use('/users', require('./routes/users'));
 app.use('/home', require('./routes/home'));
 
