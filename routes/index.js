@@ -6,14 +6,15 @@ router.get('/', function(req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-router.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/home', // redirect to home
-    failureRedirect : '/',  // redirect back to the signup page if there is an error
-}));
+router.post('/login', myPassport.authenticate('local', {failureRedirect: '/'}),
+    function(req, res, next) {
+        res.redirect('/home/users');
+    });
 
-router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/', // redirect to home
-    failureRedirect : '/', // redirect back to the index page if there is an error
+router.post('/signup', myPassport.authenticate('local-signup', {
+    successRedirect: '/profile', // redirect to the secure profile section
+    failureRedirect: '/signup', // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
 }));
 
 router.get('/logout', function(req, res) {
