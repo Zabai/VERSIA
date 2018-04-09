@@ -17,19 +17,14 @@ module.exports = function (passport) {
         connection.query("SELECT * FROM user WHERE email = ? ",[email], function(err, rows){
             done(err, rows[0]);
         });
-    });
+}));
 
-    // ========================================
-    // LOCAL SIGNUP
-    // ========================================
+passport.serializeUser(function(user, cb) {
+    cb(null, user.email);
+});
 
-    passport.use('local-signup', new LocalStrategy({
-            // CAMBIAR CON CAMPOS REGISTRO
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
-        },
-        function(req, email, password, done) {
+passport.deserializeUser(function(email, cb) {
+    var client = require('../db/db');
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists

@@ -19,6 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
+// required for passport
+app.use(session({ secret: 'secret' })); // session secret
+app.use(myPassport.initialize());
+app.use(myPassport.session()); // persistent login sessions
+
 // Resources
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
