@@ -19,10 +19,10 @@
 -- Table structure for table `Friends`
 --
 
-DROP TABLE IF EXISTS `Friends`;
+DROP TABLE IF EXISTS `friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Friends` (
+CREATE TABLE `friends` (
   `sender` varchar(100) NOT NULL,
   `receiver` varchar(100) NOT NULL,
   `friend_request` tinyint(1) NOT NULL DEFAULT 0,
