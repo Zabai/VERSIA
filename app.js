@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var session = require('express-session');
+var flash = require('connect-flash');
 
 require('./config/passport')(passport);
 
@@ -33,7 +34,7 @@ app.use(session({
 } ));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Routes
 app.use('/', require('./routes/index'));

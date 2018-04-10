@@ -24,39 +24,27 @@ module.exports = function (passport) {
     // ========================================
 
     passport.use('local-signup', new LocalStrategy({
-            // CAMBIAR CON CAMPOS REGISTRO
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
-        },
-        function(req, email, password, done) {
-
-            // find a user whose email is the same as the forms email
-            // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM user WHERE email = ?",[email], function(err, rows) {
-                if (err)
-                    return done(err);
-                if (rows.length) {
-                    return done(null, false);
-                } else {
-                    // if there is no user with that username
-                    // create the user
-                    var newUserMysql = {
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallBack : true
+    }, function (email, password, cb) {
+        connection.query("SELECT * FROM user WHERE email=:email", {email:email},
+            function (err, rows) {
+                if (err) return cb(err);
+                if (rows.length) return cb(null, false, req.flash('signupMessage', 'Usuario ya existente'));
+                else {
+                    var newUser  = {
                         email: email,
-                        password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
+                        pasword: password
                     };
-
-                    var insertQuery = "INSERT INTO user ( email, password ) values (?,?)";
-
-                    connection.query(insertQuery,[newUserMysql.email, newUserMysql.password],function(err, rows) {
-                        newUserMysql.id = rows.insertId;
-
-                        return done(null, newUserMysql);
-                    });
+                    connection.query("INSERT INTO user (email, password) VALUES (:email,:password)", {email: email, password: password},
+                        function (err, rows) {
+                            if (err) throw err;
+                            return cb(null, newUser, req.flash('signupMessage', 'Usuario creado correctamente'));
+                        });
                 }
             });
-
-        }));
+    }));
 
     // ========================================
     // LOCAL LOGIN
@@ -78,19 +66,17 @@ module.exports = function (passport) {
                 if (err){
                     return done(err);}
                 if (!rows.length) {
-                    return done(null, false);
+                    return done(null, false, req.flash('loginMessage', 'Usuario no encontrado'));
                 }
                 // if the user is found but the password is wrong
                 //if (!bcrypt.compareSync(password, rows[0].password))
                 if(password !== rows[0].password)
-                    return done(null, false);
+                    return done(null, false, req.flash('loginMessage', 'Contraseña incorrecta.'));
 
                 // all is well, return successful user
                 return done(null, rows[0]);
             });
-
         }
-
     ));
 };
 

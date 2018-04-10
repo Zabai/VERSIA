@@ -29,6 +29,14 @@
 <header class="full-height background d-flex custom-header">
     <div class="row align-items-center justify-content-center mx-auto">
         <div class="col-md-auto">
+            <!-- Mensajes de error autenticación -->
+            <% if (loginMessage.length > 0) { %>
+            <div class="alert alert-danger"><%= loginMessage %></div>
+            <% } %>
+            <!-- Mensajes de confirmacion registro -->
+            <% if (signupMessage.length > 0) { %>
+            <div class="alert alert-success"><%= signupMessage %></div>
+            <% } %>
             <div class="alert alert-light">
                 <form action="/login" method="post" class="login-form">
                     <h5 class="text-center">¡Únete!</h5>
