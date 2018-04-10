@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var session = require('express-session');
+var flash = require('connect-flash');
 
 require('./config/passport')(passport);
 
@@ -21,8 +22,8 @@ app.use(cookieParser());
 
 // required for passport
 app.use(session({ secret: 'secret' })); // session secret
-app.use(myPassport.initialize());
-app.use(myPassport.session()); // persistent login sessions
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // Resources
 app.use(express.static(path.join(__dirname, 'public')));
@@ -32,13 +33,13 @@ app.use(express.static(path.join(__dirname, 'node_modules/popper.js/dist')));
 
 // required for passport
 app.use(session({
-    secret: 'zabaimaricona',
+    secret: 'secret',
     resave: true,
     saveUninitialized: true
 } ));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Routes
 app.use('/', require('./routes/index'));
@@ -48,6 +49,9 @@ app.use(function isLogged(req, res, next){
 });
 app.use('/users', require('./routes/users'));
 app.use('/home', require('./routes/home'));
+app.use('/home/users', require('./routes/users'));
+app.use('/home/users/friends', require('./routes/friends'));
+
 
 
 // catch 404 and forward to error handler

@@ -78,3 +78,7 @@ a {
 footer {
   padding-bottom: 2%;
 }
+
+.text-wrapper{
+    word-wrap: break-word;
+}
