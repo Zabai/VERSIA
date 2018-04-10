@@ -1,100 +1,82 @@
+
 var LocalStrategy = require('passport-local').Strategy;
 
-var User = require('/config/database.sql');
+var bcrypt = require('bcrypt-nodejs');
+
+var connection = require('../db/db');
 
 module.exports = function (passport) {
 
     // passport session setup
 
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, user.email);
     });
 
-    passport.deserializeUser(function (id, done) {      //BUSCAMOS POR EMAIL
-        User.findById(id, function(err, user) {
-            done(err, user);
+    passport.deserializeUser(function(email, done) {
+        connection.query("SELECT * FROM user WHERE email = ? ",[email], function(err, rows){
+            done(err, rows[0]);
         });
-    });
+});
 
-    // ========================================
-    // LOCAL SIGNUP
-    // ========================================
+passport.serializeUser(function(user, cb) {
+    cb(null, user.email);
+});
 
     passport.use('local-signup', new LocalStrategy({
-            // CAMBIAR CON CAMPOS REGISTRO
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
-        },
-        function(req, email, password, done) {
-
-            // asynchronous
-            // User.findOne wont fire unless data is sent back
-            process.nextTick(function() {
-
-                // find a user whose email is the same as the forms email
-                // we are checking to see if the user trying to login already exists
-                User.findOne({ 'local.email' :  email }, function(err, user) {
-
-                    if (err)
-                        return done(err);
-
-                    if (user) {
-                        return done(null, false, req.flash('signupMessage', 'Ese email no se encuentra disponible'));
-                    } else {
-
-                        //create user
-                        var newUser            = new User();
-
-                        // set the user's local credentials
-                        newUser.local.email    = email;
-                        newUser.local.password = newUser.generateHash(password);
-
-                        // save the user
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true
+    }, function (req, email, password, done) {
+        connection.query("SELECT * FROM user WHERE email=:email", {email:email},
+            function (err, rows) {
+                if (err) return done(err);
+                if (rows.length) return done(null, false, req.flash('errorMessage', 'Usuario ya existente'));
+                else {
+                    var newUser  = {
+                        email: email,
+                        pasword: password
+                    };
+                    connection.query("INSERT INTO user (email, password) VALUES (:email,:password)", {email: email, password: password},
+                        function (err, rows) {
+                            if (err) throw err;
+                            return done(null, newUser, req.flash('signupMessage', 'Usuario creado correctamente'));
                         });
-                    }
-
-                });
-
+                }
             });
-
-        }));
+    }));
 
     // ========================================
     // LOCAL LOGIN
     // ========================================
-
     passport.use('local-login', new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
+
+            usernameField: 'email',
+
+            passwordField: 'password',
+
+            passReqToCallback: true //passback entire req to call back
         },
-        function(req, email, password, done) { // callback with email and password from our form
+        function (req, email, password, done){
 
-            // find a user whose email is the same as the forms email
-            // we are checking to see if the user trying to login already exists
-            User.findOne({ 'local.email' :  email }, function(err, user) {
-                // if there are any errors, return the error before anything else
-                if (err)
-                    return done(err);
 
-                // if no user is found, return the message
-                if (!user)
-                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+            if(!email || !password ) { return done(null, false); }
 
+            connection.query("SELECT * FROM user WHERE email = ?",[email], function(err, rows){
+                if (err){
+                    return done(err);}
+                if (!rows.length) {
+                    return done(null, false, req.flash('errorMessage', 'Usuario no encontrado'));
+                }
                 // if the user is found but the password is wrong
-                if (!user.validPassword(password))
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                //if (!bcrypt.compareSync(password, rows[0].password))
+                if(password !== rows[0].password)
+                    return done(null, false, req.flash('errorMessage', 'Contraseña incorrecta.'));
 
                 // all is well, return successful user
-                return done(null, user);
+                return done(null, rows[0]);
             });
-
-        }));
+        }
+    ));
 };
 

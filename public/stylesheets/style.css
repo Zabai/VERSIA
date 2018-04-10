@@ -11,10 +11,6 @@ a {
   width: 100%;
 }
 
-.customContainer{
-  padding-top: 2%;
-}
-
 .customAlignment-center{
   display: flex;
   align-items: center;
@@ -81,4 +77,8 @@ a {
 
 footer {
   padding-bottom: 2%;
+}
+
+.text-wrapper{
+    word-wrap: break-word;
 }

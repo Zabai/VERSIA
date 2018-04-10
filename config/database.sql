@@ -1,8 +1,8 @@
--- MySQL dump 10.16  Distrib 10.2.13-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.2.14-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: sprint1
 -- ------------------------------------------------------
--- Server version	10.2.13-MariaDB-10.2.13+maria~artful
+-- Server version	10.2.14-MariaDB-10.2.14+maria~artful
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,37 +16,85 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Profile`
+-- Table structure for table `Friends`
 --
 
-DROP TABLE IF EXISTS `Profile`;
+DROP TABLE IF EXISTS `friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Profile` (
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `surname` varchar(100) NOT NULL,
-  `image_profile` varchar(100) NOT NULL,
-  `university` varchar(100) NOT NULL,
-  `degree` varchar(100) NOT NULL,
-  PRIMARY KEY (`email`),
-  CONSTRAINT `Profile_User_FK` FOREIGN KEY (`email`) REFERENCES `User` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `friends` (
+  `sender` varchar(100) NOT NULL,
+  `receiver` varchar(100) NOT NULL,
+  `friend_request` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`sender`,`receiver`),
+  KEY `Friends_receiver_FK` (`receiver`),
+  CONSTRAINT `Friends_receiver_FK` FOREIGN KEY (`receiver`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Friends_sender_FK` FOREIGN KEY (`sender`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `User`
+-- Dumping data for table `Friends`
 --
 
-DROP TABLE IF EXISTS `User`;
+LOCK TABLES `Friends` WRITE;
+/*!40000 ALTER TABLE `Friends` DISABLE KEYS */;
+INSERT INTO `Friends` VALUES ('carlos@ulpgc.es','david@ulpgc.es',0),('geraldo@ulpgc.es','david@ulpgc.es',0);
+/*!40000 ALTER TABLE `Friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `profile`
+--
+
+DROP TABLE IF EXISTS `profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `User` (
+CREATE TABLE `profile` (
+  `email` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `surname` varchar(100) NOT NULL,
+  `image_profile` varchar(100) DEFAULT NULL,
+  `university` varchar(100) NOT NULL,
+  `degree` varchar(100) NOT NULL,
+  PRIMARY KEY (`email`),
+  CONSTRAINT `Profile_User_FK` FOREIGN KEY (`email`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `profile`
+--
+
+LOCK TABLES `profile` WRITE;
+/*!40000 ALTER TABLE `profile` DISABLE KEYS */;
+INSERT INTO `profile` VALUES ('carlos@ulpgc.es','Carlos','Martel',NULL,'ULPGC','GII'),('david@ulpgc.es','David','Ramírez',NULL,'ULPGC','GII'),('felix@ulpgc.es','Félix','Cruz',NULL,'ULPGC','GII'),('geraldo@ulpgc.es','Geraldo','Rodrigues',NULL,'ULPGC','GII'),('zabai@ulpgc.es','Zabai','Armas',NULL,'ULPGC','GII');
+/*!40000 ALTER TABLE `profile` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('carlos@ulpgc.es','versia'),('david@ulpgc.es','versia'),('felix@ulpgc.es','versia'),('geraldo@ulpgc.es','versia'),('zabai@ulpgc.es','versia');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'sprint1'
@@ -61,4 +109,4 @@ CREATE TABLE `User` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-02 14:01:40
+-- Dump completed on 2018-04-10 13:12:39
