@@ -30,8 +30,8 @@
     <div class="row align-items-center justify-content-center mx-auto">
         <div class="col-md-auto">
             <!-- Mensajes de error autenticación -->
-            <% if (loginMessage.length > 0) { %>
-            <div class="alert alert-danger"><%= loginMessage %></div>
+            <% if (errorMessage.length > 0) { %>
+            <div class="alert alert-danger"><%= errorMessage %></div>
             <% } %>
             <!-- Mensajes de confirmacion registro -->
             <% if (signupMessage.length > 0) { %>
