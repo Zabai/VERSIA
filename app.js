@@ -47,7 +47,6 @@ app.use(function isLogged(req, res, next){
     if(req.isAuthenticated()) return next();
     else res.redirect('/');
 });
-app.use('/users', require('./routes/users'));
 app.use('/home', require('./routes/home'));
 app.use('/home/users', require('./routes/users'));
 app.use('/home/users/friends', require('./routes/friends'));
