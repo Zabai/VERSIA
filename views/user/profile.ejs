@@ -35,29 +35,36 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputName">Nombre</label>
-                        <input type="text" disabled class="form-control" id="inputName" placeholder="Nombre">
+                        <input type="text" disabled class="form-control" id="inputName" placeholder="Nombre"
+                               value="<%= profile.name %>">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputSurname">Apellidos</label>
-                        <input type="text" disabled class="form-control" id="inputSurname" placeholder="Apellidos">
+                        <input type="text" disabled class="form-control" id="inputSurname" placeholder="Apellidos"
+                               value="<%= profile.surname %>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="text" disabled class="form-control" id="inputEmail" placeholder="Mail">
+                    <input type="text" disabled class="form-control" id="inputEmail" placeholder="Correo electrónico"
+                           value="<%= profile.email %>">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputUni">Universidad</label>
-                        <input type="text" disabled class="form-control" id="inputUni" placeholder="Universidad...">
+                        <input type="text" disabled class="form-control" id="inputUni" placeholder="Universidad"
+                               value="<%= profile.university %>">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputDegree">Grado</label>
-                        <input type="text" disabled id="inputDegree" class="form-control" placeholder="Grado...">
+                        <input type="text" disabled id="inputDegree" class="form-control" placeholder="Grado"
+                               value="<%= profile.degree %>">
                     </div>
                 </div>
 
+                <% if(profile.email === locals.user.email) { %>
                 <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios">
+                <% } %>
             </form>
         </div>
 
@@ -99,7 +106,10 @@
                     <span class="badge badge-success badge-pill">2</span>
                 </li>
             </ul>
-            <%include ../partials/friends_list.ejs%>
+
+            <% if(profile.email === locals.user.email) { %>
+            <% include ../partials/friends_list.ejs %>
+            <% } %>
         </div>
     </div>
 </div>

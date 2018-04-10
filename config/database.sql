@@ -19,10 +19,10 @@
 -- Table structure for table `Friends`
 --
 
-DROP TABLE IF EXISTS `Friends`;
+DROP TABLE IF EXISTS `friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Friends` (
+CREATE TABLE `friends` (
   `sender` varchar(100) NOT NULL,
   `receiver` varchar(100) NOT NULL,
   `friend_request` tinyint(1) NOT NULL DEFAULT 0,
@@ -37,10 +37,10 @@ CREATE TABLE `Friends` (
 -- Dumping data for table `Friends`
 --
 
-LOCK TABLES `Friends` WRITE;
-/*!40000 ALTER TABLE `Friends` DISABLE KEYS */;
-INSERT INTO `Friends` VALUES ('carlos@ulpgc.es','david@ulpgc.es',0),('geraldo@ulpgc.es','david@ulpgc.es',0);
-/*!40000 ALTER TABLE `Friends` ENABLE KEYS */;
+LOCK TABLES `friends` WRITE;
+/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+INSERT INTO `friends` VALUES ('carlos@ulpgc.es','david@ulpgc.es',0),('geraldo@ulpgc.es','david@ulpgc.es',0);
+/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
