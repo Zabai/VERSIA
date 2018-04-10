@@ -4,7 +4,6 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     var loggedUserEmail = req.user.email;
-    var friendsReq;
 
     var client = require('../db/db');
     client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: loggedUserEmail}, function(err, friendRequests){
@@ -15,25 +14,29 @@ router.get('/', function(req, res, next) {
     client.end();
 });
 
-router.get('/:id', function(req, res, next) {
-    var loggedUserEmail = req.user.email;
-
+router.get('/search', function(req, res, next) {
     var client = require('../db/db');
-    var user = {};
-    client.query('SELECT * FROM profile WHERE email=:email', {email: loggedUserEmail}, function(err, profile) {
+    client.query("SELECT email, name, surname, university, degree FROM profile WHERE name LIKE :req", {req: req.query.search}, function(err, users){
+        if(err) return res.status(500).send({message:"Error en la petición, " + err});
+        res.render('user/search', {users: users, search: req.query.search});
+    });
+    client.end();
+});
+
+router.get('/:id', function(req, res, next) {
+    var client = require('../db/db');
+    var profile = {};
+    client.query('SELECT * FROM profile WHERE email=:email', {email: req.params.id}, function(err, profileResult) {
         if (err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-        user = profile[0];
+        profile = profileResult[0];
     });
 
-    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: loggedUserEmail}, function(err, friendRequests){
+    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequests){
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-        console.log(JSON.stringify(friendRequests));
-        res.render("user/profile", {user: user, friendRequests: friendRequests});
+        res.render("user/profile", {profile: profile, friendRequests: friendRequests});
     });
 
     client.end();
 });
-
-
 
 module.exports = router;
