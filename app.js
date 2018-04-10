@@ -22,8 +22,8 @@ app.use(cookieParser());
 
 // required for passport
 app.use(session({ secret: 'secret' })); // session secret
-app.use(myPassport.initialize());
-app.use(myPassport.session()); // persistent login sessions
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // Resources
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'node_modules/popper.js/dist')));
 
 // required for passport
 app.use(session({
-    secret: 'zabaimaricona',
+    secret: 'secret',
     resave: true,
     saveUninitialized: true
 } ));

@@ -17,7 +17,7 @@ module.exports = function (passport) {
         connection.query("SELECT * FROM user WHERE email = ? ",[email], function(err, rows){
             done(err, rows[0]);
         });
-}));
+});
 
 passport.serializeUser(function(user, cb) {
     cb(null, user.email);
