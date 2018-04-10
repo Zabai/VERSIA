@@ -1,19 +1,21 @@
-var passport = require('passport');
+
 var LocalStrategy = require('passport-local').Strategy;
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-}, function(email, password, cb) {
-    var client = require('../db/db');
+var bcrypt = require('bcrypt-nodejs');
 
-    client.query('SELECT * FROM User WHERE email=:email', {email: email},
-        function(err, user) {
-            if(err) return cb(err);
-            if(user.length === 0) return cb(null, false, { message: 'Usuario no encontrado.' });
-            if(user[0].password !== password) return cb(null, false, { message: 'Contraseña incorrecta.' });
+var connection = require('../db/db');
 
-            return cb(null, user[0]);
+module.exports = function (passport) {
+
+    // passport session setup
+
+    passport.serializeUser(function (user, done) {
+        done(null, user.email);
+    });
+
+    passport.deserializeUser(function(email, done) {
+        connection.query("SELECT * FROM user WHERE email = ? ",[email], function(err, rows){
+            done(err, rows[0]);
         });
 }));
 
@@ -21,14 +23,60 @@ passport.serializeUser(function(user, cb) {
     cb(null, user.email);
 });
 
-passport.deserializeUser(function(email, cb) {
-    var client = require('../db/db');
+    passport.use('local-signup', new LocalStrategy({
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true
+    }, function (req, email, password, done) {
+        connection.query("SELECT * FROM user WHERE email=:email", {email:email},
+            function (err, rows) {
+                if (err) return done(err);
+                if (rows.length) return done(null, false, req.flash('errorMessage', 'Usuario ya existente'));
+                else {
+                    var newUser  = {
+                        email: email,
+                        pasword: password
+                    };
+                    connection.query("INSERT INTO user (email, password) VALUES (:email,:password)", {email: email, password: password},
+                        function (err, rows) {
+                            if (err) throw err;
+                            return done(null, newUser, req.flash('signupMessage', 'Usuario creado correctamente'));
+                        });
+                }
+            });
+    }));
 
-    client.query('SELECT * FROM User WHERE email=:email', {email: email},
-        function(err, user) {
-            if(err) return cb(err);
-            else cb(null, user[0]);
-        });
-});
+    // ========================================
+    // LOCAL LOGIN
+    // ========================================
+    passport.use('local-login', new LocalStrategy({
 
-module.exports = passport;
+            usernameField: 'email',
+
+            passwordField: 'password',
+
+            passReqToCallback: true //passback entire req to call back
+        },
+        function (req, email, password, done){
+
+
+            if(!email || !password ) { return done(null, false); }
+
+            connection.query("SELECT * FROM user WHERE email = ?",[email], function(err, rows){
+                if (err){
+                    return done(err);}
+                if (!rows.length) {
+                    return done(null, false, req.flash('errorMessage', 'Usuario no encontrado'));
+                }
+                // if the user is found but the password is wrong
+                //if (!bcrypt.compareSync(password, rows[0].password))
+                if(password !== rows[0].password)
+                    return done(null, false, req.flash('errorMessage', 'Contraseña incorrecta.'));
+
+                // all is well, return successful user
+                return done(null, rows[0]);
+            });
+        }
+    ));
+};
+

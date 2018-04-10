@@ -3,8 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var myPassport = require('./config/passport');
+var passport = require('passport');
 var session = require('express-session');
+var flash = require('connect-flash');
+
+require('./config/passport')(passport);
 
 var app = express();
 
@@ -27,6 +30,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/popper.js/dist')));
+
+// required for passport
+app.use(session({
+    secret: 'zabaimaricona',
+    resave: true,
+    saveUninitialized: true
+} ));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Routes
 app.use('/', require('./routes/index'));

@@ -28,11 +28,11 @@ CREATE TABLE IF NOT EXISTS `profile` (
 DELETE FROM `profile`;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
 INSERT INTO `profile` (`email`, `name`, `surname`, `image_profile`, `university`, `degree`) VALUES
-	('carlos@ulpgc.es', 'Carlos', 'Martel', NULL, 'ULPGC', 'GII'),
-	('david@ulpgc.es', 'David', 'Ramírez', NULL, 'ULPGC', 'GII'),
-	('felix@ulpgc.es', 'Félix', 'Cruz', NULL, 'ULPGC', 'GII'),
-	('geraldo@ulpgc.es', 'Geraldo', 'Rodrigues', NULL, 'ULPGC', 'GII'),
-	('zabai@ulpgc.es', 'Zabai', 'Armas', NULL, 'ULPGC', 'GII');
+  ('carlos@ulpgc.es', 'Carlos', 'Martel', NULL, 'ULPGC', 'GII'),
+  ('david@ulpgc.es', 'David', 'Ramírez', NULL, 'ULPGC', 'GII'),
+  ('felix@ulpgc.es', 'Félix', 'Cruz', NULL, 'ULPGC', 'GII'),
+  ('geraldo@ulpgc.es', 'Geraldo', 'Rodrigues', NULL, 'ULPGC', 'GII'),
+  ('zabai@ulpgc.es', 'Zabai', 'Armas', NULL, 'ULPGC', 'GII');
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 
 -- Volcando estructura para tabla sprint1.user
@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`email`, `password`) VALUES
-	('carlos@ulpgc.es', 'versia'),
-	('david@ulpgc.es', 'versia'),
-	('felix@ulpgc.es', 'versia'),
-	('geraldo@ulpgc.es', 'versia'),
-	('zabai@ulpgc.es', 'versia');
+  ('carlos@ulpgc.es', 'versia'),
+  ('david@ulpgc.es', 'versia'),
+  ('felix@ulpgc.es', 'versia'),
+  ('geraldo@ulpgc.es', 'versia'),
+  ('zabai@ulpgc.es', 'versia');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
