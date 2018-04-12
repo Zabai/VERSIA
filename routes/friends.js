@@ -52,4 +52,13 @@ router.delete('/decline', function(req, res, next) {
     client.end();
 });
 
+router.put('/undo', function (req, res, next){
+    var dbConn = require('../db/db');
+    dbConn.query("DELETE FROM friend WHERE sender = :self AND receiver = :user", {self: req.user.email, user: req.body.email},
+        function(err, friendPetition){
+            if (err) return res.status(500).send({message: "Ha habido un error en la db deshaciendo la petición: " + err});
+            return res.status(200).send();
+        });
+    dbConn.end();
+});
 module.exports = router;
