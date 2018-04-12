@@ -39,4 +39,11 @@ router.get('/:id', function(req, res, next) {
     client.end();
 });
 
+router.put('/edit', function (req, res, next) {
+    /*var client = require('../db/db');
+    client.query("UPDATE profile SET  name=name WHERE email=:email",{email: email}, function (err) {
+        if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+    });
+    client.end();*/
+});
 module.exports = router;

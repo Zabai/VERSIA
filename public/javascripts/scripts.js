@@ -51,7 +51,7 @@ function setUpProfileToggle() {
         }
     });
 }
-function editprofile() {
+function changeData() {
     var name = $('#inputName').attr("value");
     var surname = $('#inputSurname').attr("value");
     var email = $('#inputEmail').attr("value");
@@ -59,7 +59,7 @@ function editprofile() {
 
     toggle.change(function () {
         if(!toggle.prop("checked")) {
-            var change;
+            var change = "";
             var res;
             if (res=$('#inputName').attr("value")!==name){
                 name = res;
@@ -67,26 +67,26 @@ function editprofile() {
             }
             if (res=$('#inputSurname').attr("value")!==surname){
                 surname = res;
-                if (change.isEmptyObject())
+                if (change.length === 0)
                     change = "surname=" + surname;
                 else
                     change += ", surname=" + surname;
             }
             if (res=$('#inputEmail').attr("value")!==email){
-                if (change.isEmptyObject())
+                if (change.length === 0)
                     change = "email=" + res;
                 else
                     change += ", email=" + res;
             } else
                 res = email;
-            if(!change.isEmptyObject()){
-                var client = require('../db/db');
-                client.query("UPDATE profile SET "+ change +" WHERE email=:email",{email: email}, function (err) {
-                    if(err) return  "Ha habido un error en la db: " + err;
-                });
-                client.end();
+            if (change.length !== 0){
+                var request = new XMLHttpRequest();
+                request.open("PUT", "/home/users/edit", true);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.send(JSON.stringify({"change": change, "email": email}));
                 email = res;
             }
+
         }
 
     })
