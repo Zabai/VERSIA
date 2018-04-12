@@ -38,8 +38,13 @@
 
                             <div class="col-3 my-auto">
                                 <div class="btn-group-vertical pl-5">
-                                    <button class="btn btn-primary" onclick="addFriend('<%= users[i].email%>')"><i class="fas fa-user-plus"></i></button>
-                                    <a href="/" class="btn btn-success"><i class="fas fa-envelope"></i></a>
+                                    <%include ../../public/javascripts/scripts.ejs%>
+                                    <%if(isFriend(friends, users[i].email) == -1) { %>
+                                        <button class="btn btn-primary" onclick="addFriend('<%= users[i].email%>')"><i class="fas fa-user-plus"></i></button>
+                                    <% } else if(isFriend(friends, users[i].email) == 0) {%>
+                                        <button class="btn btn-danger" onclick="undoFriendReq('<%= users[i].email%>')"><i class="fas fa-times"></i></button>
+                                    <% } %>
+                                    <button class="btn btn-success"><i class="fas fa-envelope"></i></button>
                                 </div>
                             </div>
                         </div>
