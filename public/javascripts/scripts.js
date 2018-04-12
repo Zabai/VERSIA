@@ -51,6 +51,48 @@ function setUpProfileToggle() {
         }
     });
 }
+function editprofile() {
+    var name = $('#inputName').attr("value");
+    var surname = $('#inputSurname').attr("value");
+    var email = $('#inputEmail').attr("value");
+    var toggle = $('#toggle');
+
+    toggle.change(function () {
+        if(!toggle.prop("checked")) {
+            var change;
+            var res;
+            if (res=$('#inputName').attr("value")!==name){
+                name = res;
+                change = "name=" + name;
+            }
+            if (res=$('#inputSurname').attr("value")!==surname){
+                surname = res;
+                if (change.isEmptyObject())
+                    change = "surname=" + surname;
+                else
+                    change += ", surname=" + surname;
+            }
+            if (res=$('#inputEmail').attr("value")!==email){
+                if (change.isEmptyObject())
+                    change = "email=" + res;
+                else
+                    change += ", email=" + res;
+            } else
+                res = email;
+            if(!change.isEmptyObject()){
+                var client = require('../db/db');
+                client.query("UPDATE profile SET "+ change +" WHERE email=:email",{email: email}, function (err) {
+                    if(err) return  "Ha habido un error en la db: " + err;
+                });
+                client.end();
+                email = res;
+            }
+        }
+
+    })
+
+
+}
 
 function addFriend(email){
     var request = new XMLHttpRequest();
