@@ -21,9 +21,14 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 // required for passport
-app.use(session({ secret: 'secret' })); // session secret
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+app.use(flash());
 
 // Resources
 app.use(express.static(path.join(__dirname, 'public')));
@@ -31,15 +36,10 @@ app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/popper.js/dist')));
 
-// required for passport
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-} ));
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(function(req, res, next) {
+    res.locals.user = req.user;
+    next();
+});
 
 // Routes
 app.use('/', require('./routes/index'));
@@ -47,7 +47,6 @@ app.use(function isLogged(req, res, next){
     if(req.isAuthenticated()) return next();
     else res.redirect('/');
 });
-app.use('/users', require('./routes/users'));
 app.use('/home', require('./routes/home'));
 app.use('/home/users', require('./routes/users'));
 app.use('/home/users/friends', require('./routes/friends'));
