@@ -21,7 +21,6 @@
 </head>
 <body>
 <% include ../partials/navbar.ejs %>
-
 <div class="container">
     <div class="row">
         <div class="col-3">
@@ -35,18 +34,18 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputName">Nombre</label>
-                        <input type="text" disabled class="form-control" id="inputName" placeholder="Nombre"
+                        <input type="text" disabled class="form-control" id="inputName" name="inputName" placeholder="Nombre"
                                value="<%= profile.name %>">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputSurname">Apellidos</label>
-                        <input type="text" disabled class="form-control" id="inputSurname" placeholder="Apellidos"
+                        <input type="text" disabled class="form-control" id="inputSurname" name="inputSurname" placeholder="Apellidos"
                                value="<%= profile.surname %>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="text" disabled class="form-control" id="inputEmail" placeholder="Correo electrónico"
+                    <input type="text" disabled class="form-control" id="inputEmail" name="inputEmail" placeholder="Correo electrónico"
                            value="<%= profile.email %>">
                 </div>
                 <div class="form-row">
@@ -63,7 +62,7 @@
                 </div>
 
                 <% if(profile.email === locals.user.email) { %>
-                <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios">
+                    <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios" onchange="updateUser('<%= locals.user.email%>')">
                 <% } %>
             </form>
         </div>
@@ -108,7 +107,7 @@
             </ul>
 
             <% if(profile.email === locals.user.email) { %>
-            <% include ../partials/friends_list.ejs %>
+                <% include ../partials/friends_list.ejs %>
             <% } %>
         </div>
     </div>

@@ -40,7 +40,7 @@ function setUpProfileToggle() {
 
         if(toggle.prop("checked")) {
             inputs.each(function(index) {
-                if(index < inputs.length - 3)
+                if(index < inputs.length - 4)
                     $(this).removeAttr("disabled");
             });
         } else {
@@ -76,4 +76,19 @@ function undoFriendReq(email){
     request.open("PUT", "/home/users/friends/undo", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(encodeURI("email=" + email));
+}
+
+function updateUser(email){
+    if(!$('#toggle').prop("checked")){
+        $.post("/home/users/"+email+"/edit",
+            {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
+            function(data, status){
+                if(status==="success"){
+                    location.reload();
+                }
+                else{
+                    alert("Ha habido un problema con el POST.");
+                }
+            });
+    }
 }

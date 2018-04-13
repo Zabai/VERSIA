@@ -49,4 +49,20 @@ router.get('/:id', function(req, res, next) {
     client.end();
 });
 
+router.post('/:id/edit', function (req, res, next) {
+    var dbConn=require("../db/db");
+    console.log(JSON.stringify(req.body) +" - " + req.user.email);
+    dbConn.query("UPDATE profile SET name=:name, surname=:surname where email=:loggedEmail", {name: req.body.name, surname: req.body.surname, loggedEmail: req.user.email}, function(err, userUpdated){
+        if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+        else if(userUpdated){
+            dbConn.query("UPDATE user SET email=:email WHERE email=:loggedEmail", {email: req.body.email, loggedEmail: req.user.email}, function(err, updatedEmail){
+                if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+                console.log(JSON.stringify(updatedEmail));
+                return res.status(200).send({status:"success"});
+            });
+        }
+    });
+    dbConn.end();
+});
+
 module.exports = router;
