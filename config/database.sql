@@ -37,10 +37,10 @@ CREATE TABLE `friends` (
 -- Dumping data for table `Friends`
 --
 
-LOCK TABLES `Friends` WRITE;
-/*!40000 ALTER TABLE `Friends` DISABLE KEYS */;
-INSERT INTO `Friends` VALUES ('carlos@ulpgc.es','david@ulpgc.es',0),('geraldo@ulpgc.es','david@ulpgc.es',0);
-/*!40000 ALTER TABLE `Friends` ENABLE KEYS */;
+LOCK TABLES `friends` WRITE;
+/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+INSERT INTO `friends` VALUES ('carlos@ulpgc.es','david@ulpgc.es',0),('geraldo@ulpgc.es','david@ulpgc.es',0);
+/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

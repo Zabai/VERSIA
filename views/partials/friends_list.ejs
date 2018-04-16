@@ -3,11 +3,17 @@
     <hr>
     <div class="list-group">
         <% for (var i=0 ; i < friendRequests.length; i++) { %>
+        <% var sender = friendRequests[i].sender; %>
         <div class="list-group-item justify-content-between d-flex">
-            <p class="my-auto"><%= friendRequests[i].sender%></p>
+            <a class="my-auto" href="/home/users/<%= sender %>"><%= sender %></a>
             <div class="btn-group btn-group-sm">
-                <button class="btn btn-success"><i class="fas fa-check"></i></button>
-                <button class="btn btn-danger"><i class="fas fa-times"></i></button>
+                <button class="btn btn-success" onclick="acceptFriend(this, '<%= sender %>')">
+                    <i class="fas fa-check"></i>
+                </button>
+
+                <button class="btn btn-danger" onclick="declineFriend(this, '<%= sender %>')">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
         <% } %>
