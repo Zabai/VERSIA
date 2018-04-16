@@ -117,3 +117,18 @@ function declineFriend(button, email) {
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(encodeURI("email=" + email));
 }
+
+function updateUser(email){
+    if(!$('#toggle').prop("checked")){
+        $.post("/home/users/"+email+"/edit",
+            {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
+            function(data, status){
+                if(status==="success"){
+                    location.reload();
+                }
+                else{
+                    alert("Ha habido un problema con el POST.");
+                }
+            });
+    }
+}
