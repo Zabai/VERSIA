@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 router.get('/search', function(req, res, next) {
     //{req: req.query.search, loggedUserEmail: req.user.email}
     var client = require('../db/db');
-    var friendsQuery = "SELECT receiver, friend_request from friend where sender = :loggedUserEmail AND (friend_request=0 OR friend_request=1)";
+    var friendsQuery = "SELECT receiver, friend_request from friends where sender = :loggedUserEmail AND (friend_request=0 OR friend_request=1)";
     var usersQuery = "SELECT email, name, surname, university, degree FROM profile WHERE profile.name LIKE :req AND profile.email <> :loggedUserEmail";
     client.query(friendsQuery, {loggedUserEmail: req.user.email}, function(err, friends){
         if(err) return res.status(500).send({message:"Error en la petición cuando buscamos amigos, " + err});
@@ -41,7 +41,7 @@ router.get('/:id', function(req, res, next) {
     });
 
     //values for the friend_list
-    client.query("SELECT DISTINCT * FROM friend WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequests){
+    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequests){
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
         res.render("user/profile", {profile: profile, friendRequests: friendRequests});
     });
@@ -51,7 +51,6 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/:id/edit', function (req, res, next) {
     var dbConn=require("../db/db");
-    console.log(JSON.stringify(req.body) +" - " + req.user.email);
     dbConn.query("UPDATE profile SET name=:name, surname=:surname where email=:loggedEmail", {name: req.body.name, surname: req.body.surname, loggedEmail: req.user.email}, function(err, userUpdated){
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
         else if(userUpdated){

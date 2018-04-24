@@ -52,6 +52,7 @@ app.use(function isLogged(req, res, next){
 app.use('/home', require('./routes/home'));
 app.use('/home/users', require('./routes/users'));
 app.use('/home/users/friends', require('./routes/friends'));
+app.use('/home/users/messages', require('./routes/messages'));
 
 
 
