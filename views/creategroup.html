@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Versia</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css"
+    integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+</head>
+<body>
+<header class="py-5">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark bg-faded fixed-top customNavbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <img src="/resources/Icono.png" alt="Logo" width="30" height="30">
+                Versia
+            </a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navBarContent"
+                    aria-controls="navBarContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navBarContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="/home" class="nav-link">Inicio</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <form class="form-inline" method="get" action="/home/users/search">
+                            <div class="input-group">
+                                <input class="form-control" type="search" placeholder="Buscar..."
+                                       aria-label="Search..." name="search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-light" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav justify-content-end">
+                    <a class="nav-item nav-link" href="/home/users/<%= locals.user.email %>">
+                        <%= locals.user.email %>
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a class="nav-item nav-link" href="/logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-6">
+            <h1 class="text-center">Crear grupo</h1>
+            <form >
+                <div class="form-group">
+                    <label class="control-label" for="groupname">Nombre:</label>
+                    <input type="text" class="form-control" id="groupname" placeholder="Nombre del grupo">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                </div>
+                <div class="input-group">
+                    <select class="custom-select" id="appendMember">
+                        <option selected>Añadir participante...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Añadir</button>
+                    </div>
+                </div>
+
+                <h3 class="text-center py-3">Alumnos añadidos</h3>
+                <ul class="list-group list-group-flush py-1">
+                    <li class="list-group-item">Alumno 1
+                        <i class="fas fa-trash-alt"></i></li>
+                    <li class="list-group-item">Alumno 1
+                        <i class="fas fa-trash-alt"></i></li>
+                    <li class="list-group-item">Alumno 1
+                        <i class="fas fa-trash-alt"></i></li>
+                </ul>
+
+                <button type="submit" class="btn btn-primary mb-2">Crear</button>
+            </form>
+        </div>
+
+        <div class="col-3">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
