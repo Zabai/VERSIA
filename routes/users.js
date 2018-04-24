@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
     var loggedUserEmail = req.user.email;
 
     var client = require('../db/db');
-    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: loggedUserEmail}, function(err, friendRequests){
+    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: loggedUserEmail}, function(err, friendRequests) {
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
         console.log(JSON.stringify(friendRequests));
         res.render("user/profile", {friendRequests: friendRequests});
@@ -20,13 +20,13 @@ router.get('/search', function(req, res, next) {
     var client = require('../db/db');
     var friendsQuery = "SELECT receiver, friend_request from friends where sender = :loggedUserEmail AND (friend_request=0 OR friend_request=1)";
     var usersQuery = "SELECT email, name, surname, university, degree FROM profile WHERE profile.name LIKE :req AND profile.email <> :loggedUserEmail";
-    client.query(friendsQuery, {loggedUserEmail: req.user.email}, function(err, friends){
-        if(err) return res.status(500).send({message:"Error en la petición cuando buscamos amigos, " + err});
+    client.query(friendsQuery, {loggedUserEmail: req.user.email}, function(err, friends) {
+        if(err) return res.status(500).send({message: "Error en la petición cuando buscamos amigos, " + err});
         console.log(JSON.stringify(friends));
-        client.query(usersQuery, {req: req.query.search, loggedUserEmail: req.user.email}, function(err, users){
-            if(err) return res.status(500).send({message:"Error en la petición cuando buscamos usuarios, " + err});
+        client.query(usersQuery, {req: req.query.search, loggedUserEmail: req.user.email}, function(err, users) {
+            if(err) return res.status(500).send({message: "Error en la petición cuando buscamos usuarios, " + err});
             console.log(JSON.stringify(users));
-            res.render("user/search", {users:users, friends:friends, search: req.query.search});
+            res.render("user/search", {users: users, friends: friends, search: req.query.search});
         });
     });
     client.end();
@@ -34,31 +34,49 @@ router.get('/search', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
     var client = require('../db/db');
+
     var profile = {};
     client.query('SELECT * FROM profile WHERE email=:email', {email: req.params.id}, function(err, profileResult) {
-        if (err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+        if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
         profile = profileResult[0];
     });
 
-    //values for the friend_list
-    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequests){
-        if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-        res.render("user/profile", {profile: profile, friendRequests: friendRequests});
-    });
+    var friendRequests = {};
+    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0",
+        {loggedUserEmail: req.params.id},
+        function(err, friendRequestsRows) {
+            if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+            friendRequests = friendRequestsRows;
+            // res.render("user/profile", {profile: profile, friendRequests: friendRequests});
+        });
+
+    client.query("SELECT * FROM profile WHERE email IN " +
+        "(SELECT sender FROM friends WHERE receiver=:user AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:user AND friend_request=1)",
+        {user: req.params.id}, function(err, friends) {
+            if(err) console.log(err);
+            else res.render("user/profile", {profile: profile, friendRequests: friendRequests, friends: friends});
+        });
 
     client.end();
 });
 
-router.post('/:id/edit', function (req, res, next) {
-    var dbConn=require("../db/db");
-    console.log(JSON.stringify(req.body) +" - " + req.user.email);
-    dbConn.query("UPDATE profile SET name=:name, surname=:surname where email=:loggedEmail", {name: req.body.name, surname: req.body.surname, loggedEmail: req.user.email}, function(err, userUpdated){
+router.post('/:id/edit', function(req, res, next) {
+    var dbConn = require("../db/db");
+    console.log(JSON.stringify(req.body) + " - " + req.user.email);
+    dbConn.query("UPDATE profile SET name=:name, surname=:surname where email=:loggedEmail", {
+        name: req.body.name,
+        surname: req.body.surname,
+        loggedEmail: req.user.email
+    }, function(err, userUpdated) {
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-        else if(userUpdated){
-            dbConn.query("UPDATE user SET email=:email WHERE email=:loggedEmail", {email: req.body.email, loggedEmail: req.user.email}, function(err, updatedEmail){
+        else if(userUpdated) {
+            dbConn.query("UPDATE user SET email=:email WHERE email=:loggedEmail", {
+                email: req.body.email,
+                loggedEmail: req.user.email
+            }, function(err, updatedEmail) {
                 if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
                 console.log(JSON.stringify(updatedEmail));
-                return res.status(200).send({status:"success"});
+                return res.status(200).send({status: "success"});
             });
         }
     });
