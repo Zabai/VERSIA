@@ -4,7 +4,10 @@ var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index', {title: 'Express', errorMessage: req.flash('errorMessage'), signupMessage: req.flash('signupMessage') });
+    if(req.user === undefined)
+        res.render('index', {title: 'Express', errorMessage: req.flash('errorMessage'), signupMessage: req.flash('signupMessage') });
+    else
+        res.redirect("/home");
 });
 
 router.post('/login', passport.authenticate('local-login', {

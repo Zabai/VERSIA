@@ -42,9 +42,10 @@ router.get('/:id', function(req, res, next) {
     });
 
     //values for the friend_list
-    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequests){
+    var friendRequests = {};
+    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequestsRows){
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-        res.render("user/profile", {profile: profile, friendRequests: friendRequests});
+        friendRequests = friendRequestsRows;
     });
 
     client.query("SELECT * FROM profile WHERE email IN " +
