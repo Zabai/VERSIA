@@ -3,7 +3,7 @@ function enableScrollNavbar() {
     var distance = 25;
 
     $(window).scroll(function() {
-        if (document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
+        if(document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
             navbar.removeClass('bg-transparent');
             navbar.addClass('bg-dark');
         } else {
@@ -14,7 +14,7 @@ function enableScrollNavbar() {
 }
 
 function enableDinamicAuthForms() {
-    $('.message a').click(function(){
+    $('.message a').click(function() {
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
 }
@@ -24,7 +24,6 @@ function setUpLandingPage() {
     enableDinamicAuthForms();
 }
 
-/**/
 function setUpProfileToggle() {
     var toggle = $('#toggle');
 
@@ -52,10 +51,10 @@ function setUpProfileToggle() {
     });
 }
 
-function addFriend(email){
+function addFriend(email) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
             location.reload();
         } else console.log("Por si la cosa va mal");
     };
@@ -65,10 +64,10 @@ function addFriend(email){
     request.send(encodeURI("email=" + email));
 }
 
-function undoFriendReq(email){
+function undoFriendReq(email) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
             location.reload();
         } else console.log("Por si la cosa va mal");
     };
@@ -87,7 +86,7 @@ function acceptFriend(button, email) {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function(){
+            $(listElement).hide('slow', function() {
                 $(listElement).remove();
             });
         }
@@ -107,7 +106,7 @@ function declineFriend(button, email) {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function(){
+            $(listElement).hide('slow', function() {
                 $(listElement).remove();
             });
         } else console.log(this.statusText);
@@ -118,17 +117,53 @@ function declineFriend(button, email) {
     request.send(encodeURI("email=" + email));
 }
 
-function updateUser(email){
-    if(!$('#toggle').prop("checked")){
-        $.post("/home/users/"+email+"/edit",
+function updateUser(email) {
+    if(!$('#toggle').prop("checked")) {
+        $.post("/home/users/" + email + "/edit",
             {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
-            function(data, status){
-                if(status==="success"){
+            function(data, status) {
+                if(status === "success") {
                     location.reload();
                 }
-                else{
+                else {
                     alert("Ha habido un problema con el POST.");
                 }
             });
     }
+}
+
+function passData(userData, senderEmail) {
+    console.log(userData);
+    $("#receiverEmail").val(userData.email);
+    $("#receiverEmailTitle").text(userData.name);
+    $("#senderEmail").val(senderEmail);
+}
+
+function sendEmail() {
+    if($("#messageContent").val() === "") {
+        $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
+        $("#messageContent").click();
+    } else {
+        $.post("/home/users/messages/send",
+            {from: $('#senderEmail').val(), to: $('#receiverEmail').val(), content: $('#messageContent').val()},
+            function(data, status) {
+                if(status === "success") {
+                    alert("Mensaje enviado!");
+                }
+                else {
+                    alert("Ha habido un problema con el POST.");
+                }
+            });
+    }
+}
+
+function studentsAutocomplete(studentName) {
+    $.ajax({
+        method: "GET",
+        url: "/home/users/search",
+        data: {ajax: 1, search: studentName}
+    }).done(function(response) {
+        var students = JSON.parse(response);
+        console.log("Students \n", students);
+    });
 }

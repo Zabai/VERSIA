@@ -1,8 +1,9 @@
-<div class="my-5">
+<% if(friendRequests.length != 0) { %>
+<div class="mb-3">
     <h4>Amistades pendientes</h4>
     <hr>
     <div class="list-group">
-        <% for (var i=0 ; i < friendRequests.length; i++) { %>
+        <% for (var i = 0; i < friendRequests.length; i++) { %>
         <% var sender = friendRequests[i].sender; %>
         <div class="list-group-item justify-content-between d-flex">
             <a class="my-auto" href="/home/users/<%= sender %>"><%= sender %></a>
@@ -19,3 +20,4 @@
         <% } %>
     </div>
 </div>
+<% } %>
