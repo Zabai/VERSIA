@@ -24,7 +24,6 @@ function setUpLandingPage() {
     enableDinamicAuthForms();
 }
 
-/**/
 function setUpProfileToggle() {
     var toggle = $('#toggle');
 
@@ -78,6 +77,21 @@ function undoFriendReq(email){
     request.send(encodeURI("email=" + email));
 }
 
+function updateUser(email){
+    if(!$('#toggle').prop("checked")){
+        $.post("/home/users/"+email+"/edit",
+            {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
+            function(data, status){
+                if(status==="success"){
+                    location.reload();
+                }
+                else{
+                    alert("Ha habido un problema con el POST.");
+                }
+            });
+    }
+}
+
 function acceptFriend(button, email) {
     $(button).attr("disabled", "");
     $(button).next().attr("disabled", "");
@@ -118,13 +132,23 @@ function declineFriend(button, email) {
     request.send(encodeURI("email=" + email));
 }
 
-function updateUser(email){
-    if(!$('#toggle').prop("checked")){
-        $.post("/home/users/"+email+"/edit",
-            {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
+function passData(userData, senderEmail){
+    console.log(userData);
+    $("#receiverEmail").val(userData.email);
+    $("#receiverEmailTitle").text(userData.name);
+    $("#senderEmail").val(senderEmail);
+}
+
+function sendEmail(){
+    if($("#messageContent").val()===""){
+        $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
+        $("#messageContent").click();
+    }else{
+        $.post("/home/users/messages/send",
+            {from: $('#senderEmail').val(), to: $('#receiverEmail').val(), content: $('#messageContent').val()},
             function(data, status){
                 if(status==="success"){
-                    location.reload();
+                    alert("Mensaje enviado!");
                 }
                 else{
                     alert("Ha habido un problema con el POST.");

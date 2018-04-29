@@ -41,14 +41,11 @@ router.get('/:id', function(req, res, next) {
         profile = profileResult[0];
     });
 
-    var friendRequests = {};
-    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0",
-        {loggedUserEmail: req.params.id},
-        function(err, friendRequestsRows) {
-            if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-            friendRequests = friendRequestsRows;
-            // res.render("user/profile", {profile: profile, friendRequests: friendRequests});
-        });
+    //values for the friend_list
+    client.query("SELECT DISTINCT * FROM friends WHERE receiver=:loggedUserEmail AND friend_request=0", {loggedUserEmail: req.params.id}, function(err, friendRequests){
+        if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+        res.render("user/profile", {profile: profile, friendRequests: friendRequests});
+    });
 
     client.query("SELECT * FROM profile WHERE email IN " +
         "(SELECT sender FROM friends WHERE receiver=:user AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:user AND friend_request=1)",
@@ -60,14 +57,9 @@ router.get('/:id', function(req, res, next) {
     client.end();
 });
 
-router.post('/:id/edit', function(req, res, next) {
-    var dbConn = require("../db/db");
-    console.log(JSON.stringify(req.body) + " - " + req.user.email);
-    dbConn.query("UPDATE profile SET name=:name, surname=:surname where email=:loggedEmail", {
-        name: req.body.name,
-        surname: req.body.surname,
-        loggedEmail: req.user.email
-    }, function(err, userUpdated) {
+router.post('/:id/edit', function (req, res, next) {
+    var dbConn=require("../db/db");
+    dbConn.query("UPDATE profile SET name=:name, surname=:surname where email=:loggedEmail", {name: req.body.name, surname: req.body.surname, loggedEmail: req.user.email}, function(err, userUpdated){
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
         else if(userUpdated) {
             dbConn.query("UPDATE user SET email=:email WHERE email=:loggedEmail", {
