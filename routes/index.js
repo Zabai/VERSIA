@@ -24,12 +24,4 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-/* MIDDLEWARE to make sure a user is logged in */
-function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
-}
-
 module.exports = router;
