@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require('../db/db.js');
 
 router.get("/", function (req, res, next) {
-    res.render("home/index")
+    res.render("home/index", {signupMessage: req.flash('signupMessage')})
 });
 
 module.exports = router;
