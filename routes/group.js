@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get("/new", function(req, res, next) {
+router.get("/", function(req, res, next) {
     var client = require('../db/db');
 
     client.query("SELECT * FROM profile WHERE email IN " +
