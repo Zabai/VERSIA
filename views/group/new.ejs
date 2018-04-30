@@ -30,23 +30,17 @@
 
                 <div class="form-group">
                     <label for="append-member">Integrantes</label><br>
-                    <input id="append-member" class="form-control" onkeyup="CreateGroupController().autocomplete(event, this.value)">
+                    <input id="append-member" class="form-control" onkeyup="controller.autocomplete(event, this.value)">
 
-                    <ul id="members" class="list-group">
+                    <ul id="friends" class="list-group">
                     </ul>
                 </div>
 
                 <h3 class="text-center py-3">Alumnos añadidos</h3>
-                <ul class="list-group list-group-flush py-1">
-                    <li class="list-group-item">Alumno 1
-                        <i class="fas fa-trash-alt"></i></li>
-                    <li class="list-group-item">Alumno 2
-                        <i class="fas fa-trash-alt"></i></li>
-                    <li class="list-group-item">Alumno 3
-                        <i class="fas fa-trash-alt"></i></li>
+                <ul id="members" class="list-group">
                 </ul>
 
-                <button type="submit" class="btn btn-primary mb-2">Crear</button>
+                <button type="submit" class="btn btn-primary my-3">Crear</button>
             </form>
         </div>
 
@@ -57,10 +51,11 @@
 </div>
 
 <script src="/javascripts/GroupController.js"></script>
-<script></script>
 <script>
     var friends = <%- JSON.stringify(friends) %>;
-    CreateGroupController().initialize();
+    var members = [];
+    var controller = CreateGroupController();
+    controller.initialize("controller");
 </script>
 </body>
 </html>
