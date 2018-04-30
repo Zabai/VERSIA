@@ -14,4 +14,16 @@ router.get("/", function(req, res, next) {
     client.end();
 });
 
+router.post("/:id/create", function (req, res, next) {
+   var client = require('../db/db');
+
+   client.query("INSERT INTO groups (name, description, admin_group) VALUES (:name, :description, :admin)",
+       {name: req.body.groupname, description: req.body.description, admin: req.user.email},function (err) {
+           if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+           return res.render("/home");
+       });
+
+   client.end();
+});
+
 module.exports = router;

@@ -167,3 +167,17 @@ function studentsAutocomplete(studentName) {
         console.log("Students \n", students);
     });
 }
+
+function creargroup(email) {
+    console.log("Entro");
+    $.post("/home/group/" + email +"/create",
+       {name: $('#groupname').val(), description: $('#descripcion').val(), admin: email},
+        function(data, status) {
+            if(status === "success") {
+                alert("Grupo creado");
+            }
+            else {
+                alert("Ha habido un problema con el POST.");
+            }
+        });
+}
