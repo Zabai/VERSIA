@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Versia</title>
+    <% include ../partials/resources.ejs %>
+</head>
+<body>
+<% include ../partials/navbar.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <% include ../partials/menu-user.ejs %>
+        </div>
+
+        <div class="col-6">
+            <h4 class="text-center">Crear grupo</h4>
+            <hr>
+
+            <form>
+                <div class="form-group">
+                    <label class="control-label" for="groupname">Nombre:</label>
+                    <input type="text" class="form-control" id="groupname" placeholder="Nombre del grupo">
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="appendMember">Integrantes</label>
+                    <input id="appendMember" class="form-control" type="text" placeholder="Integrantes"
+                           onkeyup="studentsAutocomplete(this.value)">
+                    <!--<select id="appendMember" class="custom-select">
+                        <option selected>Añadir participante...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>-->
+                    <!--<div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Añadir</button>
+                    </div>-->
+                </div>
+
+                <h3 class="text-center py-3">Alumnos añadidos</h3>
+                <ul class="list-group list-group-flush py-1">
+                    <li class="list-group-item">Alumno 1
+                        <i class="fas fa-trash-alt"></i></li>
+                    <li class="list-group-item">Alumno 1
+                        <i class="fas fa-trash-alt"></i></li>
+                    <li class="list-group-item">Alumno 1
+                        <i class="fas fa-trash-alt"></i></li>
+                </ul>
+
+                <button type="submit" class="btn btn-primary mb-2">Crear</button>
+            </form>
+        </div>
+
+        <div class="col-3">
+            <% include ../partials/menu-friends.ejs %>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/scripts.js"></script>
+</body>
+</html>
