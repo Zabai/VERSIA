@@ -2,8 +2,8 @@ function enableScrollNavbar() {
     var navbar = $('.navbar');
     var distance = 25;
 
-    $(window).scroll(function() {
-        if(document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
+    $(window).scroll(function () {
+        if (document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
             navbar.removeClass('bg-transparent');
             navbar.addClass('bg-dark');
         } else {
@@ -14,7 +14,7 @@ function enableScrollNavbar() {
 }
 
 function enableDinamicAuthForms() {
-    $('.message a').click(function() {
+    $('.message a').click(function () {
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
 }
@@ -37,14 +37,14 @@ function setUpProfileToggle() {
     toggle.change(function toggleInputs() {
         var inputs = $('#form-profile input');
 
-        if(toggle.prop("checked")) {
-            inputs.each(function(index) {
-                if(index < inputs.length - 4)
+        if (toggle.prop("checked")) {
+            inputs.each(function (index) {
+                if (index < inputs.length - 4)
                     $(this).removeAttr("disabled");
             });
         } else {
-            inputs.each(function(index) {
-                if($(this).attr("id") !== "toggle")
+            inputs.each(function (index) {
+                if ($(this).attr("id") !== "toggle")
                     $(this).attr("disabled", "");
             });
         }
@@ -53,8 +53,8 @@ function setUpProfileToggle() {
 
 function addFriend(email) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if(this.readyState == 4 && this.status == 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
             location.reload();
         } else console.log("Por si la cosa va mal");
     };
@@ -66,8 +66,8 @@ function addFriend(email) {
 
 function undoFriendReq(email) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if(this.readyState == 4 && this.status == 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
             location.reload();
         } else console.log("Por si la cosa va mal");
     };
@@ -83,10 +83,10 @@ function acceptFriend(button, email) {
 
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function() {
+            $(listElement).hide('slow', function () {
                 $(listElement).remove();
             });
         }
@@ -103,10 +103,10 @@ function declineFriend(button, email) {
 
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function() {
+            $(listElement).hide('slow', function () {
                 $(listElement).remove();
             });
         } else console.log(this.statusText);
@@ -118,11 +118,11 @@ function declineFriend(button, email) {
 }
 
 function updateUser(email) {
-    if(!$('#toggle').prop("checked")) {
+    if (!$('#toggle').prop("checked")) {
         $.post("/home/users/" + email + "/edit",
             {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
-            function(data, status) {
-                if(status === "success") {
+            function (data, status) {
+                if (status === "success") {
                     location.reload();
                 }
                 else {
@@ -140,14 +140,14 @@ function passData(userData, senderEmail) {
 }
 
 function sendEmail() {
-    if($("#messageContent").val() === "") {
+    if ($("#messageContent").val() === "") {
         $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
         $("#messageContent").click();
     } else {
         $.post("/home/users/messages/send",
             {from: $('#senderEmail').val(), to: $('#receiverEmail').val(), content: $('#messageContent').val()},
-            function(data, status) {
-                if(status === "success") {
+            function (data, status) {
+                if (status === "success") {
                     alert("Mensaje enviado!");
                 }
                 else {
@@ -158,12 +158,31 @@ function sendEmail() {
 }
 
 function studentsAutocomplete(studentName) {
-    $.ajax({
+    /*$.ajax({
         method: "GET",
         url: "/home/users/search",
         data: {ajax: 1, search: studentName}
     }).done(function(response) {
         var students = JSON.parse(response);
         console.log("Students \n", students);
-    });
+    });*/
+    friends.forEach(function (friend, index) {
+        var name = friend.name.toString();
+        name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        studentName = studentName.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+        $('#students').html(" ");
+
+        var regex = new RegExp("^" + studentName, "gmi");
+        if (studentName.toString().length >= 3)
+            if (name.match(regex)) {
+                var actual = $('#students').html();
+                var record =
+                    "<li><a href=\"#\"><i class=\"icon-pencil\"></i>" + friend.name + "</a></li>\n" +
+                    "<li class=\"divider\"></li>";
+                console.log($('#students').html(record));
+                console.log("Encontre a " + friend.name);
+                $('#students').html(actual + record);
+            }
+    })
 }
