@@ -140,7 +140,7 @@ function passData(userData, senderEmail){
 }
 
 function sendEmail(){
-    if($("#messageContent").val()===""){
+    if($.trim($("#messageContent").val())===""){
         $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
         $("#messageContent").click();
     }else{
