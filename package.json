@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js debug"
+    "start": "nodemon app.js",
+    "debug": "nodemon app.js debug"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
