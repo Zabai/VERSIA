@@ -16,12 +16,28 @@ router.get("/", function(req, res, next) {
 
 router.post("/:id/create", function (req, res, next) {
    var client = require('../db/db');
+   var id_group = {};
 
    client.query("INSERT INTO groups (name, description, admin_group) VALUES (:name, :description, :admin)",
        {name: req.body.groupname, description: req.body.description, admin: req.user.email},function (err) {
            if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
-           return res.render("/home");
+
+           client.query("SELECT id_group FROM groups WHERE name=:name AND admin_group=:admin",{name: req.body.groupname, admin: req.user.email},
+               function (err, idgroup) {
+                   if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+
+                   client.query("INSERT INTO members_groups (id_of_group, email_member, petition) VALUES (:id_group, :member, 0)",
+                       {id_group: idgroup[0].id_group, member: req.user.email},function (err) {
+                           if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+                           return res.status(200).send({status: "success"});
+                       });
+
+
+               });
+
        });
+
+
 
    client.end();
 });
