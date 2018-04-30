@@ -167,3 +167,21 @@ function studentsAutocomplete(studentName) {
         console.log("Students \n", students);
     });
 }
+
+function removeFriend(){
+    var button = $('#friendRemovalBtn');
+
+    var myEmail = button.data("me");
+    var friendEmail = button.data("friend");
+
+    $.ajax({
+        method: "DELETE",
+        url: "/home/users/friends/remove",
+        data: {friendEmail: friendEmail, myEmail: myEmail}
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("HAS PERDIDO A OTRO AMIGO.");
+            location.reload();
+        }
+    });
+}

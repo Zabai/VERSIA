@@ -61,4 +61,15 @@ router.put('/undo', function (req, res, next){
         });
     dbConn.end();
 });
+
+router.delete('/remove', function(req, res, next){
+    var dbConn = require('../db/db');
+    dbConn.query("DELETE FROM friends WHERE ((sender =:self AND receiver =:user) OR (sender =:user AND receiver =:self))", {user: req.body.friendEmail, self: req.body.myEmail},
+        function(err, rows){
+            console.log(JSON.stringify(rows));
+            if(err)return res.status(500).send({message: "Ha habido un error en la db eliminando el amigo que en realidad no tienes. Asocial." + err});
+            return res.status(200).send();
+        });
+    dbConn.end();
+});
 module.exports = router;
