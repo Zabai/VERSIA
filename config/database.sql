@@ -23,13 +23,15 @@ DROP TABLE IF EXISTS `friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `friends` (
-  `sender` varchar(100) NOT NULL,
-  `receiver` varchar(100) NOT NULL,
-  `friend_request` int(11) NOT NULL DEFAULT -1,
-  PRIMARY KEY (`sender`,`receiver`),
-  KEY `Friends_receiver_FK` (`receiver`),
-  CONSTRAINT `Friends_receiver_FK` FOREIGN KEY (`receiver`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Friends_sender_FK` FOREIGN KEY (`sender`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sender` int(10) unsigned NOT NULL,
+  `receiver` int(10) unsigned NOT NULL,
+  `friend_request` tinyint(1) NOT NULL DEFAULT -1,
+  PRIMARY KEY (`id`),
+  KEY `sender_friends_users_FK` (`sender`),
+  KEY `receiver_friends_users_FK` (`receiver`),
+  CONSTRAINT `receiver_friends_users_FK` FOREIGN KEY (`receiver`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sender_friends_users_FK` FOREIGN KEY (`sender`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,17 +52,17 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender` varchar(100) NOT NULL,
-  `receiver` varchar(100) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sender` int(10) unsigned NOT NULL,
+  `receiver` int(10) unsigned NOT NULL,
   `read` tinyint(1) DEFAULT 0,
   `content` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `messages_sender_FK` (`sender`),
-  KEY `messages_receiver_FK` (`receiver`),
-  CONSTRAINT `messages_receiver_FK` FOREIGN KEY (`receiver`) REFERENCES `user` (`email`) ON UPDATE CASCADE,
-  CONSTRAINT `messages_sender_FK` FOREIGN KEY (`sender`) REFERENCES `user` (`email`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `sender_messages_users_FK` (`sender`),
+  KEY `receiver_messages_users_FK` (`receiver`),
+  CONSTRAINT `receiver_messages_users_FK` FOREIGN KEY (`receiver`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sender_messages_users_FK` FOREIGN KEY (`sender`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,61 +71,91 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,'carlos@ulpgc.es','geraldo@ulpgc.es',0,'geraldo@ulpgc.es'),(2,'carlos@ulpgc.es','geraldo@ulpgc.es',0,'mensaje21');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `profile`
+-- Table structure for table `posts`
 --
 
-DROP TABLE IF EXISTS `profile`;
+DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `profile` (
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL DEFAULT 'Nombre',
-  `surname` varchar(100) NOT NULL DEFAULT 'Apellidos',
-  `image_profile` varchar(100) DEFAULT NULL,
-  `university` varchar(100) NOT NULL DEFAULT 'Versia',
-  `degree` varchar(100) NOT NULL DEFAULT 'No estudia, es de magisterio',
-  PRIMARY KEY (`email`),
-  CONSTRAINT `Profile_User_FK` FOREIGN KEY (`email`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `content` text NOT NULL,
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userid_posts_UN` (`user_id`),
+  CONSTRAINT `posts_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `profile`
+-- Dumping data for table `posts`
 --
 
-LOCK TABLES `profile` WRITE;
-/*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES ('carlos@ulpgc.es','Carlos','Martel',NULL,'ULPGC','GII'),('david@ulpgc.es','David','Ramírez',NULL,'ULPGC','GII'),('felix@ulpgc.es','Félix','Cruz',NULL,'ULPGC','GII'),('geraldo@ulpgc.es','Geraldo','Rodrigues',NULL,'ULPGC','GII');
-/*!40000 ALTER TABLE `profile` ENABLE KEYS */;
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `profiles`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `profiles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `profiles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  PRIMARY KEY (`email`)
+  `name` varchar(100) NOT NULL,
+  `surname` varchar(100) NOT NULL,
+  `image_profile` varchar(100) DEFAULT NULL,
+  `university` varchar(100) NOT NULL DEFAULT 'Versia',
+  `degree` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId_profiles_UN` (`user_id`),
+  UNIQUE KEY `email_profiles_UN` (`email`),
+  CONSTRAINT `userId_profiles_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `profiles`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('carlos@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),('david@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),('felix@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),('geraldo@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `profiles` WRITE;
+/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_users_UN` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -139,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-29 15:50:55
+-- Dump completed on 2018-04-30 11:18:36

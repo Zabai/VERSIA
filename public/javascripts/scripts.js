@@ -51,30 +51,32 @@ function setUpProfileToggle() {
     });
 }
 
-function addFriend(email){
+function addFriend(id){
     var request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
             location.reload();
-        } else console.log("Por si la cosa va mal");
-    };
+        } else {
+            console.log(request.responseText);
+        }
 
+    };
     request.open("POST", "/home/users/friends/add", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function undoFriendReq(email){
+function undoFriendReq(id){
     var request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
             location.reload();
-        } else console.log("Por si la cosa va mal");
+        } else console.log(request.responseText);
     };
 
     request.open("PUT", "/home/users/friends/undo", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
 function updateUser(email){
@@ -92,7 +94,7 @@ function updateUser(email){
     }
 }
 
-function acceptFriend(button, email) {
+function acceptFriend(button, id) {
     $(button).attr("disabled", "");
     $(button).next().attr("disabled", "");
 
@@ -109,10 +111,10 @@ function acceptFriend(button, email) {
 
     request.open("PUT", "/home/users/friends/accept?_method=PUT", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function declineFriend(button, email) {
+function declineFriend(button, id) {
     $(button).attr("disabled", "");
     $(button).prev().attr("disabled", "");
 
@@ -129,10 +131,12 @@ function declineFriend(button, email) {
 
     request.open("DELETE", "/home/users/friends/decline?_method=DELETE", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
 function passData(userData, senderEmail){
+
+    console.log('funcion passData: ');
     console.log(userData);
     $("#receiverEmail").val(userData.email);
     $("#receiverEmailTitle").text(userData.name);

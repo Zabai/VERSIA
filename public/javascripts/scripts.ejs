@@ -8,9 +8,9 @@
          1 => friends
 
      */
-    isFriend = function(friends, userEmail){
+    isFriend = function(friends, userId){
         for(var i = 0; i < friends.length; i++) {
-            if (friends[i].receiver === userEmail) {
+            if (friends[i].receiver === userId) {
                 return friends[i].friend_request;
             }
         }
