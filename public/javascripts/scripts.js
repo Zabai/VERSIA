@@ -3,7 +3,7 @@ function enableScrollNavbar() {
     var distance = 25;
 
     $(window).scroll(function() {
-        if (document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
+        if(document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
             navbar.removeClass('bg-transparent');
             navbar.addClass('bg-dark');
         } else {
@@ -14,7 +14,7 @@ function enableScrollNavbar() {
 }
 
 function enableDinamicAuthForms() {
-    $('.message a').click(function(){
+    $('.message a').click(function() {
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
 }
@@ -53,8 +53,8 @@ function setUpProfileToggle() {
 
 function addFriend(id){
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
             location.reload();
         } else {
             console.log(request.responseText);
@@ -68,8 +68,8 @@ function addFriend(id){
 
 function undoFriendReq(id){
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
             location.reload();
         } else console.log(request.responseText);
     };
@@ -103,7 +103,7 @@ function acceptFriend(button, id) {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function(){
+            $(listElement).hide('slow', function() {
                 $(listElement).remove();
             });
         }
@@ -123,7 +123,7 @@ function declineFriend(button, id) {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function(){
+            $(listElement).hide('slow', function() {
                 $(listElement).remove();
             });
         } else console.log(this.statusText);
@@ -135,28 +135,54 @@ function declineFriend(button, id) {
 }
 
 function passData(userData, senderEmail){
-
-    console.log('funcion passData: ');
-    console.log(userData);
     $("#receiverEmail").val(userData.email);
     $("#receiverEmailTitle").text(userData.name);
     $("#senderEmail").val(senderEmail);
 }
 
 function sendEmail(){
-    if($("#messageContent").val()===""){
+    if($.trim($("#messageContent").val())===""){
         $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
         $("#messageContent").click();
-    }else{
+    } else {
         $.post("/home/users/messages/send",
             {from: $('#senderEmail').val(), to: $('#receiverEmail').val(), content: $('#messageContent').val()},
-            function(data, status){
-                if(status==="success"){
+            function(data, status) {
+                if(status === "success") {
                     alert("Mensaje enviado!");
                 }
-                else{
+                else {
                     alert("Ha habido un problema con el POST.");
                 }
             });
     }
+}
+
+function studentsAutocomplete(studentName) {
+    $.ajax({
+        method: "GET",
+        url: "/home/users/search",
+        data: {ajax: 1, search: studentName}
+    }).done(function(response) {
+        var students = JSON.parse(response);
+        console.log("Students \n", students);
+    });
+}
+
+function removeFriend(){
+    var button = $('#friendRemovalBtn');
+
+    var myEmail = button.data("me");
+    var friendEmail = button.data("friend");
+
+    $.ajax({
+        method: "DELETE",
+        url: "/home/users/friends/remove",
+        data: {friendEmail: friendEmail, myEmail: myEmail}
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("HAS PERDIDO A OTRO AMIGO.");
+            location.reload();
+        }
+    });
 }

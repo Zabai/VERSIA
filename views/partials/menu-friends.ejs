@@ -1,0 +1,42 @@
+<div class="mb-3">
+    <h4 id="my-friends">Amigos</h4>
+    <hr>
+    <%if(friends.length > 0){ %>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-success">
+            Amigos
+        </li>
+        <% for(var i = 0; i < friends.length; i++) { %>
+            <li class="list-group-item">
+                <div class="list-group-item">
+                    <a class="list-group-item-action" href="/home/users/<%= friends[i].email %>">
+                        <img class="rounded-circle mr-2" src="https://picsum.photos/g/40/40" alt="img">
+                        <%= friends[i].name + " " + friends[i].surname %>
+                    </a>
+                    <button id="friendRemovalBtn" class="btn btn-danger float-right my-auto"
+                            data-toggle="modal"
+                            data-target="#friendRemovalModal"
+                            data-me="<%=locals.user.email%>"
+                            data-friend="<%=friends[i].email%>"><i class="fas fa-times"></i></button>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+    <%} else {%>
+        <div class="alert alert-warning">Parece que no tienes amigos por el momento, ¿Por qué no conocer gente?</div>
+    <% } %>
+</div>
+<div id="friendRemovalModal" class="modal fade bd-example-modal-sm" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">¿Estás segur@?</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body m-auto">
+                <button class="btn btn-success" onclick="removeFriend()">Confirmar</button>
+                <button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
