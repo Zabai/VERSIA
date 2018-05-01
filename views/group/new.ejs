@@ -30,7 +30,7 @@
 
                 <div class="form-group">
                     <label for="append-member">Integrantes</label><br>
-                    <input id="append-member" class="form-control" onkeyup="controller.autocomplete(event, this.value)">
+                    <input id="append-member" class="form-control">
 
                     <ul id="friends" class="list-group">
                     </ul>
@@ -53,9 +53,8 @@
 <script src="/javascripts/GroupController.js"></script>
 <script>
     var friends = <%- JSON.stringify(friends) %>;
-    var members = [];
     var controller = CreateGroupController();
-    controller.initialize("controller");
+    controller.initialize();
 </script>
 </body>
 </html>

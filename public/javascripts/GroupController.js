@@ -2,6 +2,7 @@ function CreateGroupController() {
     return {
         initialize:
             function() {
+                var controller = this;
                 function disableScrollWithArrowKeys() {
                     window.addEventListener("keydown", function(e) {
                         // space and arrow keys
@@ -11,15 +12,29 @@ function CreateGroupController() {
                     }, false);
                 }
 
+                function setUpData() {
+                    controller.friends = friends;
+                    controller.members = [];
+                }
+
+                function setUpEvents() {
+                    $('#append-member').keyup(function(event) {
+                        controller.autocomplete(event, this.value);
+                    });
+                }
+
                 disableScrollWithArrowKeys();
+                setUpData();
+                setUpEvents();
             },
         autocomplete:
             function(event, studentName) {
                 if(event.keyCode !== 40) {
+                    var controller = this;
                     var list = $('#friends');
                     list.html("");
 
-                    friends.forEach(function(friend, index) {
+                    this.friends.forEach(function(friend, index) {
                         var name = friend.name.toString();
                         name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                         studentName = studentName.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -28,12 +43,15 @@ function CreateGroupController() {
                         if(studentName.toString().length >= 3)
                             if(name.match(regex)) {
                                 var record =
-                                    "<li id='" + index + "' class=\"list-group-item list-group-item-action\" tabindex=\"-1\" " +
-                                    "onkeyup='controller.navigate(event, this, controller.addToGroup)'>\n" +
+                                    "<li id='" + index + "' class=\"list-group-item list-group-item-action\" tabindex=\"-1\">" +
                                     "<img class=\"rounded-circle mr-2\" src=\"https://picsum.photos/g/40/40\" alt=\"img\">\n" +
                                     friend.name +
                                     "\n</li>";
+
                                 list.append($(record));
+                                list.children().last().keyup(function(event) {
+                                    controller.navigate(event, this, controller.addToGroup);
+                                })
                             }
                     });
                 } else {
@@ -45,7 +63,6 @@ function CreateGroupController() {
                 var upKey = 38,
                     downKey = 40,
                     enterKey = 13;
-                console.log(event.keyCode);
 
                 switch(event.keyCode) {
                     case upKey:
@@ -88,13 +105,15 @@ function CreateGroupController() {
                     var record =
                         "<li class=\"list-group-item d-flex align-items-center\">\n" +
                         "<img class=\"rounded-circle mr-2\" src=\"https://picsum.photos/g/40/40\" alt=\"img\">\n" +
-                        friends[index].name +
+                        this.friends[index].name +
                         "\n<button class=\"btn btn-sm btn-danger ml-auto\"><i class=\"fas fa-times\"></i></button>\n" +
                         "</li>";
 
                     membersList.html(actual + record);
-                    members.push(friends[index]);
-                    friends.splice(index, 1);
+                    this.members.push(this.friends[index]);
+                    console.log("Miembros: ", this.members);
+                    console.log("ID: ", this.id);
+                    this.friends.splice(index, 1);
                 }
 
                 function recoverFocus() {
