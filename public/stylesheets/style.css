@@ -72,7 +72,7 @@ a {
 
 .menu-group {
   height: 80vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 footer {

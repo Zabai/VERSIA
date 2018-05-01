@@ -1,0 +1,23 @@
+<% if(friendRequests.length != 0) { %>
+<div class="mb-3">
+    <h4>Amistades pendientes</h4>
+    <hr>
+    <div class="list-group">
+        <% for (var i = 0; i < friendRequests.length; i++) { %>
+        <% var sender = friendRequests[i]; %>
+        <div class="list-group-item justify-content-between d-flex">
+            <a class="my-auto" href="/home/users/<%= sender.user_id %>"><%= sender.email %></a>
+            <div class="btn-group btn-group-sm">
+                <button class="btn btn-success" onclick="acceptFriend(this, '<%= sender.user_id %>')">
+                    <i class="fas fa-check"></i>
+                </button>
+
+                <button class="btn btn-danger" onclick="declineFriend(this, '<%= sender.user_id %>')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<% } %>
