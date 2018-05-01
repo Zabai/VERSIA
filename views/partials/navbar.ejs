@@ -1,4 +1,4 @@
-<header class="py-5">
+<header class="py-4">
     <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark bg-faded fixed-top customNavbar">
         <div class="container">
             <a href="/" class="navbar-brand">
@@ -23,7 +23,7 @@
 
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <form class="form-inline" method="get" action="/home/search">
+                        <form class="form-inline" method="get" action="/home/users/search">
                             <div class="input-group">
                                 <input class="form-control" type="search" placeholder="Buscar..."
                                        aria-label="Search..." name="search">
@@ -38,8 +38,8 @@
                 </ul>
 
                 <ul class="navbar-nav justify-content-end">
-                    <a class="nav-item nav-link" href="/home/users">
-                        Nombre de usuario
+                    <a class="nav-item nav-link" href="/home/users/<%= locals.user.id %>">
+                        <%= locals.user.email %>
                         <i class="fas fa-user"></i>
                     </a>
                     <a class="nav-item nav-link" href="/logout">

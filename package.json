@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "debug": "nodemon app.js debug"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
+    "bcrypt": "^2.0.1",
     "bootstrap": "^4.0.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",

@@ -21,11 +21,10 @@
 </head>
 <body>
 <% include ../partials/navbar.ejs %>
-
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <h4>Mi perfil</h4>
+            <h4 id="my-profile">Perfil</h4>
             <hr>
 
             <form id="form-profile">
@@ -35,34 +34,44 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputName">Nombre</label>
-                        <input type="text" disabled class="form-control" id="inputName" placeholder="Nombre">
+                        <input type="text" disabled class="form-control" id="inputName" name="inputName"
+                               placeholder="Nombre"
+                               value="<%= profile.name %>">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputSurname">Apellidos</label>
-                        <input type="text" disabled class="form-control" id="inputSurname" placeholder="Apellidos">
+                        <input type="text" disabled class="form-control" id="inputSurname" name="inputSurname"
+                               placeholder="Apellidos"
+                               value="<%= profile.surname %>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="text" disabled class="form-control" id="inputEmail" placeholder="Mail">
+                    <input type="text" disabled class="form-control" id="inputEmail" name="inputEmail"
+                           placeholder="Correo electrónico"
+                           value="<%= profile.email %>">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputUni">Universidad</label>
-                        <input type="text" disabled class="form-control" id="inputUni" placeholder="Universidad...">
+                        <input type="text" disabled class="form-control" id="inputUni" placeholder="Universidad"
+                               value="<%= profile.university %>">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputDegree">Grado</label>
-                        <input type="text" disabled id="inputDegree" class="form-control" placeholder="Grado...">
+                        <input type="text" disabled id="inputDegree" class="form-control" placeholder="Grado"
+                               value="<%= profile.degree %>">
                     </div>
                 </div>
 
-                <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios">
+                <% if(profile.email === locals.user.email) { %>
+                    <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios" onchange="updateUser('<%= locals.user.id%>')">
+                <% } %>
             </form>
         </div>
 
-        <div class="col-6">
-            <h4>Tu actividad</h4>
+        <div class="col-5">
+            <h4 id="my-feed">Actividad</h4>
             <hr>
 
             <% for(var i = 0; i < 3; i++) { %>
@@ -80,26 +89,14 @@
             <% } %>
         </div>
 
-        <div class="col-3">
-            <h4>Mis grupos</h4>
-            <hr>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
-                    Mis grupos
-                    <a href="index.ejs">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Cras justo odio
-                    <span class="badge badge-info badge-pill">14</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
-                    Dapibus ac facilisis in
-                    <span class="badge badge-success badge-pill">2</span>
-                </li>
-            </ul>
-            <%include ../partials/friends_list.ejs%>
+        <div class="col-4">
+            <% if(profile.email === locals.user.email) { %>
+            <% include ../partials/menu-friends-requests.ejs %>
+            <% include ../partials/menu-friends.ejs %>
+            <% include ../partials/menu-groups.ejs %>
+            <% } else { %>
+            <% include ../partials/menu-friends.ejs %>
+            <% } %>
         </div>
     </div>
 </div>

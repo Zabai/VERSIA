@@ -1,0 +1,20 @@
+<%
+    /*
+
+    isFriend method to know if a given email is on our friend list and its own status.
+    @return status of our friendship
+        -1 => not friends with
+         0 => request sent
+         1 => friends
+
+     */
+    isFriend = function(friends, userId){
+        for(var i = 0; i < friends.length; i++) {
+            if (friends[i].receiver === userId) {
+                return friends[i].friend_request;
+            }
+        }
+        return -1;
+    }
+
+%>

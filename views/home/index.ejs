@@ -6,14 +6,17 @@
 </head>
 <body>
 <% include ../partials/navbar.ejs %>
-
 <div class="container ">
+    <%if(signupMessage.length > 0){%>
+        <div class="alert alert-warning text-center"><%= signupMessage %></div>
+    <%}%>
+
     <div class="row">
         <div class="col-3">
             <% include ../partials/menu-user.ejs %>
         </div>
 
-        <div class="col-6">
+        <div class="col-5">
             <h4>Crear post</h4>
             <div class="alert alert-secondary">
                 Escribe tus experiencias...
@@ -37,10 +40,12 @@
             <% } %>
         </div>
 
-        <div class="col-3">
-            <% include ../partials/menu-group.ejs %>
+        <div class="col-4">
+            <% include ../partials/menu-friends.ejs %>
         </div>
     </div>
 </div>
+<script src="/javascripts/scripts.js"></script>
+
 </body>
 </html>
