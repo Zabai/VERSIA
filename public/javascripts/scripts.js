@@ -79,9 +79,9 @@ function undoFriendReq(id){
     request.send(encodeURI("id=" + id));
 }
 
-function updateUser(email){
+function updateUser(id){
     if(!$('#toggle').prop("checked")){
-        $.post("/home/users/"+email+"/edit",
+        $.post("/home/users/"+id+"/edit",
             {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
             function(data, status){
                 if(status==="success"){

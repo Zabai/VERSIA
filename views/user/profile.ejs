@@ -62,7 +62,7 @@
                 </div>
 
                 <% if(profile.email === locals.user.email) { %>
-                    <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios" onchange="updateUser('<%= locals.user.email%>')">
+                    <input id="toggle" type="checkbox" data-toggle="toggle" data-style="ios" onchange="updateUser('<%= locals.user.id%>')">
                 <% } %>
             </form>
         </div>
