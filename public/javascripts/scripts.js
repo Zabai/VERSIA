@@ -158,27 +158,14 @@ function sendEmail(){
     }
 }
 
-function studentsAutocomplete(studentName) {
-    $.ajax({
-        method: "GET",
-        url: "/home/users/search",
-        data: {ajax: 1, search: studentName}
-    }).done(function(response) {
-        var students = JSON.parse(response);
-        console.log("Students \n", students);
-    });
-}
-
 function removeFriend(){
     var button = $('#friendRemovalBtn');
-
-    var myId = button.data("me");
     var friendId = button.data("friend");
-
+    var myId = button.data("me");
     $.ajax({
         method: "DELETE",
-        url: "/home/users/friends/remove",
         data: {friendId: friendId, myId: myId}
+        url: "/home/users/friends/remove",
     }).done(function(data, status){
         if(status === "success"){
             console.log("HAS PERDIDO A OTRO AMIGO.");

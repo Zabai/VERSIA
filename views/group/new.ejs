@@ -17,7 +17,7 @@
             <h4 class="text-center">Crear grupo</h4>
             <hr>
 
-            <form method="post" action="/home/group/'<%= locals.user.email %>'/create">
+            <form onsubmit="return false;">
                 <div class="form-group">
                     <label class="control-label" for="groupname">Nombre:</label>
                     <input type="text" class="form-control" name="groupname"id="groupname" placeholder="Nombre del grupo">
@@ -29,31 +29,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="appendMember">Integrantes</label>
-                    <input id="appendMember" class="form-control" type="text" placeholder="Integrantes"
-                           onkeyup="studentsAutocomplete(this.value)">
-                    <!--<select id="appendMember" class="custom-select">
-                        <option selected>Añadir participante...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>-->
-                    <!--<div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Añadir</button>
-                    </div>-->
+                    <label for="append-member">Integrantes</label><br>
+                    <input id="append-member" class="form-control">
+
+                    <ul id="friends" class="list-group">
+                    </ul>
                 </div>
 
                 <h3 class="text-center py-3">Alumnos añadidos</h3>
-                <ul class="list-group list-group-flush py-1">
-                    <li class="list-group-item">Alumno 1
-                        <i class="fas fa-trash-alt"></i></li>
-                    <li class="list-group-item">Alumno 1
-                        <i class="fas fa-trash-alt"></i></li>
-                    <li class="list-group-item">Alumno 1
-                        <i class="fas fa-trash-alt"></i></li>
+                <ul id="members" class="list-group">
                 </ul>
 
-                <button type="submit"  class="btn btn-primary mb-2" >Crear</button>
+                <button type="submit" class="btn btn-primary my-3">Crear</button>
             </form>
         </div>
 
@@ -63,6 +50,11 @@
     </div>
 </div>
 
-<script src="/javascripts/scripts.js"></script>
+<script src="/javascripts/GroupController.js"></script>
+<script>
+    var friends = <%- JSON.stringify(friends) %>;
+    var controller = CreateGroupController();
+    controller.initialize();
+</script>
 </body>
 </html>
