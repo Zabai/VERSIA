@@ -17,16 +17,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/search', function(req, res, next) {
     var client = require('../db/db');
-    /*
-    var friendsQuery = "SELECT receiver, friend_request from friends where sender = :loggedUserId AND (friend_request=0 OR friend_request=1)";
-    var usersQuery = "SELECT * FROM profiles WHERE profiles.name LIKE :req AND profiles.user_id <> :loggedUserId";
-    client.query(friendsQuery, {loggedUserId: req.user.id}, function(err, friends){
-        if(err) return res.status(500).send({message:"Error en la petición cuando buscamos amigos, " + err});
-        client.query(usersQuery, {req: req.query.search, loggedUserId: req.user.id}, function(err, users){
-            if(err) return res.status(500).send({message:"Error en la petición cuando buscamos usuarios, " + err});
-            res.render("user/search", {users:users, friends:friends, search: req.query.search});
-    */
-    // TODO EDIT THIS
     if(req.query.ajax) {
         client.query("SELECT email, name, surname FROM profile WHERE name LIKE :name AND email <> :currentUser",
             {name: req.query.search + "%", currentUser: req.user.email},
@@ -35,12 +25,12 @@ router.get('/search', function(req, res, next) {
                 res.json(JSON.stringify(students));
             });
     } else {
-        var friendsQuery = "SELECT receiver, friend_request from friends where sender = :loggedUserEmail AND (friend_request=0 OR friend_request=1)";
-        var usersQuery = "SELECT email, name, surname, university, degree FROM profile WHERE profile.name LIKE :req AND profile.email <> :loggedUserEmail";
-        client.query(friendsQuery, {loggedUserEmail: req.user.email}, function(err, friends) {
+        var friendsQuery = "SELECT receiver, friend_request from friends where sender = :loggedUserId AND (friend_request=0 OR friend_request=1)";
+        var usersQuery = "SELECT * FROM profiles WHERE profiles.name LIKE :req AND profiles.user_id <> :loggedUserId";
+        client.query(friendsQuery, {loggedUserId: req.user.id}, function(err, friends) {
             if(err) return res.status(500).send({message: "Error en la petición cuando buscamos amigos, " + err});
             console.log(JSON.stringify(friends));
-            client.query(usersQuery, {req: req.query.search, loggedUserEmail: req.user.email}, function(err, users) {
+            client.query(usersQuery, {req: req.query.search, loggedUserId: req.user.id}, function(err, users) {
                 if(err) return res.status(500).send({message: "Error en la petición cuando buscamos usuarios, " + err});
                 console.log(JSON.stringify(users));
                 res.render("user/search", {users: users, friends: friends, search: req.query.search});
@@ -62,16 +52,17 @@ router.get('/:id', function(req, res, next) {
     });
 
     var friendRequests = {};
+    // Parte de peticiones de amistad
     client.query("SELECT DISTINCT friends.*, profiles.email, profiles.user_id  FROM friends INNER JOIN profiles ON friends.sender=profiles.user_id WHERE friends.receiver=:loggedUserId AND friend_request=0;",
-        {loggedUserId: req.user.id}, function(err, friendRequests){
+        {loggedUserId: req.user.id}, function(err, friendRequestsRows){
         console.log('LoggedUserId', req.user.id);
         if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
         console.log(friendRequests);
         friendRequests = friendRequestsRows;
     });
-    
-    // TODO EDIT THIS
-    client.query("SELECT * FROM profile WHERE email IN " +
+
+    // Parte de amigos
+    client.query("SELECT * FROM profiles WHERE user_id IN " +
         "(SELECT sender FROM friends WHERE receiver=:user AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:user AND friend_request=1)",
         {user: req.params.id}, function(err, friends) {
             if(err) console.log(err);

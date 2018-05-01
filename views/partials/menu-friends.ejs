@@ -9,15 +9,15 @@
         <% for(var i = 0; i < friends.length; i++) { %>
             <li class="list-group-item">
                 <div class="list-group-item">
-                    <a class="list-group-item-action" href="/home/users/<%= friends[i].email %>">
+                    <a class="list-group-item-action" href="/home/users/<%= friends[i].user_id %>">
                         <img class="rounded-circle mr-2" src="https://picsum.photos/g/40/40" alt="img">
                         <%= friends[i].name + " " + friends[i].surname %>
                     </a>
                     <button id="friendRemovalBtn" class="btn btn-danger float-right my-auto"
                             data-toggle="modal"
                             data-target="#friendRemovalModal"
-                            data-me="<%=locals.user.email%>"
-                            data-friend="<%=friends[i].email%>"><i class="fas fa-times"></i></button>
+                            data-me="<%=locals.user.id%>"
+                            data-friend="<%=friends[i].user_id%>"><i class="fas fa-times"></i></button>
                 </div>
             </li>
         <% } %>
@@ -34,8 +34,8 @@
                 <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body m-auto">
-                <button class="btn btn-success" onclick="removeFriend()">Confirmar</button>
-                <button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-danger" onclick="removeFriend()">Confirmar</button>
+                <button class="btn btn-success" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

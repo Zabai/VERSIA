@@ -97,18 +97,18 @@ function updateUser(id){
 function acceptFriend(button, id) {
     $(button).attr("disabled", "");
     $(button).next().attr("disabled", "");
-
+    console.log(id);
     var request = new XMLHttpRequest();
-
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
             $(listElement).hide('slow', function() {
                 $(listElement).remove();
             });
+        } else {
+            console.error('ERROR AJAX: ', request.responseText);
         }
     };
-
     request.open("PUT", "/home/users/friends/accept?_method=PUT", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(encodeURI("id=" + id));
@@ -172,13 +172,13 @@ function studentsAutocomplete(studentName) {
 function removeFriend(){
     var button = $('#friendRemovalBtn');
 
-    var myEmail = button.data("me");
-    var friendEmail = button.data("friend");
+    var myId = button.data("me");
+    var friendId = button.data("friend");
 
     $.ajax({
         method: "DELETE",
         url: "/home/users/friends/remove",
-        data: {friendEmail: friendEmail, myEmail: myEmail}
+        data: {friendId: friendId, myId: myId}
     }).done(function(data, status){
         if(status === "success"){
             console.log("HAS PERDIDO A OTRO AMIGO.");
