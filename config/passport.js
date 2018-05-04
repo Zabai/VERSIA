@@ -13,7 +13,7 @@ module.exports = function(passport) {
     });
 
     passport.deserializeUser(function(email, done) {
-        connection.query("SELECT * FROM user WHERE email = ? ", [email], function(err, rows) {
+        connection.query("SELECT * FROM users WHERE email = ? ", [email], function(err, rows) {
             done(err, rows[0]);
         });
     });
@@ -27,24 +27,25 @@ module.exports = function(passport) {
         passwordField: 'password',
         passReqToCallback: true
     }, function(req, email, password, done) {
-        connection.query("SELECT * FROM user WHERE email=:email", {email: email},
+        connection.query("SELECT * FROM users WHERE email=:email", {email: email},
             function(err, rows) {
                 if(err) return done(err);
                 if(rows.length) return done(null, false, req.flash('errorMessage', 'Usuario ya existente'));
                 else {
                     bcrypt.hash(password, saltRounds, function(err, hashedPassword){
-                        if(err)return done(err);
+                        if(err) return done(err);
                         var newUser = {
                             email: email,
                             pasword: hashedPassword
                         };
-                        connection.query("INSERT INTO user (email, password) VALUES (:email,:password)", {
+                        connection.query("INSERT INTO users (email, password) VALUES (:email,:password)", {
                                 email: email,
                                 password: hashedPassword
                             },
                             function(err, rows) {
                                 if(err) throw err;
-                                connection.query("INSERT INTO profile (email) VALUES (:email)", {email: email}, function(err, rows){
+
+                                connection.query("INSERT INTO profiles (user_id, email) VALUES ((SELECT id FROM users WHERE email=:email), :email)", {email: email}, function(err, rows){
                                     if(err) return done(err);
                                     return done(null, newUser, req.flash('signupMessage','Por favor, diríjase al perfil para completar el registro.'));
                                 });
@@ -67,17 +68,17 @@ module.exports = function(passport) {
         },
         function(req, email, password, done) {
 
-
             if(!email || !password) {
                 return done(null, false);
             }
-
-            connection.query("SELECT * FROM user WHERE email = ?", [email], function(err, rows) {
+            connection.query("SELECT * FROM users WHERE email = ?", [email], function(err, rows) {
                 if(err) {
                     return done(err);
                 }
                 if(!rows.length) {
-                    return done(null, false, req.flash('errorMessage', 'Usuario no encontrado'));
+                    console.log(email);
+                    console.log(rows.length, 'test');
+                    return done(null, false, req.flash('errorMessage', 'Usuario no encontrado.'));
                 }
                 // if the user is found but the password is wrong
                 bcrypt.compare(password, rows[0].password, function (err, res) {

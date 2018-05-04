@@ -7,8 +7,10 @@ router.post("/send", function(req, res, next){
         to: req.body.to,
         content: req.body.content
     };
+    console.log('Mensaje Privado: ', messageData);
     var dbConn = require("../db/db");
-    dbConn.query("INSERT INTO messages(sender, receiver, content) VALUES(:from, :to, :content)", {from: messageData.from, to: messageData.to, content: messageData.content},
+    dbConn.query("INSERT INTO messages (sender, receiver, content) VALUES((SELECT profiles.user_id FROM profiles WHERE profiles.email=:from), (SELECT profiles.user_id FROM profiles WHERE profiles.email=:to), :content)",
+        {from: messageData.from, to: messageData.to, content: messageData.content},
         function(err, messageSent){
             if(err) {
                 console.log(err);
