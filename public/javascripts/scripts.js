@@ -51,53 +51,70 @@ function setUpProfileToggle() {
     });
 }
 
-function addFriend(email) {
+function addFriend(id){
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
             location.reload();
-        } else console.log("Por si la cosa va mal");
-    };
+        } else {
+            console.log(request.responseText);
+        }
 
+    };
     request.open("POST", "/home/users/friends/add", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function undoFriendReq(email) {
+function undoFriendReq(id){
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
             location.reload();
-        } else console.log("Por si la cosa va mal");
+        } else console.log(request.responseText);
     };
 
     request.open("PUT", "/home/users/friends/undo", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function acceptFriend(button, email) {
+function updateUser(id){
+    if(!$('#toggle').prop("checked")){
+        $.post("/home/users/"+id+"/edit",
+            {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
+            function(data, status){
+                if(status==="success"){
+                    location.reload();
+                }
+                else{
+                    alert("Ha habido un problema con el POST.");
+                }
+            });
+    }
+}
+
+function acceptFriend(button, id) {
     $(button).attr("disabled", "");
     $(button).next().attr("disabled", "");
-
+    console.log(id);
     var request = new XMLHttpRequest();
-
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             var listElement = $(button).parent().parent();
             $(listElement).hide('slow', function() {
                 $(listElement).remove();
             });
+        } else {
+            console.error('ERROR AJAX: ', request.responseText);
         }
     };
-
     request.open("PUT", "/home/users/friends/accept?_method=PUT", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function declineFriend(button, email) {
+function declineFriend(button, id) {
     $(button).attr("disabled", "");
     $(button).prev().attr("disabled", "");
 
@@ -114,33 +131,17 @@ function declineFriend(button, email) {
 
     request.open("DELETE", "/home/users/friends/decline?_method=DELETE", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function updateUser(email) {
-    if(!$('#toggle').prop("checked")) {
-        $.post("/home/users/" + email + "/edit",
-            {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
-            function(data, status) {
-                if(status === "success") {
-                    location.reload();
-                }
-                else {
-                    alert("Ha habido un problema con el POST.");
-                }
-            });
-    }
-}
-
-function passData(userData, senderEmail) {
-    console.log(userData);
+function passData(userData, senderEmail){
     $("#receiverEmail").val(userData.email);
     $("#receiverEmailTitle").text(userData.name);
     $("#senderEmail").val(senderEmail);
 }
 
-function sendEmail() {
-    if($("#messageContent").val() === "") {
+function sendEmail(){
+    if($.trim($("#messageContent").val())===""){
         $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
         $("#messageContent").click();
     } else {
@@ -155,4 +156,20 @@ function sendEmail() {
                 }
             });
     }
+}
+
+function removeFriend(){
+    var button = $('#friendRemovalBtn');
+    var friendId = button.data("friend");
+    var myId = button.data("me");
+    $.ajax({
+        method: "DELETE",
+        data: {friendId: friendId, myId: myId},
+        url: "/home/users/friends/remove",
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("HAS PERDIDO A OTRO AMIGO.");
+            location.reload();
+        }
+    });
 }
