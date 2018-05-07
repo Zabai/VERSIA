@@ -6,7 +6,7 @@ function CreateGroupController() {
             function disableScrollWithArrowKeys() {
                 window.addEventListener("keydown", function(e) {
                     // space and arrow keys
-                    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
                         e.preventDefault();
                     }
                 }, false);
@@ -21,6 +21,13 @@ function CreateGroupController() {
                 $('#append-member').keyup(function(event) {
                     controller.autocomplete(event, this.value);
                 });
+                $('#create-group').submit(
+                    function (event) {
+                        if (controller.check()) {
+                            controller.submit();
+                        } else return false;
+                    }
+                );
             }
 
             disableScrollWithArrowKeys();
@@ -142,6 +149,27 @@ function CreateGroupController() {
             controller.friends.push(controller.members[index]);
             controller.members.splice(index, 1);
         };
+
+    controller.check =
+        function() {
+            if (this.members.length >= 1) return true;
+            $('#append-member').popover({ content: "No ha añadido usuarios"});
+            $('#append-member').click();
+        };
+
+    controller.submit =
+        function () {
+          var group = {};
+          group.name = $("#groupname").val();
+          group.description = $("#description").val();
+          group.members = [];
+          for (var i = 0; i < this.members.length; i++) {
+              group.members.push(this.members[i]);
+          }
+
+          console.log(group);
+        };
+
 
     return controller;
 }
