@@ -9,7 +9,7 @@ router.post('/add', function(req, res, next) {
     var email = req.body.email;
 
     var client = require('../db/db');
-    client.query("INSERT INTO friends(sender, receiver) VALUES(:sender, :receiver)",
+    client.query("INSERT INTO friends(sender, receiver, friend_request) VALUES(:sender, :receiver, 0)",
         {sender: req.user.email, receiver: email},
         function(err, friendPetition) {
             if(err) {
@@ -54,7 +54,7 @@ router.delete('/decline', function(req, res, next) {
 
 router.put('/undo', function (req, res, next){
     var dbConn = require('../db/db');
-    dbConn.query("DELETE FROM friend WHERE sender = :self AND receiver = :user", {self: req.user.email, user: req.body.email},
+    dbConn.query("DELETE FROM friends WHERE sender = :self AND receiver = :user", {self: req.user.email, user: req.body.email},
         function(err, friendPetition){
             if (err) return res.status(500).send({message: "Ha habido un error en la db deshaciendo la petición: " + err});
             return res.status(200).send();

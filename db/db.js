@@ -4,6 +4,6 @@ module.exports = new Client({
     host:       'localhost',
     user:       'versia',
     password:   'versia',
-    db:         'sprint1',
+    db:         'sprint2',
     charset:    'utf8'
 });

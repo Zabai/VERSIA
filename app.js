@@ -43,16 +43,28 @@ app.use(function(req, res, next) {
     next();
 });
 
+// Debug
+process.argv.forEach(function(value) {
+    if(value === "debug") {
+        console.log("RUNNING DEBUG MODE");
+        app.use(function(req, res, next) {
+            res.locals.user = req.user = {email: "david@ulpgc.es", password: "versia"};
+            next();
+        });
+    }
+});
+
 // Routes
 app.use('/', require('./routes/index'));
-app.use(function isLogged(req, res, next){
+app.use(function isLogged(req, res, next) {
     if(req.isAuthenticated()) return next();
     else res.redirect('/');
 });
 app.use('/home', require('./routes/home'));
 app.use('/home/users', require('./routes/users'));
 app.use('/home/users/friends', require('./routes/friends'));
-
+app.use('/home/users/messages', require('./routes/messages'));
+app.use('/home/group', require('./routes/group'));
 
 
 // catch 404 and forward to error handler
@@ -71,6 +83,6 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-app.listen(8080);
+app.listen(process.env.port || 8080);
 
 module.exports = app;
