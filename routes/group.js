@@ -13,7 +13,12 @@ router.get("/", function(req, res, next) {
     client.end();
 });
 
-router.post("/:id/create", function (req, res, next) {
+router.post("/", function(req, res, next) {
+    console.log(JSON.stringify(req.body));
+    res.send('/home');
+});
+
+router.post("/create", function (req, res, next) {
    var client = require('../db/db');
 
    client.query("INSERT INTO groups (name, description, group_admin) VALUES (:name, :description, :admin)",
