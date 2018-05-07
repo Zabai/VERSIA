@@ -17,15 +17,15 @@
             <h4 class="text-center">Crear grupo</h4>
             <hr>
 
-            <form onsubmit="return false;">
+            <form id="create-group" action="/home/group/create" method="post">
                 <div class="form-group">
                     <label class="control-label" for="groupname">Nombre:</label>
-                    <input type="text" class="form-control" id="groupname" placeholder="Nombre del grupo">
+                    <input type="text" class="form-control" id="groupname" placeholder="Nombre del grupo" required>
                 </div>
 
                 <div class="form-group">
                     <label for="descripcion">Descripción:</label>
-                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                    <textarea class="form-control" id="description" required></textarea>
                 </div>
 
                 <div class="form-group">
