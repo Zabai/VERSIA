@@ -32,7 +32,7 @@ CREATE TABLE `friends` (
   KEY `receiver_friends_users_FK` (`receiver`),
   CONSTRAINT `receiver_friends_users_FK` FOREIGN KEY (`receiver`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sender_friends_users_FK` FOREIGN KEY (`sender`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,64 @@ CREATE TABLE `friends` (
 
 LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+INSERT INTO `friends` VALUES (10,2,1,1),(11,3,2,1),(12,3,4,1);
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_members`
+--
+
+DROP TABLE IF EXISTS `group_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_members` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `group` int(10) unsigned NOT NULL,
+  `member` int(10) unsigned NOT NULL,
+  `group_request` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `group_members_users_FK` (`member`),
+  KEY `group_members_groups_FK` (`group`),
+  CONSTRAINT `group_members_groups_FK` FOREIGN KEY (`group`) REFERENCES `groups` (`id`),
+  CONSTRAINT `group_members_users_FK` FOREIGN KEY (`member`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_members`
+--
+
+LOCK TABLES `group_members` WRITE;
+/*!40000 ALTER TABLE `group_members` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_members` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `group_admin` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `groups_users_FK` (`group_admin`),
+  CONSTRAINT `groups_users_FK` FOREIGN KEY (`group_admin`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -62,7 +119,7 @@ CREATE TABLE `messages` (
   KEY `receiver_messages_users_FK` (`receiver`),
   CONSTRAINT `receiver_messages_users_FK` FOREIGN KEY (`receiver`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sender_messages_users_FK` FOREIGN KEY (`sender`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +128,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+INSERT INTO `messages` VALUES (1,1,4,0,'geraldo@ulpgc.es'),(2,1,4,0,'mensaje21'),(3,2,1,0,'test'),(4,2,1,0,'test'),(5,2,1,0,'prueba'),(6,2,3,0,'test'),(7,2,3,0,'test\n');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
