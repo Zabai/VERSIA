@@ -173,14 +173,14 @@ CREATE TABLE `profiles` (
   `name` varchar(100) NOT NULL DEFAULT 'Nombre',
   `surname` varchar(100) NOT NULL DEFAULT 'Apellidos',
   `image_profile` varchar(100) DEFAULT NULL,
-  `university` varchar(100) NOT NULL DEFAULT 'ULPGC',
-  `degree` varchar(100) NOT NULL DEFAULT 'GII',
+  `university` varchar(100) NOT NULL DEFAULT 'Versia',
+  `degree` varchar(100) NOT NULL DEFAULT 'No tiene estudios, es de Magisterio.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `userId_profiles_UN` (`user_id`),
-  UNIQUE KEY `email_profiles_UN` (`email`),
-  CONSTRAINT `email_profiles_users_FK` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `profiles_users_FK` (`email`),
+  CONSTRAINT `profiles_users_FK` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `userId_profiles_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +189,7 @@ CREATE TABLE `profiles` (
 
 LOCK TABLES `profiles` WRITE;
 /*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` VALUES (1,1,'carlos@ulpgc.es','Carlos','Martel',NULL,'ULPGC','GII'),(2,2,'david@ulpgc.es','David','Ramírez',NULL,'ULPGC','GII'),(3,3,'felix@ulpgc.es','Félix','Cruz',NULL,'ULPGC','GII'),(4,4,'geraldo@ulpgc.es','Geraldo','Rodrigues',NULL,'ULPGC','GII');
+INSERT INTO `profiles` VALUES (1,1,'carlos3@ulpgc.es','Carlos','Martel Lamas',NULL,'Versia','No tiene estudios, es de Magisterio.');
 /*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +206,7 @@ CREATE TABLE `users` (
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_users_UN` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +215,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'carlos@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(2,'david@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(3,'felix@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(4,'geraldo@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(6,'test@test.com','$2b$10$n4UHM4M3kVZY4egMIN50P.3JZFb7nLIG2sraeErt226vYw15Nqeja'),(7,'test@ulpgc.com','$2b$10$eTQmYT1QIS1GgZMIH8v5c.Kz0Psod.7IPfDVoJzZGEpQYNKtOWF.6'),(8,'prueba@ulpgc.com','$2b$10$sTNtoE20sqIEn30gKyjCr.F8.hxjVC/Zr38NJSZ8cCAX3fMYyUfAS');
+INSERT INTO `users` VALUES (1,'carlos3@ulpgc.es','$2b$10$2VogaQtW3bqg3mcAy.2xHOeecx3lYhD6.XNAaskOAPhR3QXhL5IOG');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,4 +232,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-05 19:21:35
+-- Dump completed on 2018-05-07 13:20:50
