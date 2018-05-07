@@ -48,7 +48,7 @@ process.argv.forEach(function(value) {
     if(value === "debug") {
         console.log("RUNNING DEBUG MODE");
         app.use(function(req, res, next) {
-            res.locals.user = req.user = {email: "david@ulpgc.es", password: "versia"};
+            res.locals.user = req.user = {id:3, email: "david@ulpgc.es", password: "versia"};
             next();
         });
     }
