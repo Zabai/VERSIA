@@ -83,6 +83,6 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-app.listen(8080);
+app.listen(process.env.port || 8080);
 
 module.exports = app;
