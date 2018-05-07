@@ -112,16 +112,17 @@ CREATE TABLE `profiles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `surname` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT 'Nombre',
+  `surname` varchar(100) NOT NULL DEFAULT 'Apellidos',
   `image_profile` varchar(100) DEFAULT NULL,
   `university` varchar(100) NOT NULL DEFAULT 'Versia',
-  `degree` varchar(100) NOT NULL,
+  `degree` varchar(100) NOT NULL DEFAULT 'No tiene estudios, es de Magisterio.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `userId_profiles_UN` (`user_id`),
-  UNIQUE KEY `email_profiles_UN` (`email`),
+  KEY `profiles_users_FK` (`email`),
+  CONSTRAINT `profiles_users_FK` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `userId_profiles_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,6 +131,7 @@ CREATE TABLE `profiles` (
 
 LOCK TABLES `profiles` WRITE;
 /*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
+INSERT INTO `profiles` VALUES (1,1,'carlos3@ulpgc.es','Carlos','Martel Lamas',NULL,'Versia','No tiene estudios, es de Magisterio.');
 /*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +148,7 @@ CREATE TABLE `users` (
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_users_UN` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,6 +157,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'carlos3@ulpgc.es','$2b$10$2VogaQtW3bqg3mcAy.2xHOeecx3lYhD6.XNAaskOAPhR3QXhL5IOG');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-30 11:18:36
+-- Dump completed on 2018-05-07 13:20:50

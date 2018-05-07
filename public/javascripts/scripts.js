@@ -164,8 +164,8 @@ function removeFriend(){
     var myId = button.data("me");
     $.ajax({
         method: "DELETE",
-        data: {friendId: friendId, myId: myId}
-        url: "/home/users/friends/remove",
+        data: {friendId: friendId, myId: myId},
+        url: "/home/users/friends/remove"
     }).done(function(data, status){
         if(status === "success"){
             console.log("HAS PERDIDO A OTRO AMIGO.");
