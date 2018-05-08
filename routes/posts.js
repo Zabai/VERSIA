@@ -8,6 +8,8 @@ router.get('/', function (req, res, next) {
 router.post('/new', function (req, res, next) {
     var client = require('../db/db');
     var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(JSON.stringify(req.body));
+
     client.query("INSERT INTO posts (user_id, content, date) VALUES (:user_id, :content, :date)",
         {user_id:req.user.id, content:req.body.content, date: date},
         function(err, post) {
@@ -18,7 +20,6 @@ router.post('/new', function (req, res, next) {
             return res.status(200).send();
         });
     client.end();
-    res.render('post/test');
 });
 
 module.exports = router;

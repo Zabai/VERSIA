@@ -1,12 +1,6 @@
-<form class="form-inline" method="post" action="/home/post/new">
-    <div id="input-group">
-        <input class="form-control"
-               type="text" name="content" id="content"
-               placeholder="Escribe tus experiencias... ">
-        <div id="input-group-append">
-            <button id="btn btn-outline-light" type="submit">
-                <i class="fas fa-comment"></i>
-            </button>
-        </div>
-    </div>
-</form>
+<div id="input-group">
+    <textarea class="form-control" id="content" name="content" rows="5" autofocus></textarea>
+    <button class="btn btn-outline-success btn-block m-auto" onclick="sendPost()">
+        Comenta!<i class="fas fa-comment m-1"></i>
+    </button>
+</div>

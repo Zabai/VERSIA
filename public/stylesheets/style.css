@@ -82,3 +82,7 @@ footer {
 .text-wrapper{
     word-wrap: break-word;
 }
+
+.p-bottom-0{
+  padding-bottom: 0;
+}
