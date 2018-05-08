@@ -61,12 +61,21 @@ router.get('/:id', function(req, res, next) {
         friendRequests = friendRequestsRows;
     });
 
+    var groups = {};
+    //parte grupos
+    client.query("SELECT name FROM groups WHERE id IN " +
+        "(SELECT `group`FROM group_members WHERE `member`=:member)",{member: req.user.id},function (err, groupsRows) {
+        if(err)return res.status(500).send({message: "Ha habido un error en la db" + err});
+        groups = groupsRows;
+
+    });
+
     // Parte de amigos
     client.query("SELECT * FROM profiles WHERE user_id IN " +
         "(SELECT sender FROM friends WHERE receiver=:user AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:user AND friend_request=1)",
         {user: req.params.id}, function(err, friends) {
             if(err) console.log(err);
-            else res.render("user/profile", {profile: profile, friendRequests: friendRequests, friends: friends});
+            else res.render("user/profile", {profile: profile, friendRequests: friendRequests, friends: friends, groups:groups});
         });
 
     client.end();
