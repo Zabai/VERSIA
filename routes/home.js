@@ -14,7 +14,7 @@ router.get("/", function(req, res, next) {
                     "INNER JOIN friends ON (posts.user_id=friends.sender OR posts.user_id=friends.receiver)\n" +
                     "INNER JOIN profiles ON posts.user_id=profiles.user_id\n" +
                     "WHERE friends.friend_request=1 AND (friends.sender=:user OR friends.receiver=:user)\n" +
-                    "ORDER BY `date` DESC;",
+                    "ORDER BY `date` DESC LIMIT 5;",
                     {user: loggedUserId},
                     function (err, posts) {
                     if (err) console.log(err);
