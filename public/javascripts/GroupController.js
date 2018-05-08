@@ -155,7 +155,7 @@ function CreateGroupController() {
         function() {
             if(this.members.length >= 1) return true;
             $('#append-member')
-                .popover({content: "No ha añadido usuarios"})
+                .popover({content: "No ha añadido usuarios", placement: "bottom"})
                 .click();
             return false;
         };

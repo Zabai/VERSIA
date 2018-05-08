@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+router.post("/", function(req, res, next) {
+    //console.log(JSON.stringify(req.body.group));
+    var group = JSON.parse(req.body.group);
+    console.log("Grupo: ", group);
+    res.send('/home');
+});
+
 router.get("/new", function(req, res, next) {
     var client = require('../db/db');
     client.query("SELECT * FROM profiles WHERE user_id IN " +
@@ -11,13 +18,6 @@ router.get("/new", function(req, res, next) {
         });
 
     client.end();
-});
-
-router.post("/", function(req, res, next) {
-    //console.log(JSON.stringify(req.body.group));
-    var group = JSON.parse(req.body.group);
-    console.log("Grupo: ", group);
-    res.send('/home');
 });
 
 router.post("/create", function (req, res, next) {
