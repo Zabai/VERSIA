@@ -16,5 +16,12 @@
             Dapibus ac facilisis in
             <span class="badge badge-success badge-pill">2</span>
         </li>
+        <%if(groups.length > 0) {
+        for(var i=0; i<groups.length; i++){%>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <%= groups[i].name%>
+            <span class="badge badge-info badge-pill">2</span>
+        </li>
+        <%}}%>
     </ul>
 </div>
