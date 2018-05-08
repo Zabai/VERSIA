@@ -5,7 +5,7 @@ router.get("/", function(req, res, next) {
     var client = require('../db/db');
     var groups = {};
     client.query("SELECT name FROM groups WHERE id IN " +
-        "(SELECT `group`FROM group_members WHERE `member`=:member)",{member: req.user.id},function (err, groupsRows) {
+        "(SELECT `group`FROM group_members WHERE `member`=:member AND group_request=1)",{member: req.user.id},function (err, groupsRows) {
         if(err)return res.status(500).send({message: "Ha habido un error en la db" + err});
         groups = groupsRows;
 
