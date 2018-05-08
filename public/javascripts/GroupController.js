@@ -179,15 +179,18 @@ function CreateGroupController() {
                 $.ajax({
                     method: "POST",
                     contentType: "application/json",
-                    url: "/home/group/new",
-                    data: JSON.stringify({group: group})
+                    data: JSON.stringify({group: group}),
+                    url: "/home/group/new"
                 }).done(function(msg) {
-                    alert('Grupo creado exitosamente');
+                    alert('Grupo creado exitosamente (•◡•).');
                     window.location.replace(msg);
+                }).fail(function(algo, text, error) {
+                    alert('Hemos fallado al crear el grupo (>.<). Intentalo de nuevo.');
+                    console.log(error);
                 });
             }
 
-            sendGroup(JSON.stringify(createGroup()));
+            sendGroup(createGroup());
         };
 
 
