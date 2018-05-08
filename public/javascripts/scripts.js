@@ -190,3 +190,8 @@ function sendPost(){
         });
     }
 }
+
+function editPostEnable(event){
+    var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
+    console.log(textArea);
+}
