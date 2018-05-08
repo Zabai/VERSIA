@@ -20,6 +20,7 @@ router.post('/new', function (req, res, next) {
             return res.status(200).send();
         });
     client.end();
+    res.redirect(req.get('referer'));
 });
 
 module.exports = router;

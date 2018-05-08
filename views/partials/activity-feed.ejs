@@ -1,0 +1,20 @@
+
+<% if(posts.length > 0) {%>
+    <% for (var i=0; i< posts.length; i++)  { %>
+    <div class="card my-3">
+        <a href="/home/users/<%= posts[i].user_id %>">
+            <div class="card-header">
+                <!-- posts.image_profile -->
+                <img class="rounded-circle mr-2" src="https://picsum.photos/g/40/40" alt="img">
+                <%= posts[i].name %>
+            </div>
+        </a>
+        <div class="card-body">
+            <% console.log(posts[i].content)%>
+            <%= posts[i].content %>
+        </div>
+    </div>
+    <% } %>
+<% } else { %>
+<div class="alert alert-warning">Carlos, pon un mensaje que a ti se te da mejor</div> <!-- TODO change empty message -->
+<% } %>
