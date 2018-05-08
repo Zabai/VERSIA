@@ -10,6 +10,7 @@ router.get("/", function(req, res, next) {
         groups = groupsRows;
 
     });
+
     client.query("SELECT * FROM profiles WHERE user_id IN " +
         "(SELECT sender FROM friends WHERE receiver=:me AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:me AND friend_request=1)",
         {me: req.user.id}, function(err, friends) {
