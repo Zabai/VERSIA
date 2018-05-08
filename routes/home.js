@@ -20,7 +20,7 @@ router.get("/", function(req, res, next) {
                     if (err) console.log(err);
                     else {
                         console.log('POSTS: ', posts);
-                        res.render('home/index', {posts: posts,friends: friends, signupMessage: req.flash('signupMessage')});
+                        res.render('home/index', {posts: posts,friends: friends, signupMessage: req.flash('signupMessage'), groups: {}});
                     }
                     });
 

@@ -178,9 +178,11 @@ function CreateGroupController() {
             function sendGroup(group) {
                 $.ajax({
                     method: "POST",
-                    url: "/home/group/",
-                    data: {group: group}
+                    contentType: "application/json",
+                    url: "/home/group/new",
+                    data: JSON.stringify({group: group})
                 }).done(function(msg) {
+                    alert('Grupo creado exitosamente');
                     window.location.replace(msg);
                 });
             }
