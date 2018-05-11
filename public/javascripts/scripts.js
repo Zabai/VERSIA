@@ -195,3 +195,19 @@ function editPostEnable(event){
     var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
     console.log(textArea);
 }
+
+function removePost() {
+    var button = $('#postRemovalBtn');
+    var postId = button.data("post");
+    console.log(postId);
+    $.ajax({
+        method: "DELETE",
+        data: {postId: postId},
+        url: "/home/posts/remove"
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("POST ELIMINADO");
+            location.reload();
+        }
+    });
+}

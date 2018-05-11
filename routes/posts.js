@@ -23,4 +23,18 @@ router.post('/new', function (req, res, next) {
     res.redirect(req.get('referer'));
 });
 
+router.delete('/remove', function (req, res, next) {
+    var client = require('../db/db');
+
+    client.query("DELETE FROM posts WHERE (id =:postId)", {postId: req.body.postId},
+        function(err, post) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: "Error al borrar post: " + err});
+            }
+            return res.status(200).send();
+        });
+    client.end();
+});
+
 module.exports = router;
