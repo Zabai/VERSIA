@@ -173,3 +173,25 @@ function removeFriend(){
         }
     });
 }
+
+function sendPost(){
+    if($.trim($("#content").val())==="") {
+        $("#content").popover({content: "Si quiere postear algo debería de rellenar este campo primero..."});
+        $("#content").click();
+    } else{
+        $.ajax({
+            method: "POST",
+            data: {content: $("#content").val()},
+            url: "/home/posts/new"
+        }).done(function(data, status){
+            if(status === "success"){
+                location.reload();
+            }
+        });
+    }
+}
+
+function editPostEnable(event){
+    var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
+    console.log(textArea);
+}
