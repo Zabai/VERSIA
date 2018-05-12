@@ -22,6 +22,7 @@
                         data-toggle="modal"
                         data-target="#postResponseModal"
                         data-post="<%= posts[i].id %>">Responder</button>
+                <button id="seeRes<%= posts[i].id %>" class="btn btn-sm btn-outline-info" onclick="seeResponses('<%= posts[i].id %>')" value="Ver Respuestas"></button>
                 <div class="btn-group float-right mr-auto">
                     <button id="postRemovalBtn" class="btn btn-sm btn-outline-danger m-1"
                             data-toggle="modal"

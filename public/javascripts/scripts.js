@@ -209,6 +209,16 @@ function resPost(){
     }
 }
 
+function seeResponses(id) {
+
+    if($.trim($("#seeRes"+id).val())==="Ver Respuestas"){
+        $("#seeRes"+id).val("Ocultar respuestas");
+        console.log("Fun");
+    } else {
+        $("#seeRes"+id).val("Ver respuestas");
+    }
+}
+
 function editPostEnable(event){
     var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
     console.log(textArea);
