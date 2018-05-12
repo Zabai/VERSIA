@@ -18,7 +18,10 @@
             <div id="input-group">
                 <textarea disabled class="form-control" id="content" name="content" rows="5" autofocus><%= posts[i].content%></textarea>
                 <%if(posts[i].user_id === locals.user.id) { %>
-                <button class="btn btn-sm btn-outline-success ml-auto m-1">Responder</button>
+                <button id="postResponseBtn" class="btn btn-sm btn-outline-success ml-auto m-1"
+                        data-toggle="modal"
+                        data-target="#postResponseModal"
+                        data-post="<%= posts[i].id %>">Responder</button>
                 <div class="btn-group float-right mr-auto">
                     <button id="postRemovalBtn" class="btn btn-sm btn-outline-danger m-1"
                             data-toggle="modal"
@@ -45,6 +48,23 @@
             </div>
             <div class="modal-body m-auto">
                 <button class="btn btn-danger" onclick="removePost()">Confirmar</button>
+                <button class="btn btn-success" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="postResponseModal" class="modal fade bd-example-modal-sm" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Respuesta</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body m-auto">
+                <textarea class="form-control" id="contentRes" name="contentRes" rows="5" autofocus></textarea>
+                <button class="btn btn-outline-success btn-block m-auto" onclick="resPost()">
+                    Comenta!<i class="fas fa-comment m-1"></i>
+                </button>
                 <button class="btn btn-success" data-dismiss="modal">Cancelar</button>
             </div>
         </div>

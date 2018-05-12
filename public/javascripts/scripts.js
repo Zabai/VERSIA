@@ -190,6 +190,24 @@ function sendPost(){
         });
     }
 }
+function resPost(){
+    if($.trim($("#contentRes").val())==="") {
+        $("#contentRes").popover({content: "Si quiere postear algo debería de rellenar este campo primero..."});
+        $("#contentRes").click();
+    } else{
+        var button = $('#postResponseBtn');
+        var postId = button.data("post");
+        $.ajax({
+            method: "POST",
+            data: {content: $("#contentRes").val(),postId: postId},
+            url: "/home/posts/response"
+        }).done(function(data, status){
+            if(status === "success"){
+                location.reload();
+            }
+        });
+    }
+}
 
 function editPostEnable(event){
     var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
