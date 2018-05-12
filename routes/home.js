@@ -10,7 +10,7 @@ router.get("/", function(req, res, next) {
             if(err) console.log(err);
             else {
                 if (friends.info.numRows === "0") {
-                    client.query("SELECT DISTINCT posts.user_id, name, content, `date`, profiles.image_profile\n" +
+                    client.query("SELECT DISTINCT posts.id, posts.user_id, name, content, `date`, profiles.image_profile\n" +
                         "FROM posts\n" +
                         "INNER JOIN profiles ON profiles.user_id=posts.user_id\n" +
                         "WHERE posts.user_id=:user;",
@@ -22,7 +22,7 @@ router.get("/", function(req, res, next) {
                             }
                         });
                 } else {
-                    client.query("SELECT DISTINCT posts.user_id, name, content, `date`, profiles.image_profile\n" +
+                    client.query("SELECT DISTINCT posts.id, posts.user_id, name, content, `date`, profiles.image_profile\n" +
                         "FROM posts\n" +
                         "INNER JOIN friends ON (posts.user_id=friends.sender OR posts.user_id=friends.receiver)\n" +
                         "INNER JOIN profiles ON posts.user_id=profiles.user_id\n" +
@@ -39,7 +39,6 @@ router.get("/", function(req, res, next) {
                 }
             }
         });
-
     client.end();
 });
 

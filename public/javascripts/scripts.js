@@ -211,3 +211,20 @@ function removePost() {
         }
     });
 }
+
+function postReply() {
+    var button = $('#replyBtn');
+    var postId = button.data("post");
+    var content = $.trim($("#replyContent").val());
+
+    $.ajax({
+        method: "POST",
+        data: {id: postId, content: content},
+        url: "/home/posts/reply"
+    }).done(function(data, status) {
+        if(status === "success") {
+            console.log("POST RESPONDIDO");
+            location.reload();
+        }
+    });
+}
