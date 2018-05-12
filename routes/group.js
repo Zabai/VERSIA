@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get("/", function(req, res, next) {
+router.get("/new", function(req, res, next) {
     var client = require('../db/db');
     client.query("SELECT * FROM profiles WHERE user_id IN " +
         "(SELECT sender FROM friends WHERE receiver=:user AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:user AND friend_request=1)",
@@ -13,7 +13,14 @@ router.get("/", function(req, res, next) {
     client.end();
 });
 
-router.post("/:id/create", function (req, res, next) {
+router.post("/", function(req, res, next) {
+    //console.log(JSON.stringify(req.body.group));
+    var group = JSON.parse(req.body.group);
+    console.log("Grupo: ", group);
+    res.send('/home');
+});
+
+router.post("/create", function (req, res, next) {
    var client = require('../db/db');
 
    client.query("INSERT INTO groups (name, description, group_admin) VALUES (:name, :description, :admin)",

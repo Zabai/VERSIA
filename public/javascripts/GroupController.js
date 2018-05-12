@@ -4,10 +4,10 @@ function CreateGroupController() {
     controller.initialize =
         function() {
             function disableScrollWithArrowKeys() {
-                window.addEventListener("keydown", function(e) {
+                window.addEventListener("keydown", function(event) {
                     // space and arrow keys
-                    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                        e.preventDefault();
+                    if([37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+                        event.preventDefault();
                     }
                 }, false);
             }
@@ -21,6 +21,14 @@ function CreateGroupController() {
                 $('#append-member').keyup(function(event) {
                     controller.autocomplete(event, this.value);
                 });
+                $('#create-group').submit(
+                    function(event) {
+                        event.preventDefault();
+                        if(controller.check()) {
+                            controller.submit();
+                        } else return false;
+                    }
+                );
             }
 
             disableScrollWithArrowKeys();
@@ -142,6 +150,44 @@ function CreateGroupController() {
             controller.friends.push(controller.members[index]);
             controller.members.splice(index, 1);
         };
+
+    controller.check =
+        function() {
+            if(this.members.length >= 1) return true;
+            $('#append-member')
+                .popover({content: "No ha añadido usuarios"})
+                .click();
+            return false;
+        };
+
+    controller.submit =
+        function() {
+            function createGroup() {
+                var group = {};
+
+                group.name = $("#groupname").val();
+                group.description = $("#description").val();
+                group.members = [];
+                for(var i = 0; i < controller.members.length; i++) {
+                    group.members.push(controller.members[i].id);
+                }
+
+                return group;
+            }
+
+            function sendGroup(group) {
+                $.ajax({
+                    method: "POST",
+                    url: "/home/group/",
+                    data: {group: group}
+                }).done(function(msg) {
+                    window.location.replace(msg);
+                });
+            }
+
+            sendGroup(JSON.stringify(createGroup()));
+        };
+
 
     return controller;
 }

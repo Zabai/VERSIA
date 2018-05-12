@@ -48,7 +48,7 @@ process.argv.forEach(function(value) {
     if(value === "debug") {
         console.log("RUNNING DEBUG MODE");
         app.use(function(req, res, next) {
-            res.locals.user = req.user = {email: "david@ulpgc.es", password: "versia"};
+            res.locals.user = req.user = {id:3, email: "david@ulpgc.es", password: "versia"};
             next();
         });
     }
@@ -65,7 +65,7 @@ app.use('/home/users', require('./routes/users'));
 app.use('/home/users/friends', require('./routes/friends'));
 app.use('/home/users/messages', require('./routes/messages'));
 app.use('/home/group', require('./routes/group'));
-app.use('/home/post', require('./routes/posts'));
+app.use('/home/posts', require('./routes/posts'));
 
 
 // catch 404 and forward to error handler

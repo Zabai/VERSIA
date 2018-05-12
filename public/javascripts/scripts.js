@@ -165,10 +165,48 @@ function removeFriend(){
     $.ajax({
         method: "DELETE",
         data: {friendId: friendId, myId: myId},
-        url: "/home/users/friends/remove",
+        url: "/home/users/friends/remove"
     }).done(function(data, status){
         if(status === "success"){
             console.log("HAS PERDIDO A OTRO AMIGO.");
+            location.reload();
+        }
+    });
+}
+
+function sendPost(){
+    if($.trim($("#content").val())==="") {
+        $("#content").popover({content: "Si quiere postear algo debería de rellenar este campo primero..."});
+        $("#content").click();
+    } else{
+        $.ajax({
+            method: "POST",
+            data: {content: $("#content").val()},
+            url: "/home/posts/new"
+        }).done(function(data, status){
+            if(status === "success"){
+                location.reload();
+            }
+        });
+    }
+}
+
+function editPostEnable(event){
+    var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
+    console.log(textArea);
+}
+
+function removePost() {
+    var button = $('#postRemovalBtn');
+    var postId = button.data("post");
+    console.log(postId);
+    $.ajax({
+        method: "DELETE",
+        data: {postId: postId},
+        url: "/home/posts/remove"
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("POST ELIMINADO");
             location.reload();
         }
     });
