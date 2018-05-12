@@ -23,4 +23,16 @@ router.post('/new', function (req, res, next) {
     res.redirect(req.get('referer'));
 });
 
+router.post('/:id/edit', function (req, res, next){
+    var dbConn = require('../db/db');
+    var postId = req.params.id;
+    console.log(postId +"-"+req.body.content);
+    dbConn.query("UPDATE posts SET content=:content WHERE id=:post_id", {content:req.body.content, post_id: postId}, function(err, update){
+        if(err)
+            return res.status(500).send({message: "Error al editar post: " + err});
+        console.log(JSON.stringify(update));
+        return res.status(200).send();
+    });
+    dbConn.end();
+});
 module.exports = router;

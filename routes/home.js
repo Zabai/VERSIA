@@ -9,7 +9,7 @@ router.get("/", function(req, res, next) {
         {me: loggedUserId}, function(err, friends) {
             if(err) console.log(err);
             else {
-                client.query("SELECT DISTINCT posts.user_id, name, content, `date`, profiles.image_profile\n" +
+                client.query("SELECT DISTINCT posts.id, posts.user_id, name, content, `date`, profiles.image_profile\n" +
                     "FROM posts\n" +
                     "INNER JOIN friends ON (posts.user_id=friends.sender OR posts.user_id=friends.receiver)\n" +
                     "INNER JOIN profiles ON posts.user_id=profiles.user_id\n" +

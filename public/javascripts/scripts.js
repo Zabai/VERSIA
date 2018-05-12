@@ -191,7 +191,36 @@ function sendPost(){
     }
 }
 
-function editPostEnable(event){
-    var textArea = event.target.parentElement.parentElement.parentElement.find("textarea");
-    console.log(textArea);
+var textAux = "";
+function editPostEnable(post, cancelEdit){
+    var textArea = $("#post"+post);
+    if(!cancelEdit) {
+        textAux = textArea.val();
+        textArea.attr("readonly", false);
+    } else {
+        textArea.val(textAux);
+        textArea.attr("readonly", true);
+    }
+    $(".editBtn").toggle();
+    $(".editOptions").toggle();
+}
+
+function confirmEdit(post){
+    if($.trim($("#post"+post).val())==="") {
+        $("#post"+post).popover({content: "Si quiere postear algo debería de rellenar este campo primero..."});
+        $("#post"+post).click();
+    } else{
+        $.ajax({
+            method: "POST",
+            data: {
+                content: $("#post"+post).val()
+            },
+            url: "/home/posts/" + post +"/edit"
+        }).done(function(data, status){
+            if(status === "success"){
+                console.log("DONE");
+                editPostEnable(post, true);
+            }
+        });
+    }
 }
