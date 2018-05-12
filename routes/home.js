@@ -28,7 +28,7 @@ router.get("/", function(req, res, next) {
                         function (err, posts) {
                             if (err) console.log(err);
                             else {
-                                res.render('home/index', {posts: posts,friends: friends, signupMessage: req.flash('signupMessage')});
+                                res.render('home/index', {posts: posts,friends: friends, groups:groups, signupMessage: req.flash('signupMessage')});
                             }
                         });
                 } else {
@@ -42,7 +42,7 @@ router.get("/", function(req, res, next) {
                         function (err, posts) {
                             if (err) console.log(err);
                             else {
-                                res.render('home/index', {posts: posts,friends: friends, signupMessage: req.flash('signupMessage')});
+                                res.render('home/index', {posts: posts,friends: friends, groups:groups, signupMessage: req.flash('signupMessage')});
                            }
                         }
                     );
