@@ -50,4 +50,20 @@ router.delete('/remove', function (req, res, next) {
     client.end();
 });
 
+router.post('/reply', function (req, res, next) {
+    var client = require('../db/db');
+    var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var data = {user_id:req.user.id, content:req.body.content, date:date, parent_id:req.body.id};
+    client.query("INSERT INTO posts (user_id, content, date, parent_id) VALUES" +
+                "(:user_id, :content, :date, :parent_id)",
+                {user_id: req.user.id, content: req.body.content, date: date, parent_id: req.body.id},
+                function (err, post) {
+                    console.log("DATOS DE LA RESPUESTA: ", data);
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).send({message: "Error al responder al post: " + err});
+                    }
+                    return res.status(200).send();
+                });
+});
 module.exports = router;

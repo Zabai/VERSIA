@@ -14,15 +14,11 @@
                 <p class="float-right my-auto"><small><%= posts[i].date%></small></p>
             </div>
         <div class="card-body">
-            <% console.log(posts[i].content)%>
             <div id="input-group">
                 <textarea disabled class="form-control" id="content" name="content" rows="5" autofocus><%= posts[i].content%></textarea>
                 <%if(posts[i].user_id === locals.user.id) { %>
-                <button id="postResponseBtn" class="btn btn-sm btn-outline-success ml-auto m-1"
-                        data-toggle="modal"
-                        data-target="#postResponseModal"
-                        data-post="<%= posts[i].id %>">Responder</button>
-                <button id="seeRes<%= posts[i].id %>" class="btn btn-sm btn-outline-info" onclick="seeResponses('<%= posts[i].id %>')" value="Ver Respuestas"></button>
+                <button class="btn btn-sm btn-outline-success ml-auto m-1" id="replyBtn"
+                        data-toggle="modal" data-target="#replyModal" data-post="<%= posts[i].id%>">Responder</button>
                 <div class="btn-group float-right mr-auto">
                     <button id="postRemovalBtn" class="btn btn-sm btn-outline-danger m-1"
                             data-toggle="modal"
@@ -40,7 +36,26 @@
 <% } else { %>
 <div class="alert alert-warning">¡Vaya! Parece que no tienes ningún post a la vista, ¿Por qué no dices algo?</div>
 <% } %>
-<div id="postRemovalModal" class="modal fade bd-example-modal-sm" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+<div id="replyModal" class="modal fade bd-example-modal-sm" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Respuesta</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body m-auto">
+                <div class="form-group">
+                    <textarea class="form-control" id="replyContent" rows="5" autofocus></textarea>
+                </div>
+                <button class="btn btn-default btn-success float-right" onclick="postReply()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="postRemovalModal" class="modal fade bd-example-modal-sm" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
