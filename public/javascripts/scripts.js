@@ -224,3 +224,55 @@ function confirmEdit(post){
         });
     }
 }
+
+function removePost() {
+    var button = $('#postRemovalBtn');
+    var postId = button.data("post");
+    console.log(postId);
+    $.ajax({
+        method: "DELETE",
+        data: {postId: postId},
+        url: "/home/posts/remove"
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("POST ELIMINADO");
+            location.reload();
+        }
+    });
+}
+
+function showReply(id) {
+    $.ajax({
+        method: "GET",
+        data: {id: id},
+        url: "/home/posts/:postId/showReplies"
+    }).done(function(data, status) {
+        if (status === "success") {
+            console.log("Respuestas Mostradas");
+            location.reload();
+        }
+    });
+}
+
+function postReply() {
+    if($.trim($("#replyContent").val())==="") {
+        $("#replyContent").popover({content: "Si quiere responder algo debería de rellenar este campo primero..."});
+        $("#replyContent").click();
+    } else {
+        var button = $('#replyBtn');
+        var postId = button.data("post");
+        var content = $.trim($("#replyContent").val());
+
+        $.ajax({
+            method: "POST",
+            data: {id: postId, content: content},
+            url: "/home/posts/reply"
+        }).done(function(data, status) {
+            if(status === "success") {
+                console.log("POST RESPONDIDO");
+                alert("Post respondido :D");
+                location.reload();
+            }
+        });
+    }
+}

@@ -192,7 +192,12 @@ CREATE TABLE `profiles` (
 
 LOCK TABLES `profiles` WRITE;
 /*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` VALUES (1,1,'carlos@ulpgc.es','Carlos','Martel',NULL,'ULPGC','GII'),(2,2,'david@ulpgc.es','David','Ramírez',NULL,'ULPGC','GII'),(3,3,'felix@ulpgc.es','Félix','Cruz',NULL,'ULPGC','GII'),(4,4,'geraldo@ulpgc.es','Geraldo','Rodrigues',NULL,'ULPGC','GII');
+INSERT INTO `profiles` (`id`, `user_id`, `email`, `name`, `surname`, `image_profile`, `university`, `degree`) VALUES
+	(2, 2, 'carlos@ulpgc.es', 'Carlos', 'Apellidos', NULL, 'Versia', 'No tiene estudios, es de Magisterio.'),
+	(3, 3, 'david@ulpgc.es', 'David', 'Apellidos', NULL, 'Versia', 'No tiene estudios, es de Magisterio.'),
+	(4, 6, 'felix@ulpgc.es', 'Félix', 'Apellidos', NULL, 'Versia', 'No tiene estudios, es de Magisterio.'),
+	(5, 4, 'geraldo@ulpgc.es', 'Geraldo', 'Apellidos', NULL, 'Versia', 'No tiene estudios, es de Magisterio.'),
+	(6, 5, 'zabai@ulpgc.es', 'Zabai', 'Apellidos', NULL, 'Versia', 'No tiene estudios, es de Magisterio.');
 /*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,16 +214,16 @@ CREATE TABLE `users` (
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_users_UN` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'carlos@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(2,'david@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(3,'felix@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(4,'geraldo@ulpgc.es','$2b$10$6bOOrjoSwVeFzvZyt9vabOaVroCICTpmD.doleEK9YjA9RBLQHwQi'),(6,'test@test.com','$2b$10$n4UHM4M3kVZY4egMIN50P.3JZFb7nLIG2sraeErt226vYw15Nqeja'),(7,'test@ulpgc.com','$2b$10$eTQmYT1QIS1GgZMIH8v5c.Kz0Psod.7IPfDVoJzZGEpQYNKtOWF.6'),(8,'prueba@ulpgc.com','$2b$10$sTNtoE20sqIEn30gKyjCr.F8.hxjVC/Zr38NJSZ8cCAX3fMYyUfAS');
+INSERT INTO `users` (`id`, `email`, `password`) VALUES
+	(2, 'carlos@ulpgc.es', '$2b$10$ux2k/kwYBKY3k29Wu34pVeYGbXqAoTBzMG2gQi/aTUi9eDzgMiyfC'),
+	(3, 'david@ulpgc.es', '$2b$10$ux2k/kwYBKY3k29Wu34pVeYGbXqAoTBzMG2gQi/aTUi9eDzgMiyfC'),
+	(4, 'geraldo@ulpgc.es', '$2b$10$ux2k/kwYBKY3k29Wu34pVeYGbXqAoTBzMG2gQi/aTUi9eDzgMiyfC'),
+	(5, 'zabai@ulpgc.es', '$2b$10$ux2k/kwYBKY3k29Wu34pVeYGbXqAoTBzMG2gQi/aTUi9eDzgMiyfC'),
+	(6, 'felix@ulpgc.es', '$2b$10$ux2k/kwYBKY3k29Wu34pVeYGbXqAoTBzMG2gQi/aTUi9eDzgMiyfC');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,5 +239,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-05-13 18:03:30

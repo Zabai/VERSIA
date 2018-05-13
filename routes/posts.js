@@ -35,4 +35,52 @@ router.post('/:id/edit', function (req, res, next){
     });
     dbConn.end();
 });
+router.delete('/remove', function (req, res, next) {
+    var client = require('../db/db');
+
+    client.query("DELETE FROM posts WHERE (id =:postId)", {postId: req.body.postId},
+        function(err, post) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: "Error al borrar post: " + err});
+            }
+            return res.status(200).send();
+        });
+    client.end();
+});
+
+router.post('/reply', function (req, res, next) {
+    var client = require('../db/db');
+    var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var data = {user_id:req.user.id, content:req.body.content, date:date, parent_id:req.body.id};
+    client.query("INSERT INTO posts (user_id, content, date, parent_id) VALUES" +
+                "(:user_id, :content, :date, :parent_id)",
+                {user_id: req.user.id, content: req.body.content, date: date, parent_id: req.body.id},
+                function (err, post) {
+                    console.log("DATOS DE LA RESPUESTA: ", data);
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).send({message: "Error al responder al post: " + err});
+                    }
+                    return res.status(200).send();
+                });
+});
+
+router.get('/:id/showReplies', function (req,res, next) {
+    var client = require('../db/db');
+    client.query("SELECT p2.*\n" +
+        "FROM posts AS p1\n" +
+        "INNER JOIN posts AS p2 ON p1.id=p2.parent_id\n" +
+        "WHERE p1.id=2;",
+        {postId: req.body.id},
+        function (err, reply) {
+        console.log("Respuesta: ", reply);
+        if (err) {
+            console.log("Error en la respuesta: " + err);
+            return res.status(500).send({message: "Error mostrando las respuestas del post: " + err});
+        }
+        return res.status(200).send();
+        });
+});
+
 module.exports = router;
