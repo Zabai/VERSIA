@@ -212,6 +212,19 @@ function removePost() {
     });
 }
 
+function showReply(id) {
+    $.ajax({
+        method: "GET",
+        data: {id: id},
+        url: "/home/posts/:postId/showReplies"
+    }).done(function(data, status) {
+        if (status === "success") {
+            console.log("Respuestas Mostradas");
+            location.reload();
+        }
+    });
+}
+
 function postReply() {
     if($.trim($("#replyContent").val())==="") {
         $("#replyContent").popover({content: "Si quiere responder algo debería de rellenar este campo primero..."});

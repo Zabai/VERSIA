@@ -25,6 +25,7 @@
                             data-target="#postRemovalModal"
                             data-post="<%= posts[i].id %>"><i class="fas fa-trash-alt m-1"></i></button>
                     <button class="btn btn-sm btn-outline-warning m-custom-1110" onclick="editPostEnable(event)">Editar<i class="fas fa-edit m-1"></i></button>
+                    <button id="showReplayBtn" class="btn btn-sm btn-block" onclick="showReply(<% posts[i].id%>)">Ver Respuestas</button></a>
                 </div>
                 <% } else { %>
                 <button class="btn btn-sm btn-block btn-outline-success ml-auto m-1"
