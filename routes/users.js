@@ -61,12 +61,26 @@ router.get('/:id', function(req, res, next) {
         friendRequests = friendRequestsRows;
     });
 
+
+    var posts = {};
+    client.query("SELECT DISTINCT posts.user_id, name, content, `date`, profiles.image_profile\n" +
+        "FROM posts\n" +
+        "INNER JOIN friends ON (posts.user_id=friends.sender OR posts.user_id=friends.receiver)\n" +
+        "INNER JOIN profiles ON posts.user_id=profiles.user_id\n" +
+        "WHERE friends.friend_request=1 AND (friends.sender=:user OR friends.receiver=:user)\n" +
+        "ORDER BY `date` DESC;",
+        {user: req.params.id},
+        function (err, postsRows) {
+            if(err) return res.status(500).send({message: "Ha habido un error en la db: " + err});
+            console.log(postsRows);
+            posts = postsRows;
+        });
     // Parte de amigos
     client.query("SELECT * FROM profiles WHERE user_id IN " +
         "(SELECT sender FROM friends WHERE receiver=:user AND friend_request=1 UNION ALL SELECT receiver FROM friends WHERE sender=:user AND friend_request=1)",
         {user: req.params.id}, function(err, friends) {
             if(err) console.log(err);
-            else res.render("user/profile", {profile: profile, friendRequests: friendRequests, friends: friends});
+            else res.render("user/profile", {posts: posts, profile: profile, friendRequests: friendRequests, friends: friends});
         });
 
     client.end();

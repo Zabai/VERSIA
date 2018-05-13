@@ -18,28 +18,13 @@
 
         <div class="col-5">
             <h4>Crear post</h4>
-            <div class="alert alert-secondary">
-                Escribe tus experiencias...
-            </div>
-
+            <% include ../partials/create-post.ejs %>
+            <hr>
             <h4>Actividad</h4>
             <hr>
-
-            <% for(var i = 0; i < 3; i++) { %>
-            <div class="card my-3">
-                <div class="card-header">
-                    <img class="rounded-circle mr-2" src="https://picsum.photos/g/40/40" alt="img">
-                    Usuario
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eleifend rhoncus congue.
-                    Donec placerat nisl et volutpat consequat. Aenean laoreet massa nibh, auctor dapibus ex bibendum
-                    vel.
-                </div>
-            </div>
-            <% } %>
+            <% include ../partials/activity-feed.ejs%>
+            
         </div>
-
         <div class="col-4">
             <% include ../partials/menu-friends.ejs %>
         </div>

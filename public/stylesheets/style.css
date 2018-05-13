@@ -82,3 +82,15 @@ footer {
 .text-wrapper{
     word-wrap: break-word;
 }
+
+.p-bottom-0{
+  padding-bottom: 0;
+}
+
+.m-custom-1110{
+  margin: 0.25em 0 0.25em 0.25em !important;
+}
+
+.editOptions{
+    display: none;
+}
