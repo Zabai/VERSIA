@@ -198,6 +198,7 @@ function editPostEnable(post, cancelEdit){
         textAux = textArea.val();
         textArea.attr("readonly", false);
     } else {
+        textAux = textArea.val().trim();
         textArea.val(textAux);
         textArea.attr("readonly", true);
     }
