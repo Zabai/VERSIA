@@ -64,6 +64,7 @@ router.post('/reply', function (req, res, next) {
                     }
                     return res.status(200).send();
                 });
+    client.end();
 });
 
 router.get('/:id/showReplies', function (req,res, next) {
@@ -71,8 +72,8 @@ router.get('/:id/showReplies', function (req,res, next) {
     client.query("SELECT p2.*\n" +
         "FROM posts AS p1\n" +
         "INNER JOIN posts AS p2 ON p1.id=p2.parent_id\n" +
-        "WHERE p1.id=2;",
-        {postId: req.body.id},
+        "WHERE p1.id=:postId;",
+        {postId: req.params.id},
         function (err, reply) {
         console.log("Respuesta: ", reply);
         if (err) {
@@ -81,6 +82,7 @@ router.get('/:id/showReplies', function (req,res, next) {
         }
         return res.status(200).send();
         });
+    client.end();
 });
 
 module.exports = router;
