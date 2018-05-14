@@ -19,13 +19,21 @@ router.get('/search', function(req, res, next) {
 
     var friendsQuery = "SELECT receiver, friend_request from friends where sender = :loggedUserId AND (friend_request=0 OR friend_request=1)";
     var usersQuery = "SELECT * FROM profiles WHERE profiles.name LIKE :req AND profiles.user_id <> :loggedUserId";
+    var groupQuery = "SELECT name FROM groups WHERE id IN (SELECT `group`FROM group_members WHERE `member`=:member AND group_request=1)"
+    
     client.query(friendsQuery, {loggedUserId: req.user.id}, function(err, friends) {
         if(err) res.status(500).send({message: "Error en la petición cuando buscamos amigos, " + err});
 
-        client.query(usersQuery, {req: req.query.search, loggedUserId: req.user.id}, function(err, users) {
-            if(err) res.status(500).send({message: "Error en la petición cuando buscamos usuarios, " + err});
-            res.render("user/search", {users: users, friends: friends, search: req.query.search});
+        client.query(groupQuery, {member: req.user.id}, function(err, groups) {
+            if(err) res.status(500).send({message: "Error en la petición cuando buscamos usuarios, " + err})
+
+            client.query(usersQuery, {req: req.query.search, loggedUserId: req.user.id}, function(err, users) {
+                if(err) res.status(500).send({message: "Error en la petición cuando buscamos usuarios, " + err});
+                res.render("user/search", {users: users, friends: friends, groups: groups, search: req.query.search});
+            });
         });
+
+
     });
 
 
