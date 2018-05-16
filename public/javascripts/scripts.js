@@ -97,7 +97,7 @@ function updateUser(id){
 function acceptFriend(button, id) {
     $(button).attr("disabled", "");
     $(button).next().attr("disabled", "");
-    console.log(id);
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
