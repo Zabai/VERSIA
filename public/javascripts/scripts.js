@@ -3,7 +3,7 @@ function enableScrollNavbar() {
     var distance = 25;
 
     $(window).scroll(function() {
-        if (document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
+        if(document.body.scrollTop > distance || document.documentElement.scrollTop > distance) {
             navbar.removeClass('bg-transparent');
             navbar.addClass('bg-dark');
         } else {
@@ -14,7 +14,7 @@ function enableScrollNavbar() {
 }
 
 function enableDinamicAuthForms() {
-    $('.message a').click(function(){
+    $('.message a').click(function() {
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
 }
@@ -24,7 +24,6 @@ function setUpLandingPage() {
     enableDinamicAuthForms();
 }
 
-/**/
 function setUpProfileToggle() {
     var toggle = $('#toggle');
 
@@ -52,75 +51,37 @@ function setUpProfileToggle() {
     });
 }
 
-function addFriend(email){
+function addFriend(id){
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
             location.reload();
-        } else console.log("Por si la cosa va mal");
-    };
+        } else {
+            console.log(request.responseText);
+        }
 
+    };
     request.open("POST", "/home/users/friends/add", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function undoFriendReq(email){
+function undoFriendReq(id){
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
             location.reload();
-        } else console.log("Por si la cosa va mal");
+        } else console.log(request.responseText);
     };
 
     request.open("PUT", "/home/users/friends/undo", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
+    request.send(encodeURI("id=" + id));
 }
 
-function acceptFriend(button, email) {
-    $(button).attr("disabled", "");
-    $(button).next().attr("disabled", "");
-
-    var request = new XMLHttpRequest();
-
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
-            var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function(){
-                $(listElement).remove();
-            });
-        }
-    };
-
-    request.open("PUT", "/home/users/friends/accept?_method=PUT", true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
-}
-
-function declineFriend(button, email) {
-    $(button).attr("disabled", "");
-    $(button).prev().attr("disabled", "");
-
-    var request = new XMLHttpRequest();
-
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
-            var listElement = $(button).parent().parent();
-            $(listElement).hide('slow', function(){
-                $(listElement).remove();
-            });
-        } else console.log(this.statusText);
-    };
-
-    request.open("DELETE", "/home/users/friends/decline?_method=DELETE", true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(encodeURI("email=" + email));
-}
-
-function updateUser(email){
+function updateUser(id){
     if(!$('#toggle').prop("checked")){
-        $.post("/home/users/"+email+"/edit",
+        $.post("/home/users/"+id+"/edit",
             {name: $('#inputName').val(), surname: $('#inputSurname').val(), email: $('#inputEmail').val()},
             function(data, status){
                 if(status==="success"){
@@ -130,5 +91,189 @@ function updateUser(email){
                     alert("Ha habido un problema con el POST.");
                 }
             });
+    }
+}
+
+function acceptFriend(button, id) {
+    $(button).attr("disabled", "");
+    $(button).next().attr("disabled", "");
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            var listElement = $(button).parent().parent();
+            $(listElement).hide('slow', function() {
+                $(listElement).remove();
+            });
+        } else {
+            console.error('ERROR AJAX: ', request.responseText);
+        }
+    };
+    request.open("PUT", "/home/users/friends/accept?_method=PUT", true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send(encodeURI("id=" + id));
+}
+
+function declineFriend(button, id) {
+    $(button).attr("disabled", "");
+    $(button).prev().attr("disabled", "");
+
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            var listElement = $(button).parent().parent();
+            $(listElement).hide('slow', function() {
+                $(listElement).remove();
+            });
+        } else console.log(this.statusText);
+    };
+
+    request.open("DELETE", "/home/users/friends/decline?_method=DELETE", true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send(encodeURI("id=" + id));
+}
+
+function passData(userData, senderEmail){
+    $("#receiverEmail").val(userData.email);
+    $("#receiverEmailTitle").text(userData.name);
+    $("#senderEmail").val(senderEmail);
+}
+
+function sendEmail(){
+    if($.trim($("#messageContent").val())===""){
+        $("#messageContent").popover({content: "Si quiere mandar un mensaje tendrá que rellenar este campo primero..."});
+        $("#messageContent").click();
+    } else {
+        $.post("/home/users/messages/send",
+            {from: $('#senderEmail').val(), to: $('#receiverEmail').val(), content: $('#messageContent').val()},
+            function(data, status) {
+                if(status === "success") {
+                    alert("Mensaje enviado!");
+                }
+                else {
+                    alert("Ha habido un problema con el POST.");
+                }
+            });
+    }
+}
+
+function removeFriend(){
+    var button = $('#friendRemovalBtn');
+    var friendId = button.data("friend");
+    var myId = button.data("me");
+    $.ajax({
+        method: "DELETE",
+        data: {friendId: friendId, myId: myId},
+        url: "/home/users/friends/remove"
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("HAS PERDIDO A OTRO AMIGO.");
+            location.reload();
+        }
+    });
+}
+
+function sendPost(){
+    if($.trim($("#content").val())==="") {
+        $("#content").popover({content: "Si quiere postear algo debería de rellenar este campo primero..."});
+        $("#content").click();
+    } else{
+        $.ajax({
+            method: "POST",
+            data: {content: $("#content").val()},
+            url: "/home/posts/new"
+        }).done(function(data, status){
+            if(status === "success"){
+                location.reload();
+            }
+        });
+    }
+}
+
+var textAux = "";
+function editPostEnable(post, cancelEdit){
+    var textArea = $("#post"+post);
+    if(!cancelEdit) {
+        textAux = textArea.val();
+        textArea.attr("readonly", false);
+    } else {
+        textAux = textArea.val().trim();
+        textArea.val(textAux);
+        textArea.attr("readonly", true);
+    }
+    $(".editBtn").toggle();
+    $(".editOptions").toggle();
+}
+
+function confirmEdit(post){
+    if($.trim($("#post"+post).val())==="") {
+        $("#post"+post).popover({content: "Si quiere postear algo debería de rellenar este campo primero..."});
+        $("#post"+post).click();
+    } else{
+        $.ajax({
+            method: "POST",
+            data: {
+                content: $("#post"+post).val()
+            },
+            url: "/home/posts/" + post +"/edit"
+        }).done(function(data, status){
+            if(status === "success"){
+                console.log("DONE");
+                editPostEnable(post, true);
+            }
+        });
+    }
+}
+
+function removePost() {
+    var button = $('#postRemovalBtn');
+    var postId = button.data("post");
+    console.log(postId);
+    $.ajax({
+        method: "DELETE",
+        data: {postId: postId},
+        url: "/home/posts/remove"
+    }).done(function(data, status){
+        if(status === "success"){
+            console.log("POST ELIMINADO");
+            location.reload();
+        }
+    });
+}
+
+function showReply(id) {
+    $.ajax({
+        method: "GET",
+        data: {id: id},
+        url: "/home/posts/:postId/showReplies"
+    }).done(function(data, status) {
+        if (status === "success") {
+            console.log("Respuestas Mostradas");
+            location.reload();
+        }
+    });
+}
+
+function postReply() {
+    if($.trim($("#replyContent").val())==="") {
+        $("#replyContent").popover({content: "Si quiere responder algo debería de rellenar este campo primero..."});
+        $("#replyContent").click();
+    } else {
+        var button = $('#replyBtn');
+        var postId = button.data("post");
+        var content = $.trim($("#replyContent").val());
+
+        $.ajax({
+            method: "POST",
+            data: {id: postId, content: content},
+            url: "/home/posts/reply"
+        }).done(function(data, status) {
+            if(status === "success") {
+                console.log("POST RESPONDIDO");
+                alert("Post respondido :D");
+                location.reload();
+            }
+        });
     }
 }

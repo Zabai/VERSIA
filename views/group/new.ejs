@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Versia</title>
+    <% include ../partials/resources.ejs %>
+</head>
+<body>
+<% include ../partials/navbar.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <% include ../partials/menu-user.ejs %>
+        </div>
+
+        <div class="col-6">
+            <h4 class="text-center">Crear grupo</h4>
+            <hr>
+
+            <form id="create-group" action="/home/group/" method="post">
+                <div class="form-group">
+                    <label class="control-label" for="groupname">Nombre:</label>
+                    <input type="text" class="form-control" id="groupname" placeholder="Nombre del grupo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea class="form-control" id="description" required placeholder="Grupo de ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="append-member">Integrantes</label><br>
+                    <input id="append-member" class="form-control" placeholder="Amigos">
+
+                    <ul id="friends" class="list-group">
+                    </ul>
+                </div>
+
+                <h3 class="text-center py-3">Alumnos añadidos</h3>
+                <ul id="members" class="list-group">
+                </ul>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-3">Crear</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-3">
+            <% include ../partials/menu-friends.ejs %>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/GroupController.js"></script>
+<script>
+    var friends = <%- JSON.stringify(friends) %>;
+    var controller = CreateGroupController();
+    controller.initialize();
+</script>
+</body>
+</html>

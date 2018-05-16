@@ -1,0 +1,19 @@
+<div class="mb-3">
+    <h4>Mis grupos</h4>
+    <hr>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+            Mis grupos
+            <a href="/home/group/new">
+                <i class="fas fa-plus"></i>
+            </a>
+        </li>
+        <% if(groups.length > 0) {
+        for(var i = 0; i < groups.length; i++){ %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <%= groups[i].name %>
+            <span class="badge badge-info badge-pill">2</span>
+        </li>
+        <% }} %>
+    </ul>
+</div>
